@@ -1,104 +1,208 @@
 // Client Side
 "use client";
 
-// Imported Components
-import React, { useRef, useState } from "react";
+// Imports
+import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
-import Modal from "../Modal";
+import { z } from "zod";
+import { toast } from "sonner";
+import { Loader2Icon } from "lucide-react";
+
+// Imported Components
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogClose,
+} from "@/components/ui/dialog";
+
+// Validation
+const schema = z.object({
+	user_name: z.string().trim().min(2, "Informe seu nome."),
+	user_phone: z
+		.string()
+		.regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, "Informe um celular válido com DDD."),
+	user_email: z.email("Informe um e-mail válido."),
+	message: z.string().trim().min(10, "Escreva uma mensagem com pelo menos 10 caracteres."),
+});
+
+type FormFields = z.infer<typeof schema>;
+type FormErrors = Partial<Record<keyof FormFields, string>>;
+
+const emptyForm: FormFields = {
+	user_name: "",
+	user_phone: "",
+	user_email: "",
+	message: "",
+};
+
+// Formats digits as (11) 91234-5678
+function formatPhone(value: string) {
+	const digits = value.replace(/\D/g, "").slice(0, 11);
+	return digits
+		.replace(/^(\d{2})(\d)/, "($1) $2")
+		.replace(/(\d)(\d{4})$/, "$1-$2");
+}
 
 // Functional Component
 export default function Form() {
 	// Variables
-	const [modalOpened, setModalOpened] = useState(false);
-	const [formData, setFormData] = useState({
-		name: "",
-		phone: "",
-		email: "",
-		message: "",
-	});
 	const form = useRef<HTMLFormElement>(null);
+	const [formData, setFormData] = useState<FormFields>(emptyForm);
+	const [errors, setErrors] = useState<FormErrors>({});
+	const [sending, setSending] = useState(false);
+	const [successOpen, setSuccessOpen] = useState(false);
 
 	// Functions
-	const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+	const update = (field: keyof FormFields, value: string) => {
+		setFormData((prev) => ({ ...prev, [field]: value }));
+		setErrors((prev) => ({ ...prev, [field]: undefined }));
+	};
+
+	const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (!form.current) return;
-		emailjs
-			.sendForm("service_zgdcyfm", "template_crknyff", form.current, {
+		if (sending || !form.current) return;
+
+		const result = schema.safeParse(formData);
+		if (!result.success) {
+			const fieldErrors: FormErrors = {};
+			for (const issue of result.error.issues) {
+				const key = issue.path[0] as keyof FormFields;
+				fieldErrors[key] ??= issue.message;
+			}
+			setErrors(fieldErrors);
+			return;
+		}
+
+		setSending(true);
+		try {
+			await emailjs.sendForm("service_zgdcyfm", "template_crknyff", form.current, {
 				publicKey: "hv75Z0c-mETbppE6e",
-			})
-			.then(
-				() => {
-					setFormData({ name: "", phone: "", email: "", message: "" });
-					setModalOpened(true);
-				},
-				(error) => {
-					console.log(error.text);
-				}
-			);
+			});
+			setFormData(emptyForm);
+			setSuccessOpen(true);
+		} catch {
+			toast.error("Não foi possível enviar sua mensagem.", {
+				description: "Tente novamente ou fale com a gente pelo WhatsApp.",
+			});
+		} finally {
+			setSending(false);
+		}
 	};
 
 	// Rendering
 	return (
 		<>
-			{modalOpened && <Modal onClick={() => setModalOpened(false)} />}
 			<form
 				ref={form}
 				onSubmit={sendEmail}
-				className="flex flex-col p-8 bg-primary-400 rounded-lg"
+				noValidate
+				className="flex flex-col gap-8 rounded-lg bg-primary-400 p-8"
 			>
-				<label className="text-white mb-2 md:mb-4 font-semibold">Nome</label>
-				<input
-					className="bg-white mb-4 md:mb-8 px-4 py-2 border-primary-400 border-2 rounded-md"
-					type="text"
-					name="user_name"
-					required
-					value={formData.name}
-					onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-				/>
-				<label className="text-white mb-2 md:mb-4 font-semibold">Celular</label>
-				<input
-					className="bg-white mb-4 md:mb-8 px-4 py-2 border-primary-400 border-2 rounded-md"
-					type="text"
-					name="user_phone"
-					required
-					value={formData.phone}
-					onChange={(e) => {
-						let value = e.target.value;
-						value = value.replace(/\D/g, "");
-						value = value.replace(/^(\d{2})(\d)/g, "($1) $2");
-						value = value.replace(/(\d)(\d{4})$/, "$1-$2");
-						if (value.length <= 15) { // Maximum length of the phone number format
-								setFormData({ ...formData, phone: value });
-						}
-				}}
-				/>
-				<label className="text-white mb-2 md:mb-4 font-semibold">Email</label>
-				<input
-					className="bg-white mb-4 md:mb-8 px-4 py-2 border-primary-400 border-2 rounded-md"
-					type="email"
-					name="user_email"
-					required
-					value={formData.email}
-					onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-				/>
-				<label className="text-white mb-2 md:mb-4 font-semibold">
-					Mensagem
-				</label>
-				<textarea
-					className="mb-4 md:mb-8 px-4 py-2 h-44 bg-white border-primary-400 border-2 rounded-md resize-none"
-					name="message"
-					required
-					value={formData.message}
-					onChange={(e) =>
-						setFormData({ ...formData, message: e.target.value })
-					}
-				/>
-				<button className="align w-full md:w-max rounded-[1rem] border-solid bg-white border-[2px] hover:border-white hover:bg-primary-400 text-primary-400 hover:text-white duration-300">
-					<p className="text-sm font-bold uppercase p-[1.125em_5.125em]">
-						Enviar
-					</p>
-				</button>
+				<FieldGroup>
+					<Field data-invalid={!!errors.user_name}>
+						<FieldLabel htmlFor="user_name" className="font-semibold text-white">
+							Nome
+						</FieldLabel>
+						<Input
+							id="user_name"
+							name="user_name"
+							autoComplete="name"
+							className="bg-white"
+							value={formData.user_name}
+							aria-invalid={!!errors.user_name}
+							onChange={(e) => update("user_name", e.target.value)}
+						/>
+						<FieldError className="text-red-200">{errors.user_name}</FieldError>
+					</Field>
+					<Field data-invalid={!!errors.user_phone}>
+						<FieldLabel htmlFor="user_phone" className="font-semibold text-white">
+							Celular
+						</FieldLabel>
+						<Input
+							id="user_phone"
+							name="user_phone"
+							type="tel"
+							inputMode="numeric"
+							autoComplete="tel-national"
+							placeholder="(11) 91234-5678"
+							className="bg-white"
+							value={formData.user_phone}
+							aria-invalid={!!errors.user_phone}
+							onChange={(e) => update("user_phone", formatPhone(e.target.value))}
+						/>
+						<FieldError className="text-red-200">{errors.user_phone}</FieldError>
+					</Field>
+					<Field data-invalid={!!errors.user_email}>
+						<FieldLabel htmlFor="user_email" className="font-semibold text-white">
+							E-mail
+						</FieldLabel>
+						<Input
+							id="user_email"
+							name="user_email"
+							type="email"
+							autoComplete="email"
+							className="bg-white"
+							value={formData.user_email}
+							aria-invalid={!!errors.user_email}
+							onChange={(e) => update("user_email", e.target.value)}
+						/>
+						<FieldError className="text-red-200">{errors.user_email}</FieldError>
+					</Field>
+					<Field data-invalid={!!errors.message}>
+						<FieldLabel htmlFor="message" className="font-semibold text-white">
+							Mensagem
+						</FieldLabel>
+						<Textarea
+							id="message"
+							name="message"
+							className="h-44 resize-none bg-white"
+							value={formData.message}
+							aria-invalid={!!errors.message}
+							onChange={(e) => update("message", e.target.value)}
+						/>
+						<FieldError className="text-red-200">{errors.message}</FieldError>
+					</Field>
+				</FieldGroup>
+				<Button
+					type="submit"
+					variant="brand"
+					size="brand"
+					disabled={sending}
+					className="w-full md:w-max"
+				>
+					{sending && <Loader2Icon className="animate-spin" />}
+					{sending ? "Enviando..." : "Enviar"}
+				</Button>
 			</form>
+
+			<Dialog open={successOpen} onOpenChange={setSuccessOpen}>
+				<DialogContent className="sm:max-w-xl">
+					<DialogHeader>
+						<DialogTitle className="text-medium font-bold text-primary-400">
+							Mensagem enviada!
+						</DialogTitle>
+						<DialogDescription className="text-base text-primary-400">
+							Agradecemos por entrar em contato conosco. Recebemos sua mensagem e
+							vamos responder o mais rápido possível.
+						</DialogDescription>
+					</DialogHeader>
+					<DialogFooter>
+						<DialogClose asChild>
+							<Button variant="brand-solid" size="brand">
+								Fechar
+							</Button>
+						</DialogClose>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
 		</>
 	);
 }

@@ -5,19 +5,19 @@ import Form from "./Form";
 export default function Contact() {
 	// Rendering
 	return (
-		<Section id="contact" title="Contato">
+		<Section id="contato" title="Contato">
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-40">
 				<div className="flex flex-col gap-6">
 					<h3 className="text-medium font-bold text-primary-400">
 						Entre em Contato Conosco
 					</h3>
-					<p className="text-base font-base text-justify">
+					<p className="text-base text-primary-400">
 						Estamos ansiosos para ouvir de você e responder a todas as suas
 						perguntas. Se você tem alguma dúvida, comentário ou quer saber mais
 						sobre nossos serviços, não hesite em entrar em contato. A sua
 						opinião é valiosa para nós e estamos aqui para ajudar.
 					</p>
-					<p className="text-base font-base text-justify">
+					<p className="text-base text-primary-400">
 						Aqui você encontrará um formulário de contato. Preencha os campos
 						com as informações necessárias e clique em &quot;Enviar&quot;. Estamos
 						comprometidos em fornecer respostas rápidas e relevantes para cada

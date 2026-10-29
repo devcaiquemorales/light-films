@@ -2,7 +2,7 @@
 
 > Documento vivo. Referência central para a modernização do site.
 > Análise feita em 29/10/2026 sobre o commit `f1ea430` (branch `main`).
-> Última atualização: 29/10/2026 — **Fases 1 e 2 concluídas** (Next 16, React 19, Tailwind 4, Bun, shadcn/ui). As seções 4–9 descrevem o estado **antes** da Fase 1; o progresso fica no checklist (seção 14).
+> Última atualização: 29/10/2026 — **Fases 1, 2 e 3 concluídas** (Next 16, React 19, Tailwind 4, Bun, shadcn/ui aplicado no site, bugs da seção 8 corrigidos). As seções 4–9 descrevem o estado **antes** da Fase 1; o progresso fica no checklist (seção 14).
 
 
 > ⚠️ **REGRA: NUNCA enviar o formulário de contato (nem qualquer e-mail/mensagem) em testes.**
@@ -353,7 +353,7 @@ Reconstruir as seções usando os componentes da Fase 2, corrigindo os itens da 
 - Protótipo validado com o cliente **antes** de ir para produção.
 - Migrar Senai, Sabesp, Porto Seguro (e Ateliê, se for o caso).
 - Revalidação do site ao publicar.
-- Leads do formulário salvos no banco + e-mail (Resend).
+- Leads do formulário salvos no banco + e-mail (Resend), via **Server Action** com anti-spam (**Cloudflare Turnstile**); remover as chaves do EmailJS do client. (veio da Fase 3)
 - Manual do cliente ("como publicar um projeto em 3 passos").
 
 ### Fase 5 — Redesign, conteúdo e SEO
@@ -393,18 +393,32 @@ Notas da Fase 2:
 - No desktop, com 3 projetos, todos cabem na tela e as setas ficam desativadas. Quando houver mais projetos (via painel), o carrossel volta a rolar.
 - Os componentes Sheet, Dialog, Card, Field e Sonner estão instalados mas ainda **não** foram aplicados nas seções. Isso é a Fase 3.
 
-**Fase 3 — Correções e reconstrução**
-- [ ] Menu funcionando em todas as páginas (Sheet no mobile)
-- [ ] Títulos sem overflow; sem `overflow-x-hidden` no `<html>`
+**Fase 3 — Correções e reconstrução** ✅ (29/10/2026, branch `renovacao-v2`)
+- [x] Menu funcionando em todas as páginas: links reais `/#secao` + **Sheet** no mobile (bug 1). IDs das seções agora em português: `#inicio`, `#atuacao`, `#beneficios`, `#projetos`, `#clientes`, `#contato`
+- [x] Títulos sem overflow (novo `Title` com linhas flexíveis); `overflow-x-hidden` removido do `<html>` (bug 2). Largura da página no mobile = largura da tela
 - [x] Slider da home com Carousel, a partir dos dados, sem duplicação (feito na Fase 2)
-- [ ] `notFound()` + páginas de projeto estáticas + metadata
-- [ ] Modal de projeto com botão de orçamento
-- [ ] Formulário com validação, loading, toast, anti-spam e Server Action
-- [ ] Sem `user-select: none` / `outline: none`
-- [ ] Hero com `100svh` e imagem otimizada
-- [ ] Textos corrigidos
-- [ ] Imagens em AVIF/WebP
-- [ ] 7 hooks de `utils/` removidos
+- [x] `notFound()` + páginas de projeto estáticas (`generateStaticParams`, `dynamicParams = false`) + `generateMetadata` com título, descrição, canonical e imagem OG por projeto (bugs 3, 4, 12). Página 404 em português
+- [x] **Modal de projeto** (Dialog): título, descrição, galeria (Carousel), botões "Ver página do projeto" e "Quero um orçamento parecido" (WhatsApp com mensagem citando o projeto). Abre pelo carrossel da home e pelo grid de `/projetos`
+- [x] Formulário com **Field + Input + Textarea**, validação **Zod** com mensagens em português, loading ("Enviando..."), bloqueio de envio duplo, erro via **Sonner** (toast) e sucesso via **Dialog** (bug 7). Testado só a validação, com a rede do EmailJS bloqueada — **nenhum envio feito**
+- [ ] Envio via Server Action + anti-spam (Turnstile) — **movido para a Fase 4** (depende de conta Resend/Turnstile e do banco de leads)
+- [x] Sem `user-select: none` / `outline: none`; foco visível padrão do shadcn (bugs 8 e 9)
+- [x] Hero com `min-h-svh` e imagem via `next/image` com `priority` (bug 13)
+- [x] Textos corrigidos: "Película Arquitetônica", "Benefícios das Películas", "Insulfilm" nas keywords, "Marcos Santos" sem vírgula, sem texto justificado
+- [x] Descrições dos projetos (as de Sabesp/Porto Seguro eram cópia de "loja de roupas") trocadas por **lorem ipsum** até o cliente enviar os textos reais
+- [x] Depoimentos trocados por **lorem ipsum** ("Nome do Cliente N", "Cargo / Empresa") até o cliente enviar depoimentos reais
+- [x] Largura máxima do conteúdo (`max-w-7xl`, 1280px) em header, seções e footer — o layout não estica mais em telas ultrawide
+- [x] Botão do menu mobile sem o fundo claro quando o menu está aberto
+- [x] Imagens servidas em AVIF/WebP (`images.formats` no `next.config.js`)
+- [x] Hooks de `utils/` removidos (pasta apagada), além de `components/Button`, `Header/{Logo,Menu,MenuItem}`, `Contact/Modal`, `projetos/(components)`, `menu.png`, `quote.png`
+
+Componentes shadcn em uso após a Fase 3: Button (Hero, Projetos, Formulário, 404, modais), Card (Áreas de aplicação, Depoimentos, `/projetos`), Carousel (home e galeria do modal), Sheet (menu mobile), Dialog (modal de projeto e sucesso do formulário), Field/Input/Textarea/Label (formulário), Sonner (erros do formulário).
+
+Notas da Fase 3:
+- `lib/site.ts` centraliza nome, telefone, WhatsApp, Facebook e links do menu. O botão do WhatsApp agora aparece em todas as páginas.
+- Botão do shadcn ganhou variantes da marca: `brand` (branco) e `brand-solid` (azul), com tamanho `brand`.
+- `tailwind-merge` foi configurado para reconhecer o tamanho de fonte customizado `text-medium` (sem isso ele era descartado ao lado de `text-primary-400`).
+- Labels de acessibilidade do shadcn traduzidos ("Fechar", "Slide anterior", "Próximo slide").
+- Conhecido: no mobile, ao vir de `/projetos` para `/#contato`, a rolagem pode parar um pouco depois do início da seção (imagens carregando durante a rolagem). Desktop para exatamente na seção.
 
 **Fase 4 — Backend**
 - [ ] Protótipo do painel validado com o cliente
@@ -432,5 +446,6 @@ Notas da Fase 2:
 | 29/10/2026 | Ordem: **segurança → shadcn/ui → correções → backend → redesign** | Vulnerabilidades primeiro; correções aproveitam os novos componentes |
 | 29/10/2026 | **Todo o trabalho na branch `renovacao-v2`**; nada vai para `main` até a renovação inteira (Fases 1–5) estar concluída | `main` é o que está no ar; só recebe a versão final |
 | 29/10/2026 | **Proibido testar envio** do formulário/e-mail/WhatsApp com os dados reais | O destino é o e-mail real do cliente; um teste pareceria um lead verdadeiro |
+| 29/10/2026 | Textos que dependem do cliente (descrições de projetos, depoimentos) ficam em **lorem ipsum** até ele enviar os reais | Evita publicar texto inventado em nome do cliente |
 | 29/10/2026 | **Bun** no lugar do npm (`bun install`, `bun dev`, `bun run build`) | Preferência do time |
 | 29/10/2026 | TypeScript 6 (não 7) e ESLint 9 (não 10) | Versões mais novas ainda sem garantia de compatibilidade com o tooling do Next 16 |

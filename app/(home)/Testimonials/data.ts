@@ -1,23 +1,24 @@
+// TODO(cliente): depoimentos em lorem ipsum até o cliente enviar depoimentos reais
 export const TestimonialsData = [
 	{
-		name: "João Silva",
-		role: "Gerente de Marketing",
+		name: "Nome do Cliente 1",
+		role: "Cargo / Empresa",
 		testimonial:
-			"Estou extremamente satisfeito com os serviços de aplicação de insulfilm da Light Films. Eles transformaram nossa casa, proporcionando um ambiente mais fresco e confortável. A equipe foi profissional e eficiente, e os resultados superaram minhas expectativas. Recomendo a todos!",
-    photoPath: "/testimonials/person-1.png"
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+		photoPath: "/testimonials/person-1.png",
 	},
 	{
-		name: "Ana Oliveira",
-		role: "Diretora Financeira",
+		name: "Nome do Cliente 2",
+		role: "Cargo / Empresa",
 		testimonial:
-			"A Light Films é definitivamente a escolha certa quando se trata de aplicação de insulfilm. Eles fizeram um trabalho incrível em nosso escritório, ajudando a regular a temperatura e aumentar a privacidade. A qualidade do serviço e a atenção aos detalhes realmente se destacam. Estamos muito felizes com os resultados.",
-    photoPath: "/testimonials/person-2.png"
+			"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.",
+		photoPath: "/testimonials/person-2.png",
 	},
 	{
-		name: "Marcos Santos,",
-		role: "Proprietário da Loja",
+		name: "Nome do Cliente 3",
+		role: "Cargo / Empresa",
 		testimonial:
-			"Contratamos a Light Films para aplicar insulfilm em nossa loja e não poderíamos estar mais felizes. Além de reduzir o calor excessivo, os filmes também adicionaram um toque estiloso ao nosso espaço. A equipe foi pontual e profissional, e o processo foi sem complicações. Definitivamente, uma escolha inteligente!",
-    photoPath: "/testimonials/person-3.png"
+			"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae.",
+		photoPath: "/testimonials/person-3.png",
 	},
 ];

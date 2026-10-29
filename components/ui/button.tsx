@@ -18,6 +18,11 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
+        // Light Films brand buttons
+        brand:
+          "border-2 border-white bg-white text-primary-400 hover:bg-primary-400 hover:text-white",
+        "brand-solid":
+          "border-2 border-primary-400 bg-primary-400 text-white hover:bg-white hover:text-primary-400",
       },
       size: {
         default:
@@ -31,6 +36,8 @@ const buttonVariants = cva(
         "icon-sm":
           "size-8 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-md",
         "icon-lg": "size-10",
+        brand:
+          "h-auto rounded-[1rem] px-[5.125em] py-[1.125em] text-sm font-bold uppercase duration-300",
       },
     },
     defaultVariants: {

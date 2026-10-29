@@ -1,37 +1,29 @@
+import { cn } from "@/lib/utils";
+
 // Types
 import { TitleType } from "./types";
 
 // Functional Component
 export default function Title(props: TitleType) {
+	// Variables
+	const line = cn(
+		"h-3 min-w-6 max-w-[22vw] flex-1 border-y-4",
+		props.colored ? "border-white" : "border-primary-400"
+	);
+
 	// Rendering
 	return (
-		<div className="flex justify-center items-center gap-x-8 mx-auto text-lg font-bold uppercase mb-20">
-			<div className="flex flex-col gap-1">
-				<div
-					data-fill={props.colored}
-					className="w-[50vw] md:w-[22vw] h-1 bg-primary-400 data-[fill=true]:bg-white"
-				/>
-				<div
-					data-fill={props.colored}
-					className="w-[50vw] md:w-[22vw] h-1 bg-primary-400 data-[fill=true]:bg-white"
-				/>
-			</div>
+		<div className="mb-20 flex items-center justify-center gap-4 md:gap-8">
+			<span aria-hidden className={line} />
 			<h2
-				data-fill={props.colored}
-				className="text-center text-primary-400 data-[fill=true]:text-white"
+				className={cn(
+					"text-center text-lg font-bold uppercase",
+					props.colored ? "text-white" : "text-primary-400"
+				)}
 			>
 				{props.text}
 			</h2>
-			<div className="flex flex-col gap-1">
-				<div
-					data-fill={props.colored}
-					className="w-[50vw] md:w-[22vw] h-1 bg-primary-400 data-[fill=true]:bg-white"
-				/>
-				<div
-					data-fill={props.colored}
-					className="w-[50vw] md:w-[22vw] h-1 bg-primary-400 data-[fill=true]:bg-white"
-				/>
-			</div>
+			<span aria-hidden className={line} />
 		</div>
 	);
 }

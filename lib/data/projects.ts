@@ -1,4 +1,15 @@
-export const ProjectsData = [
+// Types
+export type Project = {
+  title: string;
+  slug: string;
+  image: string;
+  description: string[];
+  photos: { path: string; alt: string }[];
+};
+
+// Data
+// TODO(cliente): descrições em lorem ipsum até o cliente enviar os textos reais
+export const ProjectsData: Project[] = [
   // {
   //   title: "Atelie",
   //   slug: "atelie",
@@ -22,23 +33,22 @@ export const ProjectsData = [
     slug: "senai",
     image: "/projects/senai/senai-1-1.jpg",
     description: [
-      "Nossa equipe teve a honra de contribuir para a experiência visual excepcional da famosa loja de roupas. Ao aplicar insulfilm nos vidros de entrada, conseguimos manter a transparência que caracteriza essa loja icônica, enquanto acrescentamos um toque de exclusividade e proteção.",
-      "O insulfilm escolhido não apenas resguarda a loja da intensidade solar e dos raios UV, mas também acentua a fachada elegante e moderna.",
-      "Agora, os clientes são recebidos por um ambiente que reflete a estética da marca e convida a uma experiência de compras sofisticada.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     ],
     photos: [
-      { path: "/projects/senai/senai-1-1.jpg", alt: "Senai 1" },
-      { path: "/projects/senai/senai-2-2.jpg", alt: "Senai 2" },
-      { path: "/projects/senai/senai-3-3.jpg", alt: "Senai 3" },
-      { path: "/projects/senai/senai-4-4.jpg", alt: "Senai 4" },
-      { path: "/projects/senai/senai-5-5.jpg", alt: "Senai 5" },
-      { path: "/projects/senai/senai-6-6.jpg", alt: "Senai 6" },
-      { path: "/projects/senai/senai-7-7.jpg", alt: "Senai 7" },
-      { path: "/projects/senai/senai-8-8.jpg", alt: "Senai 8" },
-      { path: "/projects/senai/senai-9-9.jpg", alt: "Senai 9" },
-      { path: "/projects/senai/senai-10-10.jpg", alt: "Senai 10" },
-      { path: "/projects/senai/senai-11-11.jpg", alt: "Senai 11" },
-      { path: "/projects/senai/senai-12-12.jpg", alt: "Senai 12" },
+      { path: "/projects/senai/senai-1-1.jpg", alt: "Senai - foto 1" },
+      { path: "/projects/senai/senai-2-2.jpg", alt: "Senai - foto 2" },
+      { path: "/projects/senai/senai-3-3.jpg", alt: "Senai - foto 3" },
+      { path: "/projects/senai/senai-4-4.jpg", alt: "Senai - foto 4" },
+      { path: "/projects/senai/senai-5-5.jpg", alt: "Senai - foto 5" },
+      { path: "/projects/senai/senai-6-6.jpg", alt: "Senai - foto 6" },
+      { path: "/projects/senai/senai-7-7.jpg", alt: "Senai - foto 7" },
+      { path: "/projects/senai/senai-8-8.jpg", alt: "Senai - foto 8" },
+      { path: "/projects/senai/senai-9-9.jpg", alt: "Senai - foto 9" },
+      { path: "/projects/senai/senai-10-10.jpg", alt: "Senai - foto 10" },
+      { path: "/projects/senai/senai-11-11.jpg", alt: "Senai - foto 11" },
+      { path: "/projects/senai/senai-12-12.jpg", alt: "Senai - foto 12" },
     ],
   },
   {
@@ -46,42 +56,41 @@ export const ProjectsData = [
     slug: "sabesp",
     image: "/projects/sabesp/sabesp-1-1.jpg",
     description: [
-      "Nossa equipe teve a honra de contribuir para a experiência visual excepcional da famosa loja de roupas. Ao aplicar insulfilm nos vidros de entrada, conseguimos manter a transparência que caracteriza essa loja icônica, enquanto acrescentamos um toque de exclusividade e proteção.",
-      "O insulfilm escolhido não apenas resguarda a loja da intensidade solar e dos raios UV, mas também acentua a fachada elegante e moderna.",
-      "Agora, os clientes são recebidos por um ambiente que reflete a estética da marca e convida a uma experiência de compras sofisticada.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     ],
     photos: [
       {
         path: "/projects/sabesp/sabesp-1-1.jpg",
-        alt: "sabesp 1",
+        alt: "Sabesp - foto 1",
       },
       {
         path: "/projects/sabesp/sabesp-2-2.jpg",
-        alt: "sabesp 2",
+        alt: "Sabesp - foto 2",
       },
       {
         path: "/projects/sabesp/sabesp-3-3.jpg",
-        alt: "sabesp 3",
+        alt: "Sabesp - foto 3",
       },
       {
         path: "/projects/sabesp/sabesp-4-4.jpg",
-        alt: "sabesp 4",
+        alt: "Sabesp - foto 4",
       },
       {
         path: "/projects/sabesp/sabesp-5-5.jpg",
-        alt: "sabesp 5",
+        alt: "Sabesp - foto 5",
       },
       {
         path: "/projects/sabesp/sabesp-6-6.jpg",
-        alt: "sabesp 6",
+        alt: "Sabesp - foto 6",
       },
       {
         path: "/projects/sabesp/sabesp-7-7.jpg",
-        alt: "sabesp 7",
+        alt: "Sabesp - foto 7",
       },
       {
         path: "/projects/sabesp/sabesp-8-8.jpg",
-        alt: "sabesp 8",
+        alt: "Sabesp - foto 8",
       },
     ],
   },
@@ -91,46 +100,45 @@ export const ProjectsData = [
     slug: "porto-seguro",
     image: "/projects/porto-seguro/porto-1.jpg",
     description: [
-      "Nossa equipe teve a honra de contribuir para a experiência visual excepcional da famosa loja de roupas. Ao aplicar insulfilm nos vidros de entrada, conseguimos manter a transparência que caracteriza essa loja icônica, enquanto acrescentamos um toque de exclusividade e proteção.",
-      "O insulfilm escolhido não apenas resguarda a loja da intensidade solar e dos raios UV, mas também acentua a fachada elegante e moderna.",
-      "Agora, os clientes são recebidos por um ambiente que reflete a estética da marca e convida a uma experiência de compras sofisticada.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     ],
     photos: [
       {
         path: "/projects/porto-seguro/porto-1.jpg",
-        alt: "porto-seguro 1",
+        alt: "Porto Seguro - foto 1",
       },
       {
         path: "/projects/porto-seguro/porto-2.jpg",
-        alt: "porto-seguro 2",
+        alt: "Porto Seguro - foto 2",
       },
       {
         path: "/projects/porto-seguro/porto-3.jpg",
-        alt: "porto-seguro 3",
+        alt: "Porto Seguro - foto 3",
       },
       {
         path: "/projects/porto-seguro/porto-4.jpg",
-        alt: "porto-seguro 4",
+        alt: "Porto Seguro - foto 4",
       },
       {
         path: "/projects/porto-seguro/porto-5.jpg",
-        alt: "porto-seguro 5",
+        alt: "Porto Seguro - foto 5",
       },
       {
         path: "/projects/porto-seguro/porto-6.jpg",
-        alt: "porto-seguro 6",
+        alt: "Porto Seguro - foto 6",
       },
       {
         path: "/projects/porto-seguro/porto-7.jpg",
-        alt: "porto-seguro 7",
+        alt: "Porto Seguro - foto 7",
       },
       {
         path: "/projects/porto-seguro/porto-8.jpg",
-        alt: "porto-seguro 8",
+        alt: "Porto Seguro - foto 8",
       },
       {
         path: "/projects/porto-seguro/porto-9.jpg",
-        alt: "porto-seguro 9",
+        alt: "Porto Seguro - foto 9",
       },
     ],
   },

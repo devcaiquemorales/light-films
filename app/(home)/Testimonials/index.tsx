@@ -8,15 +8,15 @@ import { TestimonialsData } from "./data";
 export default function Testimonials() {
 	// Rendering
 	return (
-		<Section id="testimonials" title="Depoimentos" colored>
+		<Section id="clientes" title="Depoimentos" colored>
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8">
-				{TestimonialsData.map((testimonial, index) => (
+				{TestimonialsData.map((testimonial) => (
 					<Testimonial
 						name={testimonial.name}
 						role={testimonial.role}
 						testimonial={testimonial.testimonial}
             photoPath={testimonial.photoPath}
-						key={index}
+						key={testimonial.name}
 					/>
 				))}
 			</div>
