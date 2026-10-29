@@ -1,5 +1,5 @@
 // Imports
-import { Montserrat } from "next/font/google";
+import { Archivo } from "next/font/google";
 import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { site } from "@/lib/site";
@@ -14,7 +14,8 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 // Font
-const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-sans" });
+// Variable width axis: expanded for headings, normal for body text
+const archivo = Archivo({ subsets: ["latin"], axes: ["wdth"], variable: "--font-sans" });
 
 // SEO
 export const metadata: Metadata = {
@@ -39,10 +40,11 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="pt-BR" className={cn("font-sans", montserrat.variable)}>
-			<body>
+		<html lang="pt-BR" className={cn("font-sans", archivo.variable)}>
+			<body className="flex min-h-svh flex-col">
 				<Header />
-				{children}
+				{/* Grows so the footer stays at the bottom on short pages */}
+				<div className="flex flex-1 flex-col">{children}</div>
 				<Footer />
 				<Whatsapp />
 				<Toaster position="top-center" richColors />

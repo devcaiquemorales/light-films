@@ -1,5 +1,6 @@
 // Types
 export type TitleType = {
 	text: string;
-	colored?: boolean;
+	intro?: React.ReactNode;
+	inverted?: boolean;
 };

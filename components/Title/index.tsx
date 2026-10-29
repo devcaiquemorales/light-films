@@ -5,25 +5,27 @@ import { TitleType } from "./types";
 
 // Functional Component
 export default function Title(props: TitleType) {
-	// Variables
-	const line = cn(
-		"h-3 min-w-6 max-w-[22vw] flex-1 border-y-4",
-		props.colored ? "border-white" : "border-primary-400"
-	);
-
 	// Rendering
 	return (
-		<div className="mb-20 flex items-center justify-center gap-4 md:gap-8">
-			<span aria-hidden className={line} />
+		<header className="mb-12 max-w-3xl md:mb-16">
 			<h2
 				className={cn(
-					"text-center text-lg font-bold uppercase",
-					props.colored ? "text-white" : "text-primary-400"
+					"text-xl font-bold font-stretch-expanded text-balance",
+					props.inverted ? "text-white" : "text-vidro"
 				)}
 			>
 				{props.text}
 			</h2>
-			<span aria-hidden className={line} />
-		</div>
+			{props.intro && (
+				<p
+					className={cn(
+						"mt-5 max-w-2xl text-medium text-pretty",
+						props.inverted ? "text-white/75" : "text-muted-foreground"
+					)}
+				>
+					{props.intro}
+				</p>
+			)}
+		</header>
 	);
 }

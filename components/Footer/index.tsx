@@ -1,51 +1,59 @@
 import Image from "next/image";
 import Link from "next/link";
-import { site } from "@/lib/site";
+import { navLinks, site } from "@/lib/site";
 
 // Functional Component
 export default function Footer() {
 	// Rendering
 	return (
-		<footer className="relative bg-primary-400 py-40">
-			<div className="mx-auto flex w-[90%] max-w-7xl flex-col items-center gap-2">
-				<Link href="/" className="text-lg font-bold text-white">
-					{site.name}
-				</Link>
-				<p className="mb-3 max-w-sm text-center text-sm text-white">
-					{site.slogan}
-				</p>
-				<a
-					href={site.facebook}
-					title="Abrir facebook da empresa"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Image
-						src="/facebook.png"
-						alt="Facebook da Light Films"
-						width={20}
-						height={20}
-					/>
-				</a>
-				<a
-					href={site.phoneHref}
-					className="mt-2 text-center text-base leading-relaxed font-light text-white hover:underline"
-				>
-					{site.phone}
-				</a>
+		<footer className="border-t border-white/10 bg-vidro px-5 pt-16 pb-10 text-white md:px-10">
+			<div className="mx-auto flex max-w-7xl flex-col gap-12">
+				<div className="flex flex-col justify-between gap-10 md:flex-row">
+					<div className="max-w-sm">
+						<Link href="/" className="text-lg font-black font-stretch-expanded">
+							{site.name}
+						</Link>
+						<p className="mt-3 text-base text-white/70">
+							Película para vidros de casas, escritórios, lojas e prédios em São Paulo.
+						</p>
+					</div>
+					<nav aria-label="Rodapé" className="grid grid-cols-2 gap-x-12 gap-y-3 text-sm">
+						{navLinks.map((item) => (
+							<Link key={item.id} href={`/#${item.id}`} className="text-white/80 hover:text-white">
+								{item.name}
+							</Link>
+						))}
+					</nav>
+					<div className="flex flex-col gap-3 text-sm">
+						<a href={site.phoneHref} className="text-white/80 hover:text-white">
+							{site.phone}
+						</a>
+						<a
+							href={site.facebook}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="inline-flex items-center gap-2 text-white/80 hover:text-white"
+						>
+							<Image src="/facebook.png" alt="" width={16} height={16} className="size-4" />
+							Facebook
+						</a>
+					</div>
+				</div>
+				<div className="flex flex-col justify-between gap-2 border-t border-white/10 pt-6 text-sm text-white/50 md:flex-row">
+					<p>© {new Date().getFullYear()} {site.name}</p>
+					<p>
+						Site desenvolvido por{" "}
+						<a
+							className="hover:text-white hover:underline"
+							href="https://caiquemorales.com/"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							Caique Morales
+						</a>
+					</p>
+				</div>
 			</div>
-			<p className="absolute bottom-5 left-1/2 -translate-x-1/2 text-center text-sm text-gray-400">
-				Site desenvolvido por&nbsp;
-				<a
-					className="hover:underline"
-					href="https://caiquemorales.com/"
-					target="_blank"
-					rel="noopener noreferrer"
-					title="Ver portfolio do desenvolvedor do site"
-				>
-					Caique Morales
-				</a>
-			</p>
 		</footer>
 	);
 }

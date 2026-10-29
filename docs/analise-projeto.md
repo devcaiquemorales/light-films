@@ -458,14 +458,32 @@ Notas da Fase 3:
 - Labels de acessibilidade do shadcn traduzidos ("Fechar", "Slide anterior", "Próximo slide").
 - Conhecido: no mobile, ao vir de `/projetos` para `/#contato`, a rolagem pode parar um pouco depois do início da seção (imagens carregando durante a rolagem). Desktop para exatamente na seção.
 
-**Fase 4 — UI e redesign** ⏳ próxima
-- [ ] Direção visual (referências, paleta, tipografia, logo)
-- [ ] Design system (tokens + variantes dos componentes)
-- [ ] Redesign das seções existentes
-- [ ] Seções novas (tipos de película, antes/depois, como funciona, FAQ, garantia, área de atendimento)
+**Fase 4 — UI e redesign** 🟡 em andamento (29/10/2026, branch `renovacao-v2`)
+- [x] Direção visual (proposta abaixo; logo novo ainda em aberto)
+- [x] Design system: paleta, tipografia e variantes de botão em `app/globals.css` / `components/ui/button.tsx`
+- [x] Redesign da home: header fixo com CTA, hero com simulador de tom, Onde aplicamos, Benefícios, Projetos, Depoimentos, Contato, Footer
+- [x] Seção nova: **Como funciona** (4 etapas — confirmar com o cliente)
+- [x] Ajustes de navegação: sublinhado âmbar que cresce da esquerda para a direita no hover; item do menu **ativo conforme a seção na tela** (scroll-spy) e "Projetos" ativo nas páginas de projeto; menu mobile com título discreto e item ativo em âmbar
+- [x] Títulos dos projetos com o mesmo sublinhado animado; `/projetos` com o mesmo card da home (foto + título expandido); modal e botões do projeto no novo estilo
+- [x] Footer sempre no fim da tela em páginas curtas
+- [x] Benefícios sem foto: título fixo à esquerda (acompanha a rolagem no desktop) e lista à direita com ícone em círculo âmbar, título grande e texto
+- [x] Depoimentos: 3 colunas, sem a linha de cima, com aspas âmbar acima de cada citação (a versão com uma citação por vez foi testada e descartada)
+- [x] Modal: título, texto e ações empilhados; botão e "Abrir página do projeto" lado a lado, alinhados à esquerda com o texto
+- [x] Ordem do menu igual à ordem da página: Benefícios → Projetos → Como funciona → Contato
+- [x] Modal de projeto refeito: fotos primeiro (largura total), contador "2 de 12", setas brancas sólidas; texto e botão lado a lado embaixo; botão menor e "Abrir página do projeto" como link
+- [x] Setas do carrossel: ativas em azul sólido, desativadas só com contorno claro (antes as duas pareciam apagadas)
+- [ ] Seções novas restantes: tipos de película, antes/depois, FAQ, garantia, área de atendimento
 - [ ] `/projetos`, página do projeto e 404 redesenhadas
 - [ ] Responsivo, acessibilidade e Lighthouse ≥ 90
 - [ ] SEO técnico (metadados, OG, sitemap, `LocalBusiness`)
+
+Direção visual da Fase 4 (proposta):
+- **Conceito:** o mundo do vidro e da luz. Um único elemento ousado — o **simulador de tom** no hero (janela com caixilhos sobre foto real; o visitante escolhe Sem película / Clara / Fumê / Escura / Espelhada). O resto da página é calmo e alinhado à esquerda.
+- **Cores:** Vidro `#12303A` (texto e seções escuras), Névoa `#F2F6F5` (fundo), Reflexo `#8DB0B5` (linhas e números), Sol `#F2A93B` (só botões de orçamento e estados ativos), Branco. Classes: `bg-vidro`, `bg-nevoa`, `text-reflexo`, `bg-sol`.
+- **Tipografia:** **Archivo** (variável): títulos em largura expandida (`font-stretch-expanded`) e peso alto; corpo em largura normal. Uma família, duas vozes.
+- **Regras:** títulos à esquerda, sem rótulos em caixa alta acima dos títulos, sem cards repetidos com sombra; numeração só onde há sequência real (Como funciona); animação só quando o visitante interage (simulador, hover das fotos). O autoplay do carrossel e a pulsação do botão do WhatsApp foram removidos.
+- **Botões:** `brand` (Sol, pílula) para orçamento; `brand-solid` (Vidro) para ações secundárias; raio pequeno (2–6px) em fotos e caixilhos, pílula em botões.
+- Copy nova da home (títulos e descrições das áreas, benefícios e etapas) escrita por nós — **revisar com o cliente** antes do lançamento.
 
 **Fase 5 — Backend (Convex + R2 + painel próprio)**
 - [ ] Contas criadas: Convex, Cloudflare R2, Resend, Turnstile

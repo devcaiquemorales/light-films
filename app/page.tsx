@@ -5,6 +5,7 @@ import Occupation from "./(home)/Occupation";
 import Projects from "./(home)/Projects";
 import Testimonials from "./(home)/Testimonials";
 import Contact from "./(home)/Contact";
+import Process from "./(home)/Process";
 
 // SEO
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default function Home() {
 			<Occupation />
 			<Benefits />
 			<Projects />
+			<Process />
 			<Testimonials />
 			<Contact />
 		</main>

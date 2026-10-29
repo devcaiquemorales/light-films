@@ -10,7 +10,7 @@ export default function Whatsapp() {
 			target="_blank"
 			rel="noopener noreferrer"
 			aria-label="Conversar pelo WhatsApp"
-			className="fixed right-10 bottom-10 z-50 animate-pulse-grown motion-reduce:animate-none"
+			className="fixed right-5 bottom-5 z-50 drop-shadow-lg md:right-8 md:bottom-8"
 		>
 			<Image
 				src="/whatsapp.png"

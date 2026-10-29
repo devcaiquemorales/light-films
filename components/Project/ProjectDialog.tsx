@@ -6,7 +6,6 @@ import {
 	Dialog,
 	DialogContent,
 	DialogDescription,
-	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -29,24 +28,24 @@ export default function ProjectDialog({
 	return (
 		<Dialog>
 			<DialogTrigger asChild>{children}</DialogTrigger>
-			<DialogContent className="max-h-[90svh] overflow-y-auto sm:max-w-3xl">
-				<DialogHeader>
-					<DialogTitle className="text-medium font-bold text-primary-400">
-						{project.title}
-					</DialogTitle>
-					<DialogDescription className="text-base text-primary-400">
-						{project.description[0]}
-					</DialogDescription>
-				</DialogHeader>
-				{project.description.slice(1).map((paragraph) => (
-					<p key={paragraph} className="text-base text-primary-400">
-						{paragraph}
-					</p>
-				))}
+			<DialogContent className="max-h-[92svh] gap-0 overflow-y-auto p-0 sm:max-w-4xl [&>[data-slot=dialog-close]]:bg-white [&>[data-slot=dialog-close]]:text-vidro [&>[data-slot=dialog-close]]:shadow-md">
+				{/* Photos first: this is a portfolio */}
 				<ProjectGallery photos={project.photos} />
-				<DialogFooter>
+				<div className="flex flex-col gap-6 p-6 md:p-8">
+					<DialogHeader className="max-w-2xl gap-3 text-left">
+						<DialogTitle className="text-lg font-bold font-stretch-expanded text-vidro">
+							{project.title}
+						</DialogTitle>
+						<DialogDescription asChild>
+							<div className="flex flex-col gap-3 text-base text-muted-foreground">
+								{project.description.map((paragraph) => (
+									<p key={paragraph}>{paragraph}</p>
+								))}
+							</div>
+						</DialogDescription>
+					</DialogHeader>
 					<ProjectActions project={project} showPageLink />
-				</DialogFooter>
+				</div>
 			</DialogContent>
 		</Dialog>
 	);

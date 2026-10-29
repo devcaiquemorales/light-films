@@ -8,15 +8,15 @@ import { TestimonialsData } from "./data";
 export default function Testimonials() {
 	// Rendering
 	return (
-		<Section id="clientes" title="Depoimentos" colored>
-			<div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8">
+		<Section id="clientes" title="Quem já aplicou">
+			<div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-10">
 				{TestimonialsData.map((testimonial) => (
 					<Testimonial
+						key={testimonial.name}
 						name={testimonial.name}
 						role={testimonial.role}
 						testimonial={testimonial.testimonial}
-            photoPath={testimonial.photoPath}
-						key={testimonial.name}
+						photoPath={testimonial.photoPath}
 					/>
 				))}
 			</div>

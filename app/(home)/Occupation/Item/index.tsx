@@ -1,32 +1,29 @@
 // Imported Components
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
 
 // Types
 interface ItemType {
 	title: string;
 	img: string;
+	text: string;
 }
 
 // Functional Component
 export default function Item(props: ItemType) {
 	// Rendering
 	return (
-		<Card className="group gap-0 py-0">
-			<div className="aspect-video overflow-hidden">
-				<Image
-					src={props.img}
-					alt={props.title}
-					width={343}
-					height={171}
-					className="h-full object-cover duration-300 ease-in-out group-hover:scale-110"
-				/>
+		<li className="flex flex-col gap-4">
+			<Image
+				src={props.img}
+				alt=""
+				width={343}
+				height={171}
+				className="aspect-[3/2] rounded-sm object-cover"
+			/>
+			<div>
+				<h3 className="text-medium font-bold font-stretch-expanded text-vidro">{props.title}</h3>
+				<p className="mt-1.5 text-base text-muted-foreground text-pretty">{props.text}</p>
 			</div>
-			<CardContent className="py-4 text-center">
-				<h3 className="text-sm font-bold text-primary-400 uppercase">
-					{props.title}
-				</h3>
-			</CardContent>
-		</Card>
+		</li>
 	);
 }

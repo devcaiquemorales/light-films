@@ -104,26 +104,26 @@ export default function Form() {
 				ref={form}
 				onSubmit={sendEmail}
 				noValidate
-				className="flex flex-col gap-8 rounded-lg bg-primary-400 p-8"
+				className="flex flex-col gap-8 rounded-md bg-white p-6 text-vidro shadow-[0_30px_60px_-30px_rgb(0_0_0/0.5)] md:p-8"
 			>
 				<FieldGroup>
 					<Field data-invalid={!!errors.user_name}>
-						<FieldLabel htmlFor="user_name" className="font-semibold text-white">
+						<FieldLabel htmlFor="user_name" className="font-semibold text-vidro">
 							Nome
 						</FieldLabel>
 						<Input
 							id="user_name"
 							name="user_name"
 							autoComplete="name"
-							className="bg-white"
+							className="h-11 bg-white"
 							value={formData.user_name}
 							aria-invalid={!!errors.user_name}
 							onChange={(e) => update("user_name", e.target.value)}
 						/>
-						<FieldError className="text-red-200">{errors.user_name}</FieldError>
+						<FieldError>{errors.user_name}</FieldError>
 					</Field>
 					<Field data-invalid={!!errors.user_phone}>
-						<FieldLabel htmlFor="user_phone" className="font-semibold text-white">
+						<FieldLabel htmlFor="user_phone" className="font-semibold text-vidro">
 							Celular
 						</FieldLabel>
 						<Input
@@ -133,15 +133,15 @@ export default function Form() {
 							inputMode="numeric"
 							autoComplete="tel-national"
 							placeholder="(11) 91234-5678"
-							className="bg-white"
+							className="h-11 bg-white"
 							value={formData.user_phone}
 							aria-invalid={!!errors.user_phone}
 							onChange={(e) => update("user_phone", formatPhone(e.target.value))}
 						/>
-						<FieldError className="text-red-200">{errors.user_phone}</FieldError>
+						<FieldError>{errors.user_phone}</FieldError>
 					</Field>
 					<Field data-invalid={!!errors.user_email}>
-						<FieldLabel htmlFor="user_email" className="font-semibold text-white">
+						<FieldLabel htmlFor="user_email" className="font-semibold text-vidro">
 							E-mail
 						</FieldLabel>
 						<Input
@@ -149,15 +149,15 @@ export default function Form() {
 							name="user_email"
 							type="email"
 							autoComplete="email"
-							className="bg-white"
+							className="h-11 bg-white"
 							value={formData.user_email}
 							aria-invalid={!!errors.user_email}
 							onChange={(e) => update("user_email", e.target.value)}
 						/>
-						<FieldError className="text-red-200">{errors.user_email}</FieldError>
+						<FieldError>{errors.user_email}</FieldError>
 					</Field>
 					<Field data-invalid={!!errors.message}>
-						<FieldLabel htmlFor="message" className="font-semibold text-white">
+						<FieldLabel htmlFor="message" className="font-semibold text-vidro">
 							Mensagem
 						</FieldLabel>
 						<Textarea
@@ -168,28 +168,28 @@ export default function Form() {
 							aria-invalid={!!errors.message}
 							onChange={(e) => update("message", e.target.value)}
 						/>
-						<FieldError className="text-red-200">{errors.message}</FieldError>
+						<FieldError>{errors.message}</FieldError>
 					</Field>
 				</FieldGroup>
 				<Button
 					type="submit"
-					variant="brand"
+					variant="brand-solid"
 					size="brand"
 					disabled={sending}
 					className="w-full md:w-max"
 				>
 					{sending && <Loader2Icon className="animate-spin" />}
-					{sending ? "Enviando..." : "Enviar"}
+					{sending ? "Enviando..." : "Enviar mensagem"}
 				</Button>
 			</form>
 
 			<Dialog open={successOpen} onOpenChange={setSuccessOpen}>
 				<DialogContent className="sm:max-w-xl">
 					<DialogHeader>
-						<DialogTitle className="text-medium font-bold text-primary-400">
+						<DialogTitle className="text-lg font-bold font-stretch-expanded text-vidro">
 							Mensagem enviada!
 						</DialogTitle>
-						<DialogDescription className="text-base text-primary-400">
+						<DialogDescription className="text-base text-muted-foreground">
 							Agradecemos por entrar em contato conosco. Recebemos sua mensagem e
 							vamos responder o mais rápido possível.
 						</DialogDescription>

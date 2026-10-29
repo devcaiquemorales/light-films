@@ -10,13 +10,13 @@ export const site = {
 };
 
 export const navLinks = [
-	{ name: "Início", id: "inicio" },
-	{ name: "Atuação", id: "atuacao" },
 	{ name: "Benefícios", id: "beneficios" },
 	{ name: "Projetos", id: "projetos" },
-	{ name: "Clientes", id: "clientes" },
+	{ name: "Como funciona", id: "como-funciona" },
 	{ name: "Contato", id: "contato" },
 ];
+
+export const quoteMessage = "Olá! Vim pelo site e gostaria de um orçamento de película.";
 
 export function whatsappLink(message: string) {
 	return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(message)}`;

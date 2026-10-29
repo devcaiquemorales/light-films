@@ -6,13 +6,34 @@ import Item from "./Item";
 export default function Occupation() {
 	// Rendering
 	return (
-		<Section id="atuacao" title="Áreas de aplicação">
-			<div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-				<Item title="Residências" img="/house.png" />
-				<Item title="Escritórios" img="/office.png" />
-				<Item title="Comércios" img="/commerce.png" />
-				<Item title="Prédios" img="/building.png" />
-			</div>
+		<Section
+			id="atuacao"
+			tone="branco"
+			title="Onde aplicamos"
+			intro="Cada lugar pede uma película diferente. A gente visita, mede e indica a certa para o seu caso."
+		>
+			<ul className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+				<Item
+					title="Residências"
+					img="/house.png"
+					text="Quartos e salas mais frescos, sem precisar fechar a cortina o dia todo."
+				/>
+				<Item
+					title="Escritórios"
+					img="/office.png"
+					text="Menos reflexo nas telas e mais conforto para quem trabalha perto da janela."
+				/>
+				<Item
+					title="Comércios"
+					img="/commerce.png"
+					text="Vitrine protegida do sol, sem desbotar os produtos expostos."
+				/>
+				<Item
+					title="Prédios"
+					img="/building.png"
+					text="Fachada com acabamento uniforme e ambientes internos menos quentes."
+				/>
+			</ul>
 		</Section>
 	);
 }

@@ -16,13 +16,8 @@ export default function ProjectActions({
 }) {
 	// Rendering
 	return (
-		<div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-			{showPageLink && (
-				<Button asChild variant="outline" size="lg">
-					<Link href={`/projetos/${project.slug}`}>Ver página do projeto</Link>
-				</Button>
-			)}
-			<Button asChild variant="brand-solid" size="lg" className="rounded-[1rem] font-bold">
+		<div className="flex flex-wrap items-center gap-x-6 gap-y-4">
+			<Button asChild variant="brand" size="lg" className="h-11 rounded-full px-6 font-semibold">
 				<a
 					href={whatsappLink(
 						`Olá! Vi o projeto ${project.title} no site e gostaria de um orçamento parecido.`
@@ -33,6 +28,14 @@ export default function ProjectActions({
 					Quero um orçamento parecido
 				</a>
 			</Button>
+			{showPageLink && (
+				<Link
+					href={`/projetos/${project.slug}`}
+					className="link-grow text-sm font-semibold text-vidro"
+				>
+					Abrir página do projeto
+				</Link>
+			)}
 		</div>
 	);
 }

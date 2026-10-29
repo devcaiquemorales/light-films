@@ -3,6 +3,7 @@ export type SectionType = {
 	id: string;
 	children: React.ReactNode;
 	title: string;
-	colored?: boolean;
+	intro?: React.ReactNode;
+	tone?: "nevoa" | "branco" | "vidro";
 	className?: string;
 };

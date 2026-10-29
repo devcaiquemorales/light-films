@@ -1,0 +1,45 @@
+// Imported Components
+import Section from "@/components/Section";
+
+// TODO(cliente): confirmar as etapas reais do atendimento
+const steps = [
+	{
+		title: "Você chama",
+		text: "Mande uma mensagem pelo WhatsApp ou pelo formulário, com fotos e medidas aproximadas.",
+	},
+	{
+		title: "Visita e medição",
+		text: "Vamos até o local, medimos os vidros e mostramos amostras das películas.",
+	},
+	{
+		title: "Orçamento",
+		text: "Você recebe o valor fechado, com o prazo de aplicação e a garantia.",
+	},
+	{
+		title: "Aplicação",
+		text: "Aplicamos com o ambiente protegido e entregamos tudo limpo.",
+	},
+];
+
+// Functional Component
+export default function Process() {
+	// Rendering
+	return (
+		<Section id="como-funciona" tone="branco" title="Como funciona">
+			<ol className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+				{steps.map((step, index) => (
+					<li key={step.title} className="flex flex-col gap-3">
+						<span
+							aria-hidden
+							className="text-2xl leading-none font-black font-stretch-expanded text-reflexo"
+						>
+							{index + 1}
+						</span>
+						<h3 className="text-medium font-bold font-stretch-expanded text-vidro">{step.title}</h3>
+						<p className="text-base text-muted-foreground text-pretty">{step.text}</p>
+					</li>
+				))}
+			</ol>
+		</Section>
+	);
+}
