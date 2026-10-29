@@ -12,7 +12,7 @@ import {
 	AccordionTrigger,
 } from "@/components/ui/accordion";
 
-// TODO(cliente): revisar respostas; prazo de aplicação e durabilidade ainda em lorem ipsum
+// TODO(cliente): revisar respostas (prazo de aplicação e durabilidade escritos por nós, sem números)
 const questions = [
 	{
 		question: "A película escurece muito o ambiente?",
@@ -27,12 +27,12 @@ const questions = [
 	{
 		question: "Quanto tempo leva a aplicação?",
 		answer:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+			"Depende da quantidade e do tamanho dos vidros. Uma casa ou um escritório pequeno costuma ficar pronto no mesmo dia; obras maiores têm o prazo combinado no orçamento.",
 	},
 	{
 		question: "Quanto tempo dura a película?",
 		answer:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+			"Depende do tipo de película e de quanto sol o vidro pega. Uma película de qualidade, bem aplicada e bem cuidada, dura muitos anos; na visita a gente indica a durabilidade de cada opção.",
 	},
 	{
 		question: "Como limpar o vidro depois?",
@@ -83,7 +83,7 @@ export default function Faq() {
 							value={item.question}
 							className="bg-nevoa/60 data-[state=open]:bg-nevoa rounded-sm border-0 transition-colors not-last:border-b-0"
 						>
-							<AccordionTrigger className="text-vidro md:text-medium items-center gap-3 px-5 md:gap-5 py-5 text-left text-base font-semibold hover:no-underline md:px-7 md:py-6 [&>[data-slot=accordion-trigger-icon]]:hidden">
+							<AccordionTrigger className="text-vidro md:text-medium items-center gap-3 px-5 py-5 text-left text-base font-semibold hover:no-underline md:gap-5 md:px-7 md:py-6 [&>[data-slot=accordion-trigger-icon]]:hidden">
 								<span
 									aria-hidden
 									className="text-ceu w-7 shrink-0 text-sm font-bold tabular-nums"

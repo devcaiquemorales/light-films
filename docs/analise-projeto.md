@@ -500,11 +500,22 @@ Direção visual da Fase 4 (proposta):
 - Copy nova da home (títulos e descrições das áreas, benefícios e etapas) escrita por nós — **revisar com o cliente** antes do lançamento.
 
 **Fase 5 — Backend (Convex + R2 + painel próprio)**
-- [ ] Contas criadas: Convex, Cloudflare R2, Resend, Turnstile
-- [ ] Protótipo Payload removido
-- [ ] Convex schema + Convex Auth (admin/cliente)
-- [ ] R2 + upload com compressão
-- [ ] Painel `/painel` em português (login, início, projetos, foto de perfil)
+> 🟡 **Em andamento — painel rodando no Convex da nuvem (deployment de dev `animated-coyote-140`, time caique-morales, projeto light-films).** Rodar: `bun run convex` + `bun dev`. Sem o `bun run convex` as funções novas não sobem, mas o painel continua falando com a nuvem; se a conexão cair, aparece um aviso vermelho "Sem conexão" em vez de carregar para sempre. Usuário de teste em `.env.local` (`PANEL_TEST_EMAIL`/`PANEL_TEST_PASSWORD`, nunca no git). Só e-mails em `ALLOWED_EMAILS` (variável do deployment Convex) conseguem criar acesso.
+
+- [ ] Contas criadas: ~~Convex~~ ✅, Cloudflare R2, Resend, Turnstile. No deployment de dev já estão `JWT_PRIVATE_KEY`, `JWKS`, `SITE_URL` e `ALLOWED_EMAILS`; o de **produção** vai precisar das mesmas variáveis (com chaves novas)
+- [x] Protótipo Payload fora desta branch (fica na `prototipo-payload`)
+- [x] Convex schema (`convex/schema.ts`: users com papel, projects) + Convex Auth com senha, cadastro fechado por `ALLOWED_EMAILS` (`convex/auth.ts`); funções em `convex/projects.ts` e `convex/users.ts` (toda função do painel exige login)
+- [x] Site público e painel separados por layout: `app/(site)` (header, footer, WhatsApp, JSON-LD) e `app/painel` (sem nada do site, `noindex`)
+- [ ] R2 + upload — **pendente (Cloudflare)**. Hoje as fotos vão para o storage do próprio Convex (`generateUploadUrl`), já com **compressão no navegador** (máx. 2400px, WebP, `lib/compressImage.ts`). Trocar por `@convex-dev/r2` quando o bucket existir
+- [x] Painel `/painel` em português: login / primeiro acesso, "Olá, Nome!" + **Novo projeto**, lista com capa, nº de fotos, data e selo **No site / Rascunho**; formulário com Título, Foto de capa, O que foi feito, Fotos (arrastar e soltar, setas para ordenar, estrela para virar capa, remover), **Mostrar no site**, barra fixa Salvar/Cancelar e Excluir com confirmação. Fotos removidas são apagadas do storage ao salvar
+- [x] Senai, Sabesp e Porto Seguro importados no Convex local (`projects:seed`, fotos ainda apontando para `public/projects`)
+- [x] Login: botão mostra "Entrando…" / "Criando acesso…", desiste após 20 s com mensagem, e fica desativado sem conexão; e-mail com `autocomplete="username"` e campos do formulário de projeto com `autocomplete="off"` + atributos que calam 1Password/LastPass/Bitwarden
+- [x] UI do painel v2: início com resumo ("3 projetos, 2 no site") e botão **Novo projeto** ao lado de "Seus projetos"; projetos em grade com capa, selo No site/Rascunho e "Editar"; formulário em 4 passos (Título, O que foi feito, Fotos, Publicação). Fotos em **lista vertical com alça de 6 pontinhos** (`@dnd-kit`, toque e teclado). **Capa = primeira foto da lista** (única forma de escolher; o servidor grava `cover = photos[0]`)
+- [x] Início do painel: contagens viraram **filtros** (Todos · No site · Rascunhos, com o número de cada) em vez de frase fixa; a aba escolhida escurece com transição suave de cor (300 ms; sem deslizar) e os cards entram com fade + leve subida em cascata (`FilterTabs.tsx`; respeita "reduzir movimento")
+- [x] **Sem lorem ipsum no site:** descrições de Senai, Sabesp e Porto Seguro escritas por nós a partir das fotos (TODO(cliente): confirmar), respostas do FAQ sem números, e depoimentos de **exemplo** com nomes genéricos — ⚠️ trocar por depoimentos reais ou esconder a seção antes do lançamento. Descrições também atualizadas no Convex (o `seed` só troca textos que ainda eram lorem)
+- [x] Site: clicar no logo na home volta ao topo e limpa o `#seção` da URL
+- [ ] Foto de perfil (opcional)
+- [ ] Fotos enviadas e abandonadas (sair sem salvar) ficam órfãs no storage — limpar com um cron quando for para produção
 - [ ] Site lendo do Convex + revalidação
 - [ ] Migração dos projetos e fotos para Convex/R2; `public/projects` removido
 - [ ] Leads + Resend + Turnstile; EmailJS removido

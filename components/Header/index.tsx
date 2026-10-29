@@ -20,6 +20,15 @@ import {
 	SheetTrigger,
 } from "@/components/ui/sheet";
 
+// On the home page the logo goes back to the very top (the hero has no anchor offset),
+// and drops any #section from the URL
+function scrollHomeToTop(e: React.MouseEvent<HTMLAnchorElement>) {
+	if (window.location.pathname !== "/") return;
+	e.preventDefault();
+	window.scrollTo({ top: 0, behavior: "smooth" });
+	window.history.replaceState(null, "", "/");
+}
+
 // Functional Component
 export default function Header() {
 	// Variables
@@ -32,7 +41,8 @@ export default function Header() {
 				<Link
 					href="/"
 					title={site.name}
-					className="text-medium font-extrabold text-white font-stretch-expanded"
+					onClick={scrollHomeToTop}
+					className="text-medium focus-visible:ring-ceu-claro/60 rounded-sm font-extrabold text-white font-stretch-expanded focus-visible:ring-3 focus-visible:outline-none"
 				>
 					{site.name}
 				</Link>

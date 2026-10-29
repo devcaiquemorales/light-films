@@ -2,12 +2,9 @@
 import { Archivo } from "next/font/google";
 import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
-import { site } from "@/lib/site";
+import { site, siteDescription as description } from "@/lib/site";
 
 // Imported Components
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Whatsapp from "@/components/Whatsapp";
 import { Toaster } from "@/components/ui/sonner";
 
 // Stylesheets
@@ -22,8 +19,6 @@ const archivo = Archivo({
 });
 
 // SEO
-const description =
-	"Película para vidros de casas, escritórios, lojas e prédios em São Paulo. Menos calor, proteção UV e mais privacidade, sem trocar a janela.";
 
 export const metadata: Metadata = {
 	metadataBase: new URL(site.url),
@@ -53,24 +48,6 @@ export const metadata: Metadata = {
 	robots: { index: true, follow: true },
 };
 
-// Structured data so search engines show the business with phone and region
-const localBusiness = {
-	"@context": "https://schema.org",
-	"@type": "HomeAndConstructionBusiness",
-	name: site.name,
-	description,
-	url: site.url,
-	telephone: "+55-11-4259-3003",
-	areaServed: { "@type": "City", name: "São Paulo" },
-	address: {
-		"@type": "PostalAddress",
-		addressLocality: "São Paulo",
-		addressRegion: "SP",
-		addressCountry: "BR",
-	},
-	sameAs: [site.facebook],
-};
-
 // Functional Component
 export default function RootLayout({
 	children,
@@ -80,16 +57,8 @@ export default function RootLayout({
 	return (
 		<html lang="pt-BR" className={cn("font-sans", archivo.variable)}>
 			<body className="flex min-h-svh flex-col">
-				<Header />
-				{/* Grows so the footer stays at the bottom on short pages */}
-				<div className="flex flex-1 flex-col">{children}</div>
-				<Footer />
-				<Whatsapp />
+				{children}
 				<Toaster position="top-center" richColors />
-				<script
-					type="application/ld+json"
-					dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }}
-				/>
 			</body>
 		</html>
 	);

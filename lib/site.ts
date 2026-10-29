@@ -9,6 +9,9 @@ export const site = {
 	facebook: "https://www.facebook.com/vagnermmorales/",
 };
 
+export const siteDescription =
+	"Película para vidros de casas, escritórios, lojas e prédios em São Paulo. Menos calor, proteção UV e mais privacidade, sem trocar a janela.";
+
 export const navLinks = [
 	{ name: "Benefícios", id: "beneficios" },
 	{ name: "Películas", id: "peliculas" },
