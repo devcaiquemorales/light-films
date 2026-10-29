@@ -12,7 +12,12 @@ import { Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import {
+	Field,
+	FieldError,
+	FieldGroup,
+	FieldLabel,
+} from "@/components/ui/field";
 import {
 	Dialog,
 	DialogContent,
@@ -30,7 +35,10 @@ const schema = z.object({
 		.string()
 		.regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, "Informe um celular válido com DDD."),
 	user_email: z.email("Informe um e-mail válido."),
-	message: z.string().trim().min(10, "Escreva uma mensagem com pelo menos 10 caracteres."),
+	message: z
+		.string()
+		.trim()
+		.min(10, "Escreva uma mensagem com pelo menos 10 caracteres."),
 });
 
 type FormFields = z.infer<typeof schema>;
@@ -83,9 +91,14 @@ export default function Form() {
 
 		setSending(true);
 		try {
-			await emailjs.sendForm("service_zgdcyfm", "template_crknyff", form.current, {
-				publicKey: "hv75Z0c-mETbppE6e",
-			});
+			await emailjs.sendForm(
+				"service_zgdcyfm",
+				"template_crknyff",
+				form.current,
+				{
+					publicKey: "hv75Z0c-mETbppE6e",
+				}
+			);
 			setFormData(emptyForm);
 			setSuccessOpen(true);
 		} catch {
@@ -104,11 +117,14 @@ export default function Form() {
 				ref={form}
 				onSubmit={sendEmail}
 				noValidate
-				className="flex flex-col gap-8 rounded-md bg-white p-6 text-vidro shadow-[0_30px_60px_-30px_rgb(0_0_0/0.5)] md:p-8"
+				className="text-vidro flex flex-col gap-8 rounded-md bg-white p-6 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.5)] md:p-8"
 			>
 				<FieldGroup>
 					<Field data-invalid={!!errors.user_name}>
-						<FieldLabel htmlFor="user_name" className="font-semibold text-vidro">
+						<FieldLabel
+							htmlFor="user_name"
+							className="text-vidro font-semibold"
+						>
 							Nome
 						</FieldLabel>
 						<Input
@@ -123,7 +139,10 @@ export default function Form() {
 						<FieldError>{errors.user_name}</FieldError>
 					</Field>
 					<Field data-invalid={!!errors.user_phone}>
-						<FieldLabel htmlFor="user_phone" className="font-semibold text-vidro">
+						<FieldLabel
+							htmlFor="user_phone"
+							className="text-vidro font-semibold"
+						>
 							Celular
 						</FieldLabel>
 						<Input
@@ -136,12 +155,17 @@ export default function Form() {
 							className="h-11 bg-white"
 							value={formData.user_phone}
 							aria-invalid={!!errors.user_phone}
-							onChange={(e) => update("user_phone", formatPhone(e.target.value))}
+							onChange={(e) =>
+								update("user_phone", formatPhone(e.target.value))
+							}
 						/>
 						<FieldError>{errors.user_phone}</FieldError>
 					</Field>
 					<Field data-invalid={!!errors.user_email}>
-						<FieldLabel htmlFor="user_email" className="font-semibold text-vidro">
+						<FieldLabel
+							htmlFor="user_email"
+							className="text-vidro font-semibold"
+						>
 							E-mail
 						</FieldLabel>
 						<Input
@@ -157,7 +181,7 @@ export default function Form() {
 						<FieldError>{errors.user_email}</FieldError>
 					</Field>
 					<Field data-invalid={!!errors.message}>
-						<FieldLabel htmlFor="message" className="font-semibold text-vidro">
+						<FieldLabel htmlFor="message" className="text-vidro font-semibold">
 							Mensagem
 						</FieldLabel>
 						<Textarea
@@ -186,12 +210,12 @@ export default function Form() {
 			<Dialog open={successOpen} onOpenChange={setSuccessOpen}>
 				<DialogContent className="sm:max-w-xl">
 					<DialogHeader>
-						<DialogTitle className="text-lg font-bold font-stretch-expanded text-vidro">
+						<DialogTitle className="text-vidro text-lg font-bold font-stretch-expanded">
 							Mensagem enviada!
 						</DialogTitle>
-						<DialogDescription className="text-base text-muted-foreground">
-							Agradecemos por entrar em contato conosco. Recebemos sua mensagem e
-							vamos responder o mais rápido possível.
+						<DialogDescription className="text-muted-foreground text-base">
+							Agradecemos por entrar em contato conosco. Recebemos sua mensagem
+							e vamos responder o mais rápido possível.
 						</DialogDescription>
 					</DialogHeader>
 					<DialogFooter>

@@ -21,8 +21,12 @@ export default function Item(props: ItemType) {
 				className="aspect-[3/2] rounded-sm object-cover"
 			/>
 			<div>
-				<h3 className="text-medium font-bold font-stretch-expanded text-vidro">{props.title}</h3>
-				<p className="mt-1.5 text-base text-muted-foreground text-pretty">{props.text}</p>
+				<h3 className="text-medium text-vidro font-bold font-stretch-expanded">
+					{props.title}
+				</h3>
+				<p className="text-muted-foreground mt-1.5 text-base text-pretty">
+					{props.text}
+				</p>
 			</div>
 		</li>
 	);

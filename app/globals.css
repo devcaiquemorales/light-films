@@ -23,17 +23,20 @@
   --text-2xl: clamp(2.3rem, 4.2vw + 1.2rem, 5rem);
   --text-2xl--line-height: 0.98;
 
-  /* Light Films palette: smoked glass, mist, reflection, sun */
-  --color-vidro: #12303a;
-  --color-vidro-2: #1d4552;
-  --color-nevoa: #f2f6f5;
-  --color-reflexo: #8db0b5;
-  --color-sol: #f2a93b;
-  --color-sol-escuro: #d98e1f;
+  /* Light Films palette: the navy blues of the original site plus glass-facade blues */
+  --color-vidro: #1b3748;
+  --color-vidro-2: #243c5a;
+  --color-vidro-escuro: #0f2230;
+  --color-nevoa: #f1f5f8;
+  --color-reflexo: #9db8cc;
+  /* Accent: glass blue (white text passes AA), light variant for dark backgrounds */
+  --color-ceu: #2a74a6;
+  --color-ceu-escuro: #215d86;
+  --color-ceu-claro: #8cc8ec;
 
   /* Legacy names kept so older classes map to the new palette */
-  --color-primary-500: #1d4552;
-  --color-primary-400: #12303a;
+  --color-primary-500: #243c5a;
+  --color-primary-400: #1b3748;
 
   --drop-shadow-3xl: 0 3px 5px rgba(0, 0, 0, 0.3);
 
@@ -154,24 +157,24 @@
 }
 
 :root {
-  --background: #f2f6f5;
-  --foreground: #12303a;
+  --background: #f1f5f8;
+  --foreground: #1b3748;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #12303a;
+  --primary: #1b3748;
   --primary-foreground: #ffffff;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: #4b6970;
+  --muted-foreground: #4a6176;
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #d2dfde;
-  --input: #c4d4d3;
-  --ring: #d98e1f;
+  --border: #d3dde6;
+  --input: #c3d0db;
+  --ring: #2a74a6;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);

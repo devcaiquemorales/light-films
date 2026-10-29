@@ -463,11 +463,15 @@ Notas da Fase 3:
 - [x] Design system: paleta, tipografia e variantes de botão em `app/globals.css` / `components/ui/button.tsx`
 - [x] Redesign da home: header fixo com CTA, hero com simulador de tom, Onde aplicamos, Benefícios, Projetos, Depoimentos, Contato, Footer
 - [x] Seção nova: **Como funciona** (4 etapas — confirmar com o cliente)
-- [x] Ajustes de navegação: sublinhado âmbar que cresce da esquerda para a direita no hover; item do menu **ativo conforme a seção na tela** (scroll-spy) e "Projetos" ativo nas páginas de projeto; menu mobile com título discreto e item ativo em âmbar
+- [x] Ajustes de navegação: sublinhado azul que cresce da esquerda para a direita no hover; item do menu **ativo conforme a seção na tela** (scroll-spy) e "Projetos" ativo nas páginas de projeto; menu mobile com título discreto e item ativo em azul-claro
 - [x] Títulos dos projetos com o mesmo sublinhado animado; `/projetos` com o mesmo card da home (foto + título expandido); modal e botões do projeto no novo estilo
 - [x] Footer sempre no fim da tela em páginas curtas
-- [x] Benefícios sem foto: título fixo à esquerda (acompanha a rolagem no desktop) e lista à direita com ícone em círculo âmbar, título grande e texto
-- [x] Depoimentos: 3 colunas, sem a linha de cima, com aspas âmbar acima de cada citação (a versão com uma citação por vez foi testada e descartada)
+- [x] Benefícios sem foto: título fixo à esquerda (acompanha a rolagem no desktop) e lista à direita com ícone em círculo azul-claro, título grande e texto
+- [x] Depoimentos: 3 colunas, sem a linha de cima, com aspas azuis acima de cada citação (a versão com uma citação por vez foi testada e descartada)
+- [x] Identidade: paleta voltou aos azuis do site antigo (`vidro #1b3748`, `vidro-2 #243c5a`) com destaque azul-vidro `ceu #2a74a6` e `ceu-claro #8cc8ec` em fundo escuro; o âmbar e o símbolo provisório foram descartados (não fazem parte da marca). Hero com painel de vidro azul atrás da janela, faixa azul-clara em "calor", feixes diagonais azuis e linha de apoio
+- [x] Footer em `vidro-escuro` (#0f2230), separado da seção de contato sem linha
+- [x] Header em azul-petróleo (`bg-vidro/95`) com texto branco, sublinhado azul-claro e item ativo em branco
+- [ ] Logo oficial: perguntar ao cliente se existe arquivo do logo; por ora só o nome "Light Films"
 - [x] Modal: título, texto e ações empilhados; botão e "Abrir página do projeto" lado a lado, alinhados à esquerda com o texto
 - [x] Ordem do menu igual à ordem da página: Benefícios → Projetos → Como funciona → Contato
 - [x] Modal de projeto refeito: fotos primeiro (largura total), contador "2 de 12", setas brancas sólidas; texto e botão lado a lado embaixo; botão menor e "Abrir página do projeto" como link
@@ -479,7 +483,7 @@ Notas da Fase 3:
 
 Direção visual da Fase 4 (proposta):
 - **Conceito:** o mundo do vidro e da luz. Um único elemento ousado — o **simulador de tom** no hero (janela com caixilhos sobre foto real; o visitante escolhe Sem película / Clara / Fumê / Escura / Espelhada). O resto da página é calmo e alinhado à esquerda.
-- **Cores:** Vidro `#12303A` (texto e seções escuras), Névoa `#F2F6F5` (fundo), Reflexo `#8DB0B5` (linhas e números), Sol `#F2A93B` (só botões de orçamento e estados ativos), Branco. Classes: `bg-vidro`, `bg-nevoa`, `text-reflexo`, `bg-sol`.
+- **Cores:** Vidro `#1B3748` (texto e seções escuras, azul do site antigo), Vidro-2 `#243C5A`, Vidro-escuro `#0F2230` (footer), Névoa `#F1F5F8` (fundo), Reflexo `#9DB8CC` (linhas), Céu `#2A74A6` (botões de orçamento e estados ativos) e Céu-claro `#8CC8EC` (destaques em fundo escuro), Branco. Classes: `bg-vidro`, `bg-nevoa`, `text-reflexo`, `bg-ceu`, `text-ceu-claro`.
 - **Tipografia:** **Archivo** (variável): títulos em largura expandida (`font-stretch-expanded`) e peso alto; corpo em largura normal. Uma família, duas vozes.
 - **Regras:** títulos à esquerda, sem rótulos em caixa alta acima dos títulos, sem cards repetidos com sombra; numeração só onde há sequência real (Como funciona); animação só quando o visitante interage (simulador, hover das fotos). O autoplay do carrossel e a pulsação do botão do WhatsApp foram removidos.
 - **Botões:** `brand` (Sol, pílula) para orçamento; `brand-solid` (Vidro) para ações secundárias; raio pequeno (2–6px) em fotos e caixilhos, pílula em botões.

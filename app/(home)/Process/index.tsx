@@ -31,12 +31,16 @@ export default function Process() {
 					<li key={step.title} className="flex flex-col gap-3">
 						<span
 							aria-hidden
-							className="text-2xl leading-none font-black font-stretch-expanded text-reflexo"
+							className="text-reflexo text-2xl leading-none font-black font-stretch-expanded"
 						>
 							{index + 1}
 						</span>
-						<h3 className="text-medium font-bold font-stretch-expanded text-vidro">{step.title}</h3>
-						<p className="text-base text-muted-foreground text-pretty">{step.text}</p>
+						<h3 className="text-medium text-vidro font-bold font-stretch-expanded">
+							{step.title}
+						</h3>
+						<p className="text-muted-foreground text-base text-pretty">
+							{step.text}
+						</p>
 					</li>
 				))}
 			</ol>

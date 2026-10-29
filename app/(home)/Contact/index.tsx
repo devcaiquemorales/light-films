@@ -21,7 +21,7 @@ export default function Contact() {
 								href={whatsappLink(quoteMessage)}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="text-lg font-bold font-stretch-expanded text-sol underline-offset-8 hover:underline"
+								className="text-ceu-claro text-lg font-bold font-stretch-expanded underline-offset-8 hover:underline"
 							>
 								(11) 98169-6933
 							</a>
@@ -32,7 +32,7 @@ export default function Contact() {
 						<dd className="mt-1">
 							<a
 								href={site.phoneHref}
-								className="text-lg font-bold font-stretch-expanded text-white underline-offset-8 hover:underline"
+								className="text-lg font-bold text-white font-stretch-expanded underline-offset-8 hover:underline"
 							>
 								{site.phone}
 							</a>

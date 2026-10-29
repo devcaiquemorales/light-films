@@ -6,7 +6,7 @@ import { navLinks, site } from "@/lib/site";
 export default function Footer() {
 	// Rendering
 	return (
-		<footer className="border-t border-white/10 bg-vidro px-5 pt-16 pb-10 text-white md:px-10">
+		<footer className="bg-vidro-escuro px-5 pt-16 pb-10 text-white md:px-10">
 			<div className="mx-auto flex max-w-7xl flex-col gap-12">
 				<div className="flex flex-col justify-between gap-10 md:flex-row">
 					<div className="max-w-sm">
@@ -14,12 +14,20 @@ export default function Footer() {
 							{site.name}
 						</Link>
 						<p className="mt-3 text-base text-white/70">
-							Película para vidros de casas, escritórios, lojas e prédios em São Paulo.
+							Película para vidros de casas, escritórios, lojas e prédios em São
+							Paulo.
 						</p>
 					</div>
-					<nav aria-label="Rodapé" className="grid grid-cols-2 gap-x-12 gap-y-3 text-sm">
+					<nav
+						aria-label="Rodapé"
+						className="grid grid-cols-2 gap-x-12 gap-y-3 text-sm"
+					>
 						{navLinks.map((item) => (
-							<Link key={item.id} href={`/#${item.id}`} className="text-white/80 hover:text-white">
+							<Link
+								key={item.id}
+								href={`/#${item.id}`}
+								className="text-white/80 hover:text-white"
+							>
 								{item.name}
 							</Link>
 						))}
@@ -34,13 +42,21 @@ export default function Footer() {
 							rel="noopener noreferrer"
 							className="inline-flex items-center gap-2 text-white/80 hover:text-white"
 						>
-							<Image src="/facebook.png" alt="" width={16} height={16} className="size-4" />
+							<Image
+								src="/facebook.png"
+								alt=""
+								width={16}
+								height={16}
+								className="size-4"
+							/>
 							Facebook
 						</a>
 					</div>
 				</div>
-				<div className="flex flex-col justify-between gap-2 border-t border-white/10 pt-6 text-sm text-white/50 md:flex-row">
-					<p>© {new Date().getFullYear()} {site.name}</p>
+				<div className="flex flex-col justify-between gap-2 border-t border-white/[0.07] pt-6 text-sm text-white/50 md:flex-row">
+					<p>
+						© {new Date().getFullYear()} {site.name}
+					</p>
 					<p>
 						Site desenvolvido por{" "}
 						<a

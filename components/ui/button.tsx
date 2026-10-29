@@ -20,7 +20,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         // Light Films brand buttons
         brand:
-          "bg-sol text-vidro hover:bg-sol-escuro",
+          "bg-ceu text-white hover:bg-ceu-escuro",
         "brand-solid":
           "bg-vidro text-white hover:bg-vidro-2",
         "brand-outline":

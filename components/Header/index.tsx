@@ -27,12 +27,12 @@ export default function Header() {
 
 	// Rendering
 	return (
-		<header className="sticky top-0 z-40 border-b border-border/80 bg-nevoa/90 backdrop-blur-md">
+		<header className="bg-vidro/95 sticky top-0 z-40 border-b border-white/10 backdrop-blur-md">
 			<nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 md:h-20 md:px-10">
 				<Link
 					href="/"
 					title={site.name}
-					className="text-medium font-extrabold font-stretch-expanded text-vidro"
+					className="text-medium font-extrabold text-white font-stretch-expanded"
 				>
 					{site.name}
 				</Link>
@@ -45,15 +45,24 @@ export default function Header() {
 								<Link
 									href={`/#${item.id}`}
 									aria-current={active === item.id ? "location" : undefined}
-									className="link-grow font-medium text-vidro/70 [--link-line:var(--color-sol)] hover:text-vidro aria-[current]:text-vidro"
+									className="link-grow font-medium text-white/70 [--link-line:var(--color-ceu-claro)] hover:text-white aria-[current]:text-white"
 								>
 									{item.name}
 								</Link>
 							</li>
 						))}
 					</ul>
-					<Button asChild variant="brand" size="lg" className="rounded-full px-5 font-semibold">
-						<a href={whatsappLink(quoteMessage)} target="_blank" rel="noopener noreferrer">
+					<Button
+						asChild
+						variant="brand"
+						size="lg"
+						className="rounded-full px-5 font-semibold"
+					>
+						<a
+							href={whatsappLink(quoteMessage)}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
 							Pedir orçamento
 						</a>
 					</Button>
@@ -65,7 +74,7 @@ export default function Header() {
 						<Button
 							variant="ghost"
 							size="icon-lg"
-							className="text-vidro aria-expanded:bg-transparent md:hidden"
+							className="text-white hover:bg-white/10 hover:text-white aria-expanded:bg-transparent md:hidden"
 							aria-label="Abrir menu"
 						>
 							<MenuIcon className="size-7" />
@@ -75,11 +84,15 @@ export default function Header() {
 						side="right"
 						// Don't refocus the trigger on close, or it scrolls back to the top
 						onCloseAutoFocus={(e) => e.preventDefault()}
-						className="border-none bg-vidro text-white [&>[data-slot=sheet-close]]:text-white"
+						className="bg-vidro border-none text-white [&>[data-slot=sheet-close]]:text-white"
 					>
 						<SheetHeader className="border-b border-white/10 pb-4">
-							<SheetTitle className="text-sm font-semibold text-white/60">{site.name}</SheetTitle>
-							<SheetDescription className="sr-only">Menu de navegação</SheetDescription>
+							<SheetTitle className="text-sm font-semibold text-white/60">
+								{site.name}
+							</SheetTitle>
+							<SheetDescription className="sr-only">
+								Menu de navegação
+							</SheetDescription>
 						</SheetHeader>
 						<ul className="flex flex-col gap-1 px-4">
 							{navLinks.map((item) => (
@@ -89,8 +102,9 @@ export default function Header() {
 											href={`/#${item.id}`}
 											aria-current={active === item.id ? "location" : undefined}
 											className={cn(
-												"flex items-center gap-3 py-3 text-lg font-bold font-stretch-expanded text-white/85 hover:text-white",
-												active === item.id && "text-sol hover:text-sol"
+												"flex items-center gap-3 py-3 text-lg font-bold text-white/85 font-stretch-expanded hover:text-white",
+												active === item.id &&
+													"text-ceu-claro hover:text-ceu-claro"
 											)}
 										>
 											{item.name}
@@ -101,7 +115,11 @@ export default function Header() {
 						</ul>
 						<div className="mt-auto p-4">
 							<Button asChild variant="brand" size="brand" className="w-full">
-								<a href={whatsappLink(quoteMessage)} target="_blank" rel="noopener noreferrer">
+								<a
+									href={whatsappLink(quoteMessage)}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
 									Pedir orçamento
 								</a>
 							</Button>
