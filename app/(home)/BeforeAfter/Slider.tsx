@@ -22,12 +22,13 @@ export default function Slider({ before, after, afterOverlay }: SliderProps) {
 
 	// Rendering
 	return (
-		<div className="relative aspect-[4/3] overflow-hidden rounded-sm select-none md:aspect-[16/9]">
+		<div className="relative aspect-[4/3] overflow-hidden rounded-sm select-none">
 			<Image
 				src={before.src}
 				alt={before.alt}
 				fill
-				sizes="(min-width: 1280px) 1200px, 100vw"
+				sizes="(min-width: 1280px) 720px, (min-width: 1024px) 60vw, 100vw"
+				quality={90}
 				className="object-cover"
 			/>
 
@@ -40,7 +41,8 @@ export default function Slider({ before, after, afterOverlay }: SliderProps) {
 					src={after.src}
 					alt={after.alt}
 					fill
-					sizes="(min-width: 1280px) 1200px, 100vw"
+					sizes="(min-width: 1280px) 720px, (min-width: 1024px) 60vw, 100vw"
+					quality={90}
 					className="object-cover"
 				/>
 				{afterOverlay && (

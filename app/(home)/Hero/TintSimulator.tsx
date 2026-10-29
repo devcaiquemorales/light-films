@@ -64,8 +64,8 @@ export default function TintSimulator() {
 				{/* Window: real sky photo behind a 2x3 grid of panes */}
 				<div className="border-vidro bg-vidro relative aspect-[4/5] max-h-[68svh] w-full overflow-hidden rounded-sm border-[14px] shadow-[0_40px_80px_-40px_rgb(18_48_58/0.6)] sm:aspect-[5/6] md:aspect-square">
 					<Image
-						src="/hero-bg.jpg"
-						alt="Prédio espelhado visto de baixo, através de uma janela"
+						src="/skyview.png"
+						alt="Prédios de São Paulo vistos através de uma janela"
 						fill
 						priority
 						sizes="(min-width: 768px) 45vw, 90vw"

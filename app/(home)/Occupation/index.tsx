@@ -15,22 +15,22 @@ export default function Occupation() {
 			<ul className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
 				<Item
 					title="Residências"
-					img="/house.png"
+					img="/residencias.png"
 					text="Quartos e salas mais frescos, sem precisar fechar a cortina o dia todo."
 				/>
 				<Item
 					title="Escritórios"
-					img="/office.png"
+					img="/escritorios.png"
 					text="Menos reflexo nas telas e mais conforto para quem trabalha perto da janela."
 				/>
 				<Item
 					title="Comércios"
-					img="/commerce.png"
+					img="/comercios.png"
 					text="Vitrine protegida do sol, sem desbotar os produtos expostos."
 				/>
 				<Item
 					title="Prédios"
-					img="/building.png"
+					img="/predios.png"
 					text="Fachada com acabamento uniforme e ambientes internos menos quentes."
 				/>
 			</ul>

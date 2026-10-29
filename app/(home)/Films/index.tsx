@@ -60,7 +60,7 @@ export default function Films() {
 						{/* Same sky photo behind every swatch so the films compare side by side */}
 						<div className="border-vidro relative aspect-[3/2] overflow-hidden rounded-sm border-8">
 							<Image
-								src="/hero-bg.jpg"
+								src="/skyview.png"
 								alt=""
 								fill
 								sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"

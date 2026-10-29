@@ -473,7 +473,7 @@ Notas da Fase 3:
 - [x] Header em azul-petróleo (`bg-vidro/95`) com texto branco, sublinhado azul-claro e item ativo em branco
 - [ ] Logo oficial: perguntar ao cliente se existe arquivo do logo; por ora só o nome "Light Films"
 - [x] Seção **Tipos de película** (`#peliculas`): 6 linhas (controle solar, fumê, espelhada, jateada, segurança, decorativa) com amostra visual sobre a mesma foto, texto curto e onde usar. TODO(cliente): confirmar linhas que trabalha
-- [x] Seção **Antes e depois** (`#antes-e-depois`): comparador arrastável (funciona com teclado e toque), alça de vidro com setas. TODO(cliente): trocar por fotos reais; hoje o "depois" é simulado
+- [x] Seção **Antes e depois** (`#antes-e-depois`): comparador arrastável (funciona com teclado e toque), alça branca com setas; layout em 2 colunas (texto à esquerda, foto 4:3 à direita) e qualidade 90 para a foto não perder nitidez. TODO(cliente): trocar por fotos reais; hoje o "depois" é simulado
 - [x] Seção **Dúvidas frequentes** (`#duvidas`): título fixo à esquerda com botão "Tirar dúvida no WhatsApp"; perguntas numeradas (01–06) em blocos claros, com botão + que vira × ao abrir. Cartões de garantia e área removidos (cliente pode não oferecer garantia); "garantia" também saiu do passo Orçamento em "Como funciona"
 - [x] Menu: Benefícios · Películas · Projetos · Como funciona · Dúvidas · Contato
 - [x] Página do projeto refeita: voltar para todos os projetos, título h1 com o texto logo abaixo (mesma margem), galeria grande com setas, contador e miniaturas clicáveis (no lugar da grade 3×3), faixa de orçamento e "Outros projetos"
