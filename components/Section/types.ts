@@ -6,4 +6,5 @@ export type SectionType = {
 	intro?: React.ReactNode;
 	tone?: "nevoa" | "branco" | "vidro";
 	className?: string;
+	headingAs?: "h1" | "h2";
 };

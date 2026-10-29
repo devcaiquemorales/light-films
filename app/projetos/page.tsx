@@ -24,12 +24,14 @@ export default function Projetos() {
 			<Section
 				title="Projetos"
 				id="projetos"
-				intro="Alguns dos lugares onde aplicamos película. Toque em um projeto para ver as fotos e o que foi feito."
+				headingAs="h1"
+				intro="Alguns dos lugares onde aplicamos película. Abra um projeto para ver as fotos e o que foi feito."
 			>
 				<ul className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
 					{ProjectsData.map((project) => (
 						<li key={project.slug}>
 							<ProjectCard
+								link
 								project={project}
 								sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
 							/>

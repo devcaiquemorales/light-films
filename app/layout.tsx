@@ -15,22 +15,60 @@ import "./globals.css";
 
 // Font
 // Variable width axis: expanded for headings, normal for body text
-const archivo = Archivo({ subsets: ["latin"], axes: ["wdth"], variable: "--font-sans" });
+const archivo = Archivo({
+	subsets: ["latin"],
+	axes: ["wdth"],
+	variable: "--font-sans",
+});
 
 // SEO
+const description =
+	"Película para vidros de casas, escritórios, lojas e prédios em São Paulo. Menos calor, proteção UV e mais privacidade, sem trocar a janela.";
+
 export const metadata: Metadata = {
 	metadataBase: new URL(site.url),
 	title: {
-		default: "Light Films - Privacidade, Proteção e Estilo em Vidros",
+		default: "Light Films - Película para vidros em São Paulo",
 		template: "%s | Light Films",
 	},
-	robots: "index, follow",
-	description:
-		"Explore os benefícios do insulfilm: diminua o calor, bloqueie raios UV, aumente a privacidade e reforce a segurança. Crie um ambiente mais confortável e seguro. Saiba mais!",
+	description,
 	authors: [{ name: "Caique Morales", url: "https://caiquemorales.com/" }],
-	publisher: "Vercel",
-	keywords:
-		"Insulfilm, Película arquitetônica, Proteção solar, Aplicação de insulfilm, Projetos, Privacidade, Benefícios",
+	keywords: [
+		"insulfilm",
+		"película para vidros",
+		"película arquitetônica",
+		"controle solar",
+		"película fumê",
+		"película espelhada",
+		"película jateada",
+		"São Paulo",
+	],
+	openGraph: {
+		type: "website",
+		locale: "pt_BR",
+		siteName: site.name,
+		title: "Light Films - Película para vidros em São Paulo",
+		description,
+	},
+	robots: { index: true, follow: true },
+};
+
+// Structured data so search engines show the business with phone and region
+const localBusiness = {
+	"@context": "https://schema.org",
+	"@type": "HomeAndConstructionBusiness",
+	name: site.name,
+	description,
+	url: site.url,
+	telephone: "+55-11-4259-3003",
+	areaServed: { "@type": "City", name: "São Paulo" },
+	address: {
+		"@type": "PostalAddress",
+		addressLocality: "São Paulo",
+		addressRegion: "SP",
+		addressCountry: "BR",
+	},
+	sameAs: [site.facebook],
 };
 
 // Functional Component
@@ -48,6 +86,10 @@ export default function RootLayout({
 				<Footer />
 				<Whatsapp />
 				<Toaster position="top-center" richColors />
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusiness) }}
+				/>
 			</body>
 		</html>
 	);

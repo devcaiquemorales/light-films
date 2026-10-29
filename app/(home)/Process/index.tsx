@@ -13,7 +13,7 @@ const steps = [
 	},
 	{
 		title: "Orçamento",
-		text: "Você recebe o valor fechado, com o prazo de aplicação e a garantia.",
+		text: "Você recebe o valor fechado e o prazo de aplicação.",
 	},
 	{
 		title: "Aplicação",

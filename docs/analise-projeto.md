@@ -472,6 +472,16 @@ Notas da Fase 3:
 - [x] Footer em `vidro-escuro` (#0f2230), separado da seção de contato sem linha
 - [x] Header em azul-petróleo (`bg-vidro/95`) com texto branco, sublinhado azul-claro e item ativo em branco
 - [ ] Logo oficial: perguntar ao cliente se existe arquivo do logo; por ora só o nome "Light Films"
+- [x] Seção **Tipos de película** (`#peliculas`): 6 linhas (controle solar, fumê, espelhada, jateada, segurança, decorativa) com amostra visual sobre a mesma foto, texto curto e onde usar. TODO(cliente): confirmar linhas que trabalha
+- [x] Seção **Antes e depois** (`#antes-e-depois`): comparador arrastável (funciona com teclado e toque), alça de vidro com setas. TODO(cliente): trocar por fotos reais; hoje o "depois" é simulado
+- [x] Seção **Dúvidas frequentes** (`#duvidas`): título fixo à esquerda com botão "Tirar dúvida no WhatsApp"; perguntas numeradas (01–06) em blocos claros, com botão + que vira × ao abrir. Cartões de garantia e área removidos (cliente pode não oferecer garantia); "garantia" também saiu do passo Orçamento em "Como funciona"
+- [x] Menu: Benefícios · Películas · Projetos · Como funciona · Dúvidas · Contato
+- [x] Página do projeto refeita: voltar para todos os projetos, título h1 com o texto logo abaixo (mesma margem), galeria grande com setas, contador e miniaturas clicáveis (no lugar da grade 3×3), faixa de orçamento e "Outros projetos"
+- [x] Cards de projeto: na home abrem o modal; em `/projetos` e em "Outros projetos" levam direto para a página do projeto (prop `link` no `ProjectCard`)
+- [x] 404 refeita no padrão do site (h1, botão e link para projetos); `/projetos` agora tem h1
+- [x] SEO: `app/robots.ts` e `app/sitemap.ts` (substituem `public/robots.txt`), imagem de compartilhamento gerada (`app/opengraph-image.tsx`), Open Graph pt-BR, título/descrição novos e dados estruturados `HomeAndConstructionBusiness` (telefone, região, Facebook)
+- [ ] Lighthouse ≥ 90: rodar na Fase 6 com o domínio final (não rodado ainda)
+- [ ] `site.url` ainda aponta para `light-films.vercel.app`; trocar pelo domínio final na Fase 6
 - [x] Modal: título, texto e ações empilhados; botão e "Abrir página do projeto" lado a lado, alinhados à esquerda com o texto
 - [x] Ordem do menu igual à ordem da página: Benefícios → Projetos → Como funciona → Contato
 - [x] Modal de projeto refeito: fotos primeiro (largura total), contador "2 de 12", setas brancas sólidas; texto e botão lado a lado embaixo; botão menor e "Abrir página do projeto" como link

@@ -19,7 +19,12 @@ export default function Section({ tone = "nevoa", ...props }: SectionType) {
 		>
 			{/* Caps content width so ultrawide screens don't stretch the layout */}
 			<div className="mx-auto max-w-7xl">
-				<Title text={props.title} intro={props.intro} inverted={tone === "vidro"} />
+				<Title
+					text={props.title}
+					intro={props.intro}
+					inverted={tone === "vidro"}
+					as={props.headingAs}
+				/>
 				{props.children}
 			</div>
 		</section>
