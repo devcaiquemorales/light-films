@@ -13,7 +13,7 @@ import {
 
 // Imported Components
 import Section from "@/components/Section";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
 import Image from "next/image";
 
 // Import Swiper styles
@@ -21,13 +21,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import Button from "@/components/Button";
 import Link from "next/link";
 
 // Functional Component
 export default function Projects() {
 	// Variables
-	const swiperRef = useRef<any | null>(null);
+	const swiperRef = useRef<SwiperRef>(null);
 
 	// Functions
 	const handlePrevSlide = () => {

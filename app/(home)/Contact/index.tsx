@@ -19,7 +19,7 @@ export default function Contact() {
 					</p>
 					<p className="text-base font-base text-justify">
 						Aqui você encontrará um formulário de contato. Preencha os campos
-						com as informações necessárias e clique em "Enviar". Estamos
+						com as informações necessárias e clique em &quot;Enviar&quot;. Estamos
 						comprometidos em fornecer respostas rápidas e relevantes para cada
 						consulta que recebemos. Não perca a oportunidade de se conectar
 						conosco e começar uma conversa que pode levar a soluções

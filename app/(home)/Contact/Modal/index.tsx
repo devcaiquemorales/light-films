@@ -1,5 +1,4 @@
 // Types
-import Button from "@/components/Button";
 import { ModalType } from "./types";
 
 // Functional Component

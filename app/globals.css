@@ -1,41 +1,92 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-*{
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+@theme {
+  --breakpoint-tablet: 768px;
+  --breakpoint-laptop: 1024px;
+  --breakpoint-desktop: 1280px;
+
+  --text-sm: clamp(0.8rem, 0.17vw + 0.76rem, 0.89rem);
+  --text-sm--line-height: 1.5;
+  --text-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
+  --text-base--line-height: 1.5;
+  --text-medium: clamp(1.25rem, 0.61vw + 1.1rem, 1.58rem);
+  --text-medium--line-height: 1.5;
+  --text-lg: clamp(1.56rem, 1vw + 1.31rem, 2.11rem);
+  --text-lg--line-height: 1.5;
+  --text-xl: clamp(1.95rem, 1.56vw + 1.56rem, 2.81rem);
+  --text-xl--line-height: 1.3;
+  --text-2xl: clamp(2.44rem, 2.38vw + 1.85rem, 3.75rem);
+  --text-2xl--line-height: 1.5;
+
+  --color-primary-500: #243c5a;
+  --color-primary-400: #1b3748;
+
+  --drop-shadow-3xl: 0 3px 5px rgba(0, 0, 0, 0.3);
+
+  --animate-pulse-grown: pulse2 3s linear infinite;
+
+  @keyframes pulse2 {
+    0%,
+    100% {
+      scale: 1;
+    }
+    50% {
+      scale: 1.1;
+    }
+  }
 }
 
-html,
-body{
-  scroll-behavior: smooth;
+/* Tailwind v3 compatibility: v4 changed these defaults */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
-body.menu-open{
-  height: 100vh;
-  overflow: hidden;
-}
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 
-textarea,
-input,
-button{
-  outline: none;
-  border: none;
-  background-color: transparent;
-}
+  html,
+  body {
+    scroll-behavior: smooth;
+  }
 
+  body.menu-open {
+    height: 100vh;
+    overflow: hidden;
+  }
 
-img{
-  width: 100%;
-  height: auto;
-}
+  textarea,
+  input,
+  button {
+    outline: none;
+    border: none;
+    background-color: transparent;
+  }
 
-.aspect-image{
-  aspect-ratio: 2 / 1;
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  .aspect-image {
+    aspect-ratio: 2 / 1;
+  }
 }

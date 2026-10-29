@@ -2,7 +2,7 @@
 "use client";
 
 // Imports
-import { useScrollTo } from "@/utils/useScrollTo";
+import { scrollToSection } from "@/utils/scrollToSection";
 
 // Types
 import { ButtonType } from "./types";
@@ -17,13 +17,13 @@ export default function Button(props: ButtonType) {
 	}
 
 	invariant(props.navigate);
-	let screen: string = props.navigate;
+	const screen: string = props.navigate;
 
 	// Rendering
 	return (
 		<button
 			className="w-max rounded-[1rem] bg-white hover:bg-primary-400 text-primary-400 hover:text-white duration-300"
-			onClick={props.navigate ? () => useScrollTo(screen) : props.onClick}
+			onClick={props.navigate ? () => scrollToSection(screen) : props.onClick}
 		>
 			<p className="text-sm font-bold uppercase p-[1.125em_5.125em]">
 				{props.text}

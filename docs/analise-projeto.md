@@ -1,0 +1,421 @@
+# Light Films — Análise do Projeto
+
+> Documento vivo. Referência central para a modernização do site.
+> Análise feita em 29/10/2026 sobre o commit `f1ea430` (branch `main`).
+> Última atualização: 29/10/2026 — **Fase 1 concluída** (Next 16, React 19, Tailwind 4, Bun, 0 vulnerabilidades). As seções 4–9 descrevem o estado **antes** da Fase 1; o progresso fica no checklist (seção 14).
+
+---
+
+## Sumário
+
+1. [Visão geral](#1-visão-geral)
+2. [O cliente](#2-o-cliente)
+3. [Histórico do projeto](#3-histórico-do-projeto)
+4. [Stack atual](#4-stack-atual)
+5. [Estrutura do código](#5-estrutura-do-código)
+6. [Funcionalidades atuais](#6-funcionalidades-atuais)
+7. [As 7 ferramentas (hooks em `utils/`)](#7-as-7-ferramentas-hooks-em-utils)
+8. [Bugs e quebras de UI](#8-bugs-e-quebras-de-ui)
+9. [Problemas técnicos e de segurança](#9-problemas-técnicos-e-de-segurança)
+10. [SEO e performance](#10-seo-e-performance)
+11. [Conteúdo](#11-conteúdo)
+12. [Backend / painel do cliente](#12-backend--painel-do-cliente)
+13. [Roadmap](#13-roadmap)
+14. [Checklist geral](#14-checklist-geral)
+15. [Decisões](#15-decisões)
+
+---
+
+## 1. Visão geral
+
+**Light Films** é o site institucional de uma empresa que aplica **películas arquitetônicas (insulfilm)** em vidros de residências, escritórios, comércios e prédios, na região de São Paulo.
+
+**Objetivo do site:**
+- Apresentar a empresa, os serviços e os benefícios do insulfilm (menos calor, proteção UV, privacidade, segurança).
+- Mostrar o portfólio de projetos realizados (Senai, Sabesp, Porto Seguro).
+- Gerar contatos (leads) pelo formulário de e-mail e pelo WhatsApp.
+
+**Situação atual:** o site continua no ar e em uso (`https://light-films.vercel.app/`), mas não recebe manutenção desde abril de 2024. A UI está datada e tem quebras, e **não existe nenhum backend**. Para adicionar um projeto novo é preciso que um desenvolvedor edite o código e faça deploy.
+
+## 2. O cliente
+
+| Item | Informação |
+|---|---|
+| Nome | Light Films |
+| Segmento | Aplicação de película/insulfilm arquitetônico |
+| Região | São Paulo (telefone com DDD 11) |
+| Telefone fixo | (11) 4259-3003 |
+| WhatsApp | +55 11 98169-6933 |
+| Facebook | `facebook.com/vagnermmorales` (perfil pessoal, não uma página da empresa) |
+| Clientes atendidos (portfólio) | Senai, Sabesp, Porto Seguro (Ateliê está comentado no código) |
+| Perfil técnico | **Pouco técnico.** Não tem familiaridade com computadores e ferramentas. |
+
+**Implicação principal:** qualquer painel administrativo precisa ser **extremamente simples**, **100% em português** e com o mínimo possível de campos e telas.
+
+## 3. Histórico do projeto
+
+- **Ago/2023:** desenvolvimento inicial (seções, contato com EmailJS, SEO básico, páginas de projetos) e deploy na Vercel.
+- **Set–Nov/2023:** ajustes de texto (Hero, Footer).
+- **Abr/2024:** adição do `sharp`, novos projetos, telefone fixo e correção do slider. Último commit.
+- Feito numa época em que o uso de IA no desenvolvimento era mínimo (Tabnine), o que explica muito código repetido e copiado.
+
+## 4. Stack atual
+
+| Tecnologia | Versão | Observação |
+|---|---|---|
+| Next.js (App Router) | 13.4.12 | **Fora de suporte**, com vulnerabilidades conhecidas |
+| React | 18.2 | |
+| TypeScript | 5.1 | `strict` ligado, mas há vários `any` |
+| Tailwind CSS | 3.3 | Fontes fluidas (`clamp`), cores `primary-500 #243c5a` e `primary-400 #1b3748` |
+| Swiper | 10 | Sliders |
+| @emailjs/browser | 3 | Formulário de contato (chaves no client) |
+| sharp | 0.33 | Otimização de imagens |
+| lucide-react | 0.263 | Instalado, **não usado** |
+| Fonte | Montserrat | via `next/font/google` |
+| Hospedagem | Vercel | |
+
+- O README cita **Styled Components**, mas ele não é usado.
+- Existem dois lockfiles: `package-lock.json` (versionado) e `bun.lock` (não versionado).
+- Não há ESLint configurado, testes nem CI.
+
+## 5. Estrutura do código
+
+```
+app/
+  layout.tsx                 # layout raiz, metadata de SEO, Header + Footer
+  page.tsx                   # home: monta as seções
+  globals.css
+  (home)/
+    Hero/                    # banner principal
+    Occupation/ (+Item)      # áreas de aplicação (4 cards)
+    Benefits/                # texto + imagem
+    Projects/                # slider de projetos (hardcoded)
+    Testimonials/ (+data.ts) # 3 depoimentos
+    Contact/ (Form, Modal)   # formulário EmailJS + modal de sucesso
+  projetos/
+    page.tsx                 # grid de projetos
+    [id]/page.tsx            # fotos de um projeto
+    (components)/Project     # card do grid
+    (components)/Swiper      # NÃO usado (comentado)
+components/
+  Header/ (Logo, Menu, MenuItem, data.ts, type.ts)  # menu mobile com Context
+  Footer/  Section/  Title/  Button/  Whatsapp/
+utils/                       # 7 hooks (ver seção 7)
+public/
+  data/data.ts               # ProjectsData — fonte dos projetos (exposta publicamente!)
+  projects/<slug>/*.jpg      # fotos dos projetos
+  testimonials/*.png
+  *.png / *.jpg              # imagens das seções (~6 MB no total)
+```
+
+**Rotas geradas no build:**
+
+| Rota | Tipo | First Load JS |
+|---|---|---|
+| `/` | estática | 121 kB |
+| `/projetos` | estática | 89 kB |
+| `/projetos/[id]` | dinâmica (SSR) | 83 kB |
+
+## 6. Funcionalidades atuais
+
+- **Header:** logo em texto e menu de âncoras (Home, Atuação, Benefícios, Projetos, Clientes, Contato). No mobile vira um menu lateral com overlay.
+- **Hero:** imagem de fundo, título, subtítulo e botão "Ver mais".
+- **Áreas de aplicação:** Residências, Escritório, Comércios e Prédios, com zoom no hover.
+- **Benefícios:** texto corrido e uma imagem.
+- **Nossos projetos:** slider com autoplay e botão "Ver todos projetos".
+- **Depoimentos:** 3 cards.
+- **Contato:** formulário (nome, celular com máscara, e-mail, mensagem) enviado via EmailJS, com modal de sucesso.
+- **WhatsApp:** botão flutuante pulsando.
+- **Footer:** nome, slogan, Facebook, telefone e crédito do desenvolvedor.
+- **/projetos:** grid de cards. **/projetos/[slug]:** grid de fotos.
+
+## 7. As 7 ferramentas (hooks em `utils/`)
+
+São cópias da biblioteca *usehooks-ts*.
+
+| Hook | Uso | Situação |
+|---|---|---|
+| `useEventListener` | base do `useOnClickOutside` | OK |
+| `useOnClickOutside` | fecha o menu mobile ao clicar fora | OK |
+| `useIsomorphicLayoutEffect` | usado pelo `useEventListener` | OK |
+| `useIsFirstRender` | usado pelo `useUpdateEffect` | OK |
+| `useUpdateEffect` | alterna a classe `body.menu-open` | Frágil: `classList.toggle` pode sair de sincronia com o estado |
+| `useMediaQuery` | — | **Não usado** |
+| `useScrollTo` | rolagem até as seções | **Não é um hook** (é chamado dentro de handlers). Usa `setTimeout` e **soma** 50px em vez de descontar a altura do header |
+
+**Recomendação:** remover tudo. CSS (`scroll-margin-top`, `scroll-behavior`), links `#ancora` nativos e o componente **Sheet do shadcn/ui** para o menu mobile substituem os 7 hooks (ver Fase 2 da seção 13).
+
+## 8. Bugs e quebras de UI
+
+Verificados rodando o build de produção (desktop 1280px e mobile 375px).
+
+| # | Problema | Onde | Gravidade |
+|---|---|---|---|
+| 1 | **Menu não funciona fora da home.** Em `/projetos`, clicar em "Atuação", "Contato" etc. não faz nada porque as seções não existem na página. | `components/Header/MenuItem` | Alta |
+| 2 | **Títulos estouram a largura no mobile.** As barras decorativas `w-[50vw]` passam da tela (484px num viewport de 375px). O problema é mascarado por `overflow-x-hidden` no `<html>`. | `components/Title` | Média |
+| 3 | **Projeto inexistente retorna 200** com o texto "No project", sem página 404. | `app/projetos/[id]/page.tsx` | Média |
+| 4 | **Descrição do projeto comentada:** a página do projeto mostra só fotos, sem texto. | `app/projetos/[id]/page.tsx` | Média |
+| 5 | **Slider da home é hardcoded e duplicado** (3 slides repetidos 2×), não lê `ProjectsData` e deixa um vão grande no mobile. | `app/(home)/Projects` | Média |
+| 6 | **Body sem cor de fundo explícita.** Num browser em modo escuro, a seção Projetos ficou preta com o título azul-escuro ilegível. | `app/globals.css` | Média |
+| 7 | **Formulário sem feedback de erro, sem loading e com envio duplo possível.** O erro vai só para o `console.log`. | `app/(home)/Contact/Form` | Alta (perde lead) |
+| 8 | **`user-select: none` em tudo:** ninguém consegue copiar o telefone ou o e-mail. | `app/globals.css` | Média |
+| 9 | **`outline: none` em inputs e botões:** sem foco visível, ruim para acessibilidade e teclado. | `app/globals.css` | Média |
+| 10 | **Setas do slider são `<img onClick>`**: não são acessíveis por teclado nem leitor de tela. | `Projects`, `projetos/(components)/Swiper` | Baixa |
+| 11 | **`Button` lança erro (`invariant`) se não receber `navigate`**, então o modo `onClick` nunca funciona. | `components/Button` | Baixa |
+| 12 | `<a>` sem `href` no footer; imagens do `map` sem `key`; string solta `'Cache-Control...'` no meio do arquivo. | vários | Baixa |
+| 13 | O Hero usa `h-[100vh]` com `mt-[-5rem]`; no mobile, `100vh` não considera a barra do navegador (usar `100svh`). | `app/(home)/Hero` | Baixa |
+
+> **Verificado (29/10/2026):** as fotos de `/projetos/senai` que pareciam não carregar eram um artefato do browser de teste (lazy-load disparado só após rolar). Depois de rolar a página, as 12 fotos carregam normalmente. Não é bug.
+
+**Visual geral:** paleta monocromática (azul-escuro chapado), sem hierarquia visual forte, layout genérico de template, logo apenas em texto, sem fotos reais da equipe nem do trabalho no Hero, e textos longos e justificados.
+
+## 9. Problemas técnicos e de segurança
+
+- **`npm audit` (29/10/2026): 15 vulnerabilidades, sendo 2 críticas, 10 altas e 3 moderadas.** O Next 13.4 está fora de suporte. **Prioridade técnica nº 1.**
+- **Chaves do EmailJS no client** (`service_zgdcyfm`, `template_crknyff` e a public key), sem captcha nem rate limit, o que expõe o formulário a spam.
+- **`public/data/data.ts` é servido publicamente** (`GET /data/data.ts` retorna 200). Dados não devem ficar em `public/`.
+- `MenuItem` importa `next/router` (Pages Router) dentro do App Router (import morto).
+- Dependências mortas: `lucide-react` e o componente `Swiper` comentado.
+- Uso de `any` em refs e handlers.
+- Dois lockfiles: escolher um (npm ou bun).
+- Sem testes, sem lint e sem CI.
+
+## 10. SEO e performance
+
+**SEO**
+- O canonical aponta para `light-films.vercel.app`. Se houver domínio próprio, ajustar; se não houver, vale comprar um.
+- Faltam `sitemap.xml`, imagem Open Graph, `generateMetadata` por projeto e dados estruturados (`LocalBusiness` com endereço, telefone e área atendida).
+- Faltam páginas por serviço e região (ex.: "Insulfilm residencial em São Paulo"), que são o principal canal de SEO local.
+- O footer não tem endereço, CNPJ, Instagram nem Google Meu Negócio.
+
+**Performance**
+- Imagem do Hero em background CSS, sem otimização (`next/image` com `priority` resolve).
+- PNGs de 100–800 KB nas seções: converter para AVIF/WebP.
+- O Swiper carrega CSS de módulos não usados (scrollbar, pagination).
+- A página de projeto é renderizada no servidor a cada acesso (SSR); deveria ser estática/ISR.
+
+## 11. Conteúdo
+
+- **Descrições copiadas e coladas:** Senai e Sabesp têm o mesmo texto, que fala de uma "famosa loja de roupas". O conteúdo não corresponde aos projetos.
+- **Depoimentos com cara de fictícios** ("João Silva", "Ana Oliveira", "Marcos Santos,", este último com vírgula sobrando). Prejudica a credibilidade; substituir por depoimentos reais ou por avaliações do Google.
+- Erros de concordância: "Película Arquitetônico" (Hero), "Benefícios da Películas" (Benefícios), "Insufilm" (keywords).
+- Textos longos e genéricos em Benefícios e Contato; trocar por bullets objetivos.
+- Falta conteúdo que converte: tipos de película, perguntas frequentes, garantia, processo de trabalho, fotos de antes/depois e área de atendimento.
+
+## 12. Backend / painel do cliente
+
+### 12.1 O problema
+
+Hoje, para publicar um projeto novo, alguém precisa:
+1. copiar as fotos para `public/projects/<slug>/`;
+2. editar `public/data/data.ts` à mão;
+3. fazer commit e deploy.
+
+O cliente não tem como fazer isso. Na prática, o portfólio fica parado.
+
+### 12.2 Requisitos (definidos com base no perfil do cliente)
+
+- **100% em português**, incluindo botões, mensagens de erro e e-mails.
+- **Mínimo de campos.** Um projeto é só:
+  - **Título** (ex.: "Sabesp – Unidade Centro")
+  - **Foto de capa (thumb)**
+  - **Texto:** o que foi feito no projeto (campo de texto simples, não um editor "estilo Word")
+  - **Fotos** (várias, arrastar e soltar)
+  - *(automático)* data de publicação
+- **Nada de "cara de WordPress":** sem menus laterais cheios de opções, sem blocos, sem configurações técnicas.
+- **Funcionar bem no celular:** o cliente provavelmente vai tirar a foto na obra e publicar dali mesmo.
+- **Seguro:** login com e-mail e senha, e só ele (e o desenvolvedor) têm acesso.
+- **Difícil de quebrar:** imagens redimensionadas e comprimidas automaticamente, e campos obrigatórios com mensagens claras.
+
+### 12.3 No site público: modal simples por projeto
+
+Na seção de projetos, cada card abre um **modal** com:
+- título;
+- texto curto explicando o que foi feito ("Aplicamos película X nas fachadas para reduzir o calor…");
+- galeria de fotos com navegação (deslizar no celular);
+- botão "Quero um orçamento parecido", que abre o WhatsApp com mensagem pronta citando o projeto.
+
+Isso substitui (ou complementa) a página `/projetos/[slug]`, que hoje só tem fotos. A rota pode continuar existindo para SEO e compartilhamento: o modal abre por cima e a URL muda (padrão *intercepting routes* do Next).
+
+### 12.4 Opções de painel
+
+#### Opção A — Payload CMS enxuto (recomendada)
+
+O Payload roda **dentro do próprio projeto Next** (sem servidor separado) e já vem com login, upload, redimensionamento de imagens e banco de dados.
+
+**A preocupação com a "cara de WordPress":** o painel padrão do Payload realmente mostra mais coisas do que o cliente precisa. Mas ele é muito configurável, então dá para deixá-lo do jeito descrito acima:
+
+- **Idioma:** o Payload tem tradução oficial para português (`pt`). Basta definir como idioma padrão e único; todos os botões e mensagens ficam em português.
+- **Uma única coleção visível: "Projetos"**, com os 4 campos (título, capa, texto, fotos). Labels e textos de ajuda escritos por nós (ex.: *"Escreva em poucas frases o que foi feito neste projeto"*).
+- **Texto como `textarea` simples**, sem o editor rico (Lexical). É o editor rico que dá a sensação de "Word/WordPress".
+- **Esconder o resto:** usuários, mídia e configurações ficam ocultos do cliente (`admin.hidden`) e visíveis só para o desenvolvedor.
+- **Tela inicial personalizada:** em vez do dashboard padrão, um painel com dois botões grandes, "➕ Novo projeto" e "📋 Meus projetos".
+- **Publicação:** um interruptor "Mostrar no site" (rascunho/publicado) e, ao salvar, o site é atualizado na hora (revalidação).
+
+**Prós:** login, upload, segurança e banco já resolvidos; dá para crescer depois (depoimentos, leads, textos do site) sem reescrever nada.
+**Contras:** projeto mais pesado; exige banco (Postgres: Neon ou Supabase, que têm plano grátis) e storage de imagens (Vercel Blob ou S3).
+
+#### Opção B — Painel próprio, sob medida
+
+Uma página `/painel` feita do zero, com login (Supabase Auth ou Auth.js), um formulário de projeto e uma lista com editar/excluir. Imagens no Supabase Storage ou no Vercel Blob.
+
+**Prós:** a interface mais simples possível, 100% do nosso jeito.
+**Contras:** temos que construir e manter login, upload, redimensionamento, validação, permissões e segurança. Mais código, mais pontos de falha, mais tempo.
+
+#### Comparação
+
+| Critério | A — Payload enxuto | B — Painel próprio |
+|---|---|---|
+| Simplicidade para o cliente | Alta (após customização) | Muito alta |
+| Português | Tradução oficial + nossos labels | Escrito por nós |
+| Tempo de desenvolvimento | Menor | Maior |
+| Segurança (login, upload) | Pronta e testada | Responsabilidade nossa |
+| Evolução futura | Fácil (novas coleções) | Cada recurso é código novo |
+| Custo mensal | ~R$ 0 nos planos grátis | ~R$ 0 nos planos grátis |
+
+**Decisão (29/10/2026):** ✅ **Opção A — Payload enxuto**, com o painel bem simples (só "Projetos", texto simples, tela inicial customizada, 100% em português). Antes de ir para produção, montar um protótipo da coleção "Projetos" e validar com o cliente. Se ele ainda achar complicado, a Opção B continua viável e os dados migram fácil.
+
+### 12.5 Além dos projetos (fases futuras, opcionais)
+
+- **Contatos recebidos (leads):** o formulário do site salva cada contato no banco **e** envia e-mail (via Resend), então nenhum lead se perde. O cliente vê a lista no painel.
+- **Depoimentos:** cadastrar e aprovar depoimentos.
+- **Informações da empresa:** telefone, WhatsApp e redes sociais editáveis sem código.
+- **Manual do cliente:** um PDF ou página curta com prints mostrando "como publicar um projeto em 3 passos".
+
+## 13. Roadmap
+
+Ordem definida em 29/10/2026: **primeiro segurança e base técnica, depois shadcn/ui, depois as correções** (muitas delas serão resolvidas reconstruindo os componentes com shadcn/ui), **depois o backend** e por fim o redesign.
+
+### Fase 1 — Atualização e segurança (prioridade máxima)
+
+Objetivo: zerar as vulnerabilidades e deixar a base pronta para o shadcn/ui (que exige React 19 + Tailwind 4 nas versões atuais).
+
+- Atualizar **Next.js** para a última versão estável (13.4 → 15/16), **React 19** e **TypeScript** atual.
+- Atualizar **Tailwind 3 → 4** (configuração passa para CSS com `@theme`; migrar cores `primary-*`, fontes fluidas e animação `pulse-grown`).
+- Rodar `npm audit` até zerar as vulnerabilidades críticas e altas.
+- Remover dependências mortas: `lucide-react` antigo (volta atualizado com o shadcn), `@types/*` fixados em versões antigas, componente `Swiper` comentado.
+- Escolher **um** gerenciador de pacotes (npm ou bun) e remover o outro lockfile.
+- Tirar `public/data/data.ts` de `public/` (ex.: `lib/data/projects.ts`).
+- Remover o import morto de `next/router`.
+- Configurar ESLint (config do Next) e Prettier.
+- **Critério de pronto:** `build` e `lint` passando, `npm audit` sem críticas/altas, site visualmente igual ao atual.
+
+> Atenção: confirmar no momento da atualização qual versão do Next o **Payload 3** suporta, para não precisar atualizar duas vezes.
+
+### Fase 2 — Implementação do shadcn/ui
+
+Objetivo: base de componentes acessíveis, consistentes e fáceis de manter, que também será usada no futuro (modal de projeto, formulário, etc.).
+
+- `npx shadcn@latest init` (estilo, cores base, CSS variables, alias `@/components/ui`).
+- Definir os **tokens de tema** (cores da marca, raio, fonte) em CSS variables, já com fundo explícito no `body` (resolve o bug 6).
+- Componentes a adicionar e o que cada um substitui:
+
+| Componente shadcn/ui | Substitui / resolve |
+|---|---|
+| `Button` | `components/Button` (bug 11) e os botões soltos com classes repetidas |
+| `Carousel` (Embla) | **Swiper** — slider novo da home e galeria dos projetos (bugs 5 e 10) |
+| `Sheet` | menu mobile atual + Context + os 7 hooks de `utils/` (seção 7) |
+| `Dialog` | modal de sucesso do contato e o **modal de projeto** (seção 12.3) |
+| `Card` | cards de áreas de aplicação, depoimentos e projetos |
+| `Input`, `Textarea`, `Label`, `Form` (react-hook-form + Zod) | formulário de contato com validação e mensagens em português |
+| `Sonner` (toast) | feedback de envio/erro do formulário (bug 7) |
+| `NavigationMenu` (opcional) | menu desktop |
+
+- Remover o **Swiper** do projeto quando o Carousel estiver no lugar.
+- **Critério de pronto:** shadcn configurado, componentes base instalados e tema com as cores da Light Films.
+
+### Fase 3 — Correções e reconstrução das seções
+
+Reconstruir as seções usando os componentes da Fase 2, corrigindo os itens da seção 8 no caminho:
+
+- **Header:** links que funcionam em qualquer página (`/#contato` em vez de scroll via JS) + `Sheet` no mobile (bug 1).
+- **Title:** novo componente sem as barras `50vw`; remover `overflow-x-hidden` do `<html>` (bug 2).
+- **Projetos (home):** novo `Carousel` lendo os dados, sem slides duplicados (bug 5).
+- **Página do projeto:** `notFound()`, `generateStaticParams`, `generateMetadata`, descrição visível e galeria (bugs 3, 4, 12).
+- **Modal de projeto** com `Dialog` + botão "Quero um orçamento parecido" no WhatsApp (seção 12.3).
+- **Contato:** `Form` + Zod + `Sonner`, loading, bloqueio de envio duplo e erro visível (bug 7). Envio via Server Action com anti-spam (Cloudflare Turnstile) em vez das chaves do EmailJS no client.
+- **CSS global:** remover `user-select: none` e `outline: none`; foco visível padrão do shadcn (bugs 8 e 9).
+- **Hero:** `100svh`, imagem com `next/image` + `priority` (bug 13).
+- **Conteúdo:** corrigir textos, concordância e descrições duplicadas (seção 11).
+- Converter imagens pesadas para AVIF/WebP.
+
+### Fase 4 — Backend e painel (Payload enxuto)
+
+- Payload 3 dentro do projeto Next, **somente em português**.
+- Coleção "Projetos": título, capa, texto simples, fotos, "Mostrar no site"; data automática.
+- Tela inicial customizada ("Novo projeto" / "Meus projetos"); demais coleções ocultas para o cliente.
+- Banco Postgres (Neon ou Supabase) + imagens no Vercel Blob ou S3.
+- Protótipo validado com o cliente **antes** de ir para produção.
+- Migrar Senai, Sabesp, Porto Seguro (e Ateliê, se for o caso).
+- Revalidação do site ao publicar.
+- Leads do formulário salvos no banco + e-mail (Resend).
+- Manual do cliente ("como publicar um projeto em 3 passos").
+
+### Fase 5 — Redesign, conteúdo e SEO
+
+- Nova identidade visual (logo, paleta, tipografia) com mais personalidade.
+- Hero com foto real e CTA direto para orçamento no WhatsApp.
+- Antes/depois, tipos de película, FAQ, garantia e área de atendimento.
+- SEO local: páginas por serviço e região, `LocalBusiness`, sitemap, OG image e domínio próprio.
+- Depoimentos reais ou integração com avaliações do Google.
+- CI (build + lint em PR).
+
+## 14. Checklist geral
+
+**Fase 1 — Atualização e segurança** ✅ (29/10/2026, branch `renovacao-v2`)
+- [x] Next.js 16.4.3 (compatível com Payload 3, que exige `>=16.3.3`)
+- [x] React 19.3 + TypeScript 6.0 (o TS 7 nativo ficou de fora por enquanto, por compatibilidade com o tooling do Next)
+- [x] Tailwind 4.3 com tema migrado para `@theme` em `app/globals.css` (`tailwind.config.js` removido)
+- [x] `bun audit`: **0 vulnerabilidades** (antes: 15, sendo 2 críticas)
+- [x] Dependências mortas removidas (`lucide-react`, `autoprefixer`, componente Swiper comentado, `useMediaQuery`, `useIsFirstRender`, `useUpdateEffect`)
+- [x] **Bun** como gerenciador de pacotes; `package-lock.json` removido, `bun.lock` versionado
+- [x] Dados movidos para `lib/data/projects.ts` (`/data/data.ts` agora retorna 404)
+- [x] ESLint 9 (flat config `eslint-config-next`) + Prettier configurado (`.prettierrc.json`, com plugin do Tailwind). A formatação em massa do código ainda **não** foi aplicada, para não poluir o diff
+- [x] Site visualmente igual ao anterior (conferido no desktop e no mobile)
+
+**Fase 2 — shadcn/ui**
+- [ ] `shadcn init` com tema da Light Films
+- [ ] Fundo explícito no `body`
+- [ ] Button, Carousel, Sheet, Dialog, Card, Form/Input/Textarea/Label, Sonner instalados
+- [ ] Swiper removido
+
+**Fase 3 — Correções e reconstrução**
+- [ ] Menu funcionando em todas as páginas (Sheet no mobile)
+- [ ] Títulos sem overflow; sem `overflow-x-hidden` no `<html>`
+- [ ] Slider da home com Carousel, a partir dos dados, sem duplicação
+- [ ] `notFound()` + páginas de projeto estáticas + metadata
+- [ ] Modal de projeto com botão de orçamento
+- [ ] Formulário com validação, loading, toast, anti-spam e Server Action
+- [ ] Sem `user-select: none` / `outline: none`
+- [ ] Hero com `100svh` e imagem otimizada
+- [ ] Textos corrigidos
+- [ ] Imagens em AVIF/WebP
+- [ ] 7 hooks de `utils/` removidos
+
+**Fase 4 — Backend**
+- [ ] Protótipo do painel validado com o cliente
+- [ ] Painel em produção (português, só "Projetos")
+- [ ] Migração dos projetos existentes
+- [ ] Leads no banco + e-mail
+- [ ] Manual do cliente
+
+**Fase 5 — Redesign e SEO**
+- [ ] Nova identidade visual
+- [ ] Novas seções de conteúdo
+- [ ] SEO local completo
+- [ ] Domínio próprio
+- [ ] CI
+
+## 15. Decisões
+
+| Data | Decisão | Motivo |
+|---|---|---|
+| 29/10/2026 | Backend com **Payload CMS 3 enxuto** (Opção A da seção 12.4) | Login, upload e segurança prontos; dá para simplificar o painel ao nível que o cliente precisa |
+| 29/10/2026 | Painel **100% em português**, só a coleção "Projetos", texto simples (sem editor rico) | Cliente não é técnico |
+| 29/10/2026 | Projetos exibidos no site em **modal simples** (título, texto, fotos, CTA WhatsApp) | Mais direto para o visitante; reaproveita o `Dialog` do shadcn/ui |
+| 29/10/2026 | Adotar **shadcn/ui** como base de componentes | Componentes acessíveis e consistentes; substitui Swiper, menu manual e hooks |
+| 29/10/2026 | Trocar **Swiper → Carousel do shadcn/ui (Embla)** | Slider atual hardcoded e com problemas; Embla é mais leve |
+| 29/10/2026 | Ordem: **segurança → shadcn/ui → correções → backend → redesign** | Vulnerabilidades primeiro; correções aproveitam os novos componentes |
+| 29/10/2026 | **Todo o trabalho na branch `renovacao-v2`**; nada vai para `main` até a renovação inteira (Fases 1–5) estar concluída | `main` é o que está no ar; só recebe a versão final |
+| 29/10/2026 | **Bun** no lugar do npm (`bun install`, `bun dev`, `bun run build`) | Preferência do time |
+| 29/10/2026 | TypeScript 6 (não 7) e ESLint 9 (não 10) | Versões mais novas ainda sem garantia de compatibilidade com o tooling do Next 16 |

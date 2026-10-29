@@ -1,6 +1,5 @@
 // Imported Components
 import Section from "@/components/Section";
-import Title from "@/components/Title";
 import Item from "./Item";
 
 // Functional Component

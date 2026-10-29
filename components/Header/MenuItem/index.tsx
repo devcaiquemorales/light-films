@@ -1,7 +1,6 @@
 // Imports
-import { useRouter } from "next/router";
 import { HeaderType } from "../type";
-import { useScrollTo } from "@/utils/useScrollTo";
+import { scrollToSection } from "@/utils/scrollToSection";
 
 // Functional Component
 export default function MenuItem(props: HeaderType) {
@@ -11,7 +10,7 @@ export default function MenuItem(props: HeaderType) {
 			<div
 				id="menu-item"
 				className="text-white cursor-pointer font-medium"
-				onClick={() => useScrollTo(props.link)}
+				onClick={() => scrollToSection(props.link)}
 			>
 				<a
 					href={`#${props.link}`}

@@ -1,7 +1,7 @@
 // Imported Components
 import Section from "@/components/Section";
 import Project from "./(components)/Project";
-import { ProjectsData } from "@/public/data/data";
+import { ProjectsData } from "@/lib/data/projects";
 
 // Functional Component
 export default function Projeto() {

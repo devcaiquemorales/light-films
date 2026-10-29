@@ -16,20 +16,18 @@ export default function Form() {
 		email: "",
 		message: "",
 	});
-	const form = useRef<any>();
+	const form = useRef<HTMLFormElement>(null);
 
 	// Functions
-	const sendEmail = (e: any) => {
+	const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		if (!form.current) return;
 		emailjs
-			.sendForm(
-				"service_zgdcyfm",
-				"template_crknyff",
-				form.current,
-				"hv75Z0c-mETbppE6e"
-			)
+			.sendForm("service_zgdcyfm", "template_crknyff", form.current, {
+				publicKey: "hv75Z0c-mETbppE6e",
+			})
 			.then(
-				(result) => {
+				() => {
 					setFormData({ name: "", phone: "", email: "", message: "" });
 					setModalOpened(true);
 				},

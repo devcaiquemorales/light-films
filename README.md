@@ -15,10 +15,20 @@ A website designed to promote and inform about the window film application servi
 
 ## 🛠 Technologies
 
-- React
-- Styled Components
-- Next
-- Tailwind
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Bun
+
+## 🚀 Running locally
+
+```bash
+bun install
+bun dev
+```
+
+Other scripts: `bun run build`, `bun run lint`, `bun run typecheck`, `bun run format`.
   
 ## 👤 Authors
 

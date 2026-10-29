@@ -3,7 +3,6 @@
 
 // Imports
 import { createContext, useEffect, useState } from "react";
-import { useUpdateEffect } from "@/utils/useUpdateEffect";
 
 // Icons
 import Hamburger from "@/public/menu.png";
@@ -22,8 +21,8 @@ export default function Header() {
 	// Variables
 	const [openedMenu, setOpenedMenu] = useState(false);
 
-	useUpdateEffect(() => {
-		document.body.classList.toggle("menu-open");
+	useEffect(() => {
+		document.body.classList.toggle("menu-open", openedMenu);
 	}, [openedMenu]);
 
 	// Rendering

@@ -1,10 +1,9 @@
 // Imports
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 import { useOnClickOutside } from "@/utils/useOnClickOutside";
 
 // Imported Component
 import MenuItem from "../MenuItem";
-import Link from "next/link";
 
 // Data
 import { HeaderData } from "../data";
@@ -19,7 +18,7 @@ export default function Menu() {
 	const { openedMenu, setOpenedMenu } = useContext(
 		HeaderContext
 	) as HeaderContextType;
-	const menuRef = useRef(null);
+	const menuRef = useRef<HTMLUListElement>(null);
   // const [currentPath, setCurrentPath] = useState(window.location.href.split('/').pop());
 
 	// Functions
