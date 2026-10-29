@@ -2,7 +2,7 @@
 
 > Documento vivo. Referência central para a modernização do site.
 > Análise feita em 29/10/2026 sobre o commit `f1ea430` (branch `main`).
-> Última atualização: 29/10/2026 — **Fases 1, 2 e 3 concluídas** (Next 16, React 19, Tailwind 4, Bun, shadcn/ui aplicado no site, bugs da seção 8 corrigidos). As seções 4–9 descrevem o estado **antes** da Fase 1; o progresso fica no checklist (seção 14).
+> Última atualização: 29/10/2026 — **Fases 1–3 concluídas.** Plano revisado: **Fase 4 agora é UI/redesign**; o backend passa a ser **Convex + Cloudflare R2** (Fase 5), substituindo o protótipo em Payload. As seções 4–9 descrevem o estado **antes** da Fase 1.
 
 
 > ⚠️ **REGRA: NUNCA enviar o formulário de contato (nem qualquer e-mail/mensagem) em testes.**
@@ -278,7 +278,9 @@ Uma página `/painel` feita do zero, com login (Supabase Auth ou Auth.js), um fo
 | Evolução futura | Fácil (novas coleções) | Cada recurso é código novo |
 | Custo mensal | ~R$ 0 nos planos grátis | ~R$ 0 nos planos grátis |
 
-**Decisão (29/10/2026):** ✅ **Opção A — Payload enxuto**, com o painel bem simples (só "Projetos", texto simples, tela inicial customizada, 100% em português). Antes de ir para produção, montar um protótipo da coleção "Projetos" e validar com o cliente. Se ele ainda achar complicado, a Opção B continua viável e os dados migram fácil.
+**Decisão original (29/10/2026):** ~~Opção A — Payload enxuto~~, com o painel bem simples (só "Projetos", texto simples, tela inicial customizada, 100% em português). Antes de ir para produção, montar um protótipo da coleção "Projetos" e validar com o cliente. Se ele ainda achar complicado, a Opção B continua viável e os dados migram fácil.
+
+**Decisão revisada (29/10/2026):** ✅ **Opção B — painel próprio**, com **Convex** (banco + backend + login) e **Cloudflare R2** (fotos). O protótipo em Payload serviu para validar a experiência do cliente (campos, tela inicial, permissões) e esse desenho é reaproveitado no painel próprio. Detalhes na seção 12.6.
 
 ### 12.5 Além dos projetos (fases futuras, opcionais)
 
@@ -287,9 +289,32 @@ Uma página `/painel` feita do zero, com login (Supabase Auth ou Auth.js), um fo
 - **Informações da empresa:** telefone, WhatsApp e redes sociais editáveis sem código.
 - **Manual do cliente:** um PDF ou página curta com prints mostrando "como publicar um projeto em 3 passos".
 
+### 12.6 Arquitetura do backend: Convex + Cloudflare R2
+
+**Por que não dá para manter o Payload:** o Payload só funciona com MongoDB, Postgres ou SQLite. Com Convex como banco, o painel precisa ser nosso — o que combina com o requisito de simplicidade (seção 12.2), já que a interface fica 100% sob nosso controle e feita com os mesmos componentes shadcn/ui do site.
+
+| Peça | Responsável |
+|---|---|
+| Banco de dados (projetos, usuários, leads, depoimentos) | **Convex** (tabelas tipadas em `convex/schema.ts`) |
+| Regras de negócio e permissões | **Convex** queries/mutations (checagem de papel admin/cliente em cada função) |
+| Login do painel | **Convex Auth** (e-mail + senha) |
+| Fotos | **Cloudflare R2** via componente oficial `@convex-dev/r2` (upload direto do navegador com URL assinada; o Convex guarda só a referência) |
+| Compressão das fotos | No navegador antes do upload (redimensionar para máx. 2400px, WebP) — foto de celular não sobe com vários MB |
+| Entrega das fotos | Domínio público do R2 (ou custom domain na Cloudflare) + `next/image` |
+| Site público | Next.js lê do Convex no servidor (`fetchQuery`) — páginas continuam estáticas para SEO |
+| Atualizar o site ao publicar | Mutation no Convex chama uma rota de revalidação do Next (com segredo) → `revalidatePath` |
+| Formulário de contato | Mutation no Convex salva o lead + action envia e-mail (**Resend**, componente `@convex-dev/resend`) + verificação **Turnstile** na action. ⚠️ Testes só com destino nosso |
+| Painel | Rotas `app/painel/*` no próprio Next, com shadcn/ui, 100% em português |
+
+**O que o cliente vai ver (mesmo desenho validado no protótipo):** login → "Olá, Nome!" com botões grandes **Novo projeto** / **Meus projetos** → formulário com Título, Foto de capa, O que foi feito, Fotos (arrastar e soltar), Mostrar no site → Salvar. Foto de perfil opcional. Papéis **admin** (desenvolvedor) e **cliente** (só projetos).
+
+**Contas necessárias (criadas pelo dono do projeto):** Convex (plano grátis), Cloudflare com R2 (10 GB grátis), Resend, Turnstile.
+
 ## 13. Roadmap
 
-Ordem definida em 29/10/2026: **primeiro segurança e base técnica, depois shadcn/ui, depois as correções** (muitas delas serão resolvidas reconstruindo os componentes com shadcn/ui), **depois o backend** e por fim o redesign.
+Ordem original (29/10/2026): segurança → shadcn/ui → correções → backend → redesign.
+
+**Ordem revisada (29/10/2026): segurança → shadcn/ui → correções → UI/redesign → backend (Convex + R2) → lançamento.** A UI vem antes do backend: o visual fica definido com dados estáticos e o backend depois só troca a fonte dos dados.
 
 ### Fase 1 — Atualização e segurança (prioridade máxima)
 
@@ -344,26 +369,39 @@ Reconstruir as seções usando os componentes da Fase 2, corrigindo os itens da 
 - **Conteúdo:** corrigir textos, concordância e descrições duplicadas (seção 11).
 - Converter imagens pesadas para AVIF/WebP.
 
-### Fase 4 — Backend e painel (Payload enxuto)
+### Fase 4 — UI e redesign (próxima)
 
-- Payload 3 dentro do projeto Next, **somente em português**.
-- Coleção "Projetos": título, capa, texto simples, fotos, "Mostrar no site"; data automática.
-- Tela inicial customizada ("Novo projeto" / "Meus projetos"); demais coleções ocultas para o cliente.
-- Banco Postgres (Neon ou Supabase) + imagens no Vercel Blob ou S3.
-- Protótipo validado com o cliente **antes** de ir para produção.
-- Migrar Senai, Sabesp, Porto Seguro (e Ateliê, se for o caso).
-- Revalidação do site ao publicar.
-- Leads do formulário salvos no banco + e-mail (Resend), via **Server Action** com anti-spam (**Cloudflare Turnstile**); remover as chaves do EmailJS do client. (veio da Fase 3)
-- Manual do cliente ("como publicar um projeto em 3 passos").
+Objetivo: o site com cara de empresa de verdade — identidade própria, mais confiança e mais pedidos de orçamento. Tudo com dados estáticos (projetos e depoimentos em arquivos `.ts`, textos do cliente em lorem ipsum).
 
-### Fase 5 — Redesign, conteúdo e SEO
+1. **Direção visual** — referências (sites de películas/arquitetura que o time gosta), definir paleta, tipografia e estilo de foto. Decidir se haverá logo novo.
+2. **Design system** — tokens no `globals.css` (cores, tipografia, raios, sombras, espaçamentos), variantes de Button/Card, componentes de seção reutilizáveis. Base shadcn/ui continua.
+3. **Redesign das seções existentes** — Header (fixo ao rolar), Hero (foto real + CTA de orçamento), Áreas de aplicação, Benefícios (em cards/ícones em vez de texto corrido), Projetos, Depoimentos, Contato, Footer (endereço, CNPJ, redes, horário).
+4. **Seções novas** — tipos de película, antes/depois (slider comparativo), como funciona (passo a passo do serviço), FAQ (Accordion), garantia, área de atendimento.
+5. **Páginas** — `/projetos` e página do projeto redesenhadas; página 404.
+6. **Qualidade** — responsivo (mobile primeiro), acessibilidade (contraste, foco, teclado), performance (Lighthouse ≥ 90), animações sutis respeitando `prefers-reduced-motion`.
+7. **SEO** — metadados por página, Open Graph, `sitemap.xml`, `robots.txt`, dados estruturados `LocalBusiness`.
+- **Critério de pronto:** todas as páginas no novo visual, aprovadas por nós, com build/lint/typecheck verdes.
 
-- Nova identidade visual (logo, paleta, tipografia) com mais personalidade.
-- Hero com foto real e CTA direto para orçamento no WhatsApp.
-- Antes/depois, tipos de película, FAQ, garantia e área de atendimento.
-- SEO local: páginas por serviço e região, `LocalBusiness`, sitemap, OG image e domínio próprio.
-- Depoimentos reais ou integração com avaliações do Google.
-- CI (build + lint em PR).
+### Fase 5 — Backend: Convex + Cloudflare R2 + painel próprio
+
+Arquitetura na seção 12.6.
+
+1. Remover o protótipo em Payload (rotas `/admin`, coleções, SQLite, `media/`) — fica registrado no histórico do git.
+2. Configurar **Convex** (schema: projetos, usuários, leads, depoimentos) e **Convex Auth** (e-mail + senha, papéis admin/cliente).
+3. Configurar **R2** (bucket, CORS, domínio público) + `@convex-dev/r2`; compressão das fotos no navegador.
+4. **Painel próprio** em `/painel` com shadcn/ui, 100% em português: login, tela inicial, lista e formulário de projetos, foto de perfil.
+5. Site lendo do Convex + revalidação ao publicar.
+6. Migrar Senai, Sabesp, Porto Seguro (fotos de `public/projects` → R2) e remover `public/projects`.
+7. Formulário de contato: lead no Convex + e-mail (Resend) + Turnstile; remover EmailJS. ⚠️ Testes só com destino nosso.
+8. Manual do cliente ("como publicar um projeto em 3 passos", com prints).
+9. **Validar o painel com o cliente.**
+
+### Fase 6 — Conteúdo real e lançamento
+
+- Textos reais dos projetos, depoimentos reais (ou avaliações do Google), fotos atuais, logo.
+- Domínio próprio + variáveis de produção na Vercel.
+- CI (build + lint + typecheck em PR).
+- Revisão final e merge de `renovacao-v2` na `main` (só com ok explícito).
 
 ## 14. Checklist geral
 
@@ -420,32 +458,95 @@ Notas da Fase 3:
 - Labels de acessibilidade do shadcn traduzidos ("Fechar", "Slide anterior", "Próximo slide").
 - Conhecido: no mobile, ao vir de `/projetos` para `/#contato`, a rolagem pode parar um pouco depois do início da seção (imagens carregando durante a rolagem). Desktop para exatamente na seção.
 
-**Fase 4 — Backend**
-- [ ] Protótipo do painel validado com o cliente
-- [ ] Painel em produção (português, só "Projetos")
-- [ ] Migração dos projetos existentes
-- [ ] Leads no banco + e-mail
-- [ ] Manual do cliente
+**Fase 4 — UI e redesign** ⏳ próxima
+- [ ] Direção visual (referências, paleta, tipografia, logo)
+- [ ] Design system (tokens + variantes dos componentes)
+- [ ] Redesign das seções existentes
+- [ ] Seções novas (tipos de película, antes/depois, como funciona, FAQ, garantia, área de atendimento)
+- [ ] `/projetos`, página do projeto e 404 redesenhadas
+- [ ] Responsivo, acessibilidade e Lighthouse ≥ 90
+- [ ] SEO técnico (metadados, OG, sitemap, `LocalBusiness`)
 
-**Fase 5 — Redesign e SEO**
-- [ ] Nova identidade visual
-- [ ] Novas seções de conteúdo
-- [ ] SEO local completo
+**Fase 5 — Backend (Convex + R2 + painel próprio)**
+- [ ] Contas criadas: Convex, Cloudflare R2, Resend, Turnstile
+- [ ] Protótipo Payload removido
+- [ ] Convex schema + Convex Auth (admin/cliente)
+- [ ] R2 + upload com compressão
+- [ ] Painel `/painel` em português (login, início, projetos, foto de perfil)
+- [ ] Site lendo do Convex + revalidação
+- [ ] Migração dos projetos e fotos para Convex/R2; `public/projects` removido
+- [ ] Leads + Resend + Turnstile; EmailJS removido
+- [ ] Manual do cliente
+- [ ] Painel validado com o cliente
+
+**Fase 6 — Conteúdo real e lançamento**
+- [ ] Conteúdo real do cliente
 - [ ] Domínio próprio
 - [ ] CI
+- [ ] Merge na `main` (com ok explícito)
+
+<details>
+<summary>Protótipo em Payload (29/10/2026) — descontinuado, mantido como referência</summary>
+
+Código guardado na branch **`prototipo-payload`** (commit `66c59ab`). A `renovacao-v2` voltou ao estado da Fase 3; as instruções abaixo valem só naquela branch.
+
+O que foi validado e será reaproveitado no painel próprio: campos do projeto, tela inicial com dois botões, papéis admin/cliente, foto de perfil, compressão de fotos e revalidação ao publicar.
+
+Checklist do protótipo:
+- [x] **Payload 3.92** dentro do próprio Next (rotas `/admin` e `/api`), com o site movido para o route group `app/(frontend)` e o painel em `app/(payload)`
+- [x] Painel **100% em português** (`i18n` só com `pt`), marca **Light Films** no login e no menu (sem logo do Payload)
+- [x] Painel sempre no **modo claro** (`admin.theme: "light"`), mesmo com o sistema em modo escuro; o seletor de tema some
+- [x] Ícone "LF" em SVG (escala para o espaço do breadcrumb, sem cortar) e ícones de painel lateral (abrir/recolher) no lugar da seta e do hambúrguer padrão
+- [x] Traduções ajustadas: "Cardápio" → "Menu", "Configurações do Payload" → "Preferências"
+- [x] **Foto de perfil** no usuário (campo "Foto de perfil"), exibida no canto superior direito; sem foto, mostra as iniciais
+- [x] Coleção **Projetos** com só o essencial: Título, Foto de capa, O que foi feito (texto simples, sem editor rico), Fotos do projeto (várias), Mostrar no site; endereço da página (slug) gerado automaticamente; data de criação automática
+- [x] **Tela inicial customizada** para o cliente: "Olá, Nome!", botões grandes **Novo projeto** e **Meus projetos**, e um passo a passo de 3 itens
+- [x] Permissões: usuário **cliente** vê só "Projetos" no menu; Imagens e Usuários ficam escondidos (só **admin**). Testado: o cliente vê apenas a própria conta e **não consegue** se promover a admin
+- [x] Fotos comprimidas automaticamente no upload (WebP, máx. 2400px) — foto de celular não pesa vários MB
+- [x] Site lê os projetos do Payload (`lib/projects.ts`, Local API, só publicados). Ao salvar/excluir no painel o site atualiza na hora (`revalidatePath`). Testado: desmarcar "Mostrar no site" tira o projeto da home, de `/projetos` e a página vira 404; marcar de novo traz de volta
+- [x] Migração: `bun run seed` importa Senai, Sabesp e Porto Seguro (72 imagens) e cria os usuários de teste
+- [x] Segurança: GraphQL desligado (rotas removidas, `/api/graphql` = 404); `dompurify` forçado para 3.4.17 via `overrides`
+- [ ] **Validar o protótipo com o cliente** (usuário cliente de teste no `.env.local`)
+- [ ] Banco de produção: trocar SQLite por **Postgres** (Neon ou Supabase) + migrations (`payload migrate`)
+- [ ] Storage de imagens em produção: **Vercel Blob** ou S3 (a pasta local `media/` não funciona na Vercel)
+- [ ] **Adaptador de e-mail** (Resend) — sem ele o "Esqueceu a senha?" não envia nada (hoje só escreve no console do servidor). ⚠️ Testar só com destino nosso
+- [ ] Leads do formulário salvos no banco + e-mail via Server Action com anti-spam (Turnstile); remover chaves do EmailJS do client
+- [ ] Manual do cliente ("como publicar um projeto em 3 passos", com prints)
+- [ ] Remover `public/projects/` depois que a produção estiver com as fotos no storage
+- [ ] Vulnerabilidades restantes (`bun audit`): `graphql-scalars` (alta, só usado pelo GraphQL, que está desligado), `esbuild` (moderada, ferramenta de dev do drizzle-kit), `deepmerge` (baixa, CLI do shadcn) — nenhuma chega ao site em produção; reavaliar quando o Payload atualizar
+
+Como rodar o protótipo localmente:
+1. `cp .env.example .env.local` e preencher `PAYLOAD_SECRET` e as senhas de teste (o `.env.local` atual já está preenchido e **não** vai para o git)
+2. `bun install`
+3. `bun run seed` (cria o banco SQLite em `data/`, os usuários e importa os projetos)
+4. `bun dev` → site em `http://localhost:3000`, painel em `http://localhost:3000/admin`
+
+Notas técnicas da Fase 4:
+- `package.json` agora tem `"type": "module"` (padrão do Payload). Sem isso a CLI do Payload quebra no Node 22/26 (erro do `undici`).
+- Se `bun run generate:importmap` disser "No new imports found" depois de adicionar um componente no painel, zerar `app/(payload)/admin/importMap.js` e rodar de novo.
+- `bun run generate:types` atualiza `payload-types.ts` sempre que uma coleção mudar.
+- URLs desconhecidas caem em `app/(frontend)/[...rest]` → 404 em português.
+
+
+
+</details>
 
 ## 15. Decisões
 
 | Data | Decisão | Motivo |
 |---|---|---|
-| 29/10/2026 | Backend com **Payload CMS 3 enxuto** (Opção A da seção 12.4) | Login, upload e segurança prontos; dá para simplificar o painel ao nível que o cliente precisa |
+| 29/10/2026 | ~~Backend com **Payload CMS 3 enxuto**~~ (substituído por Convex + R2, ver abaixo) | Login, upload e segurança prontos; dá para simplificar o painel ao nível que o cliente precisa |
 | 29/10/2026 | Painel **100% em português**, só a coleção "Projetos", texto simples (sem editor rico) | Cliente não é técnico |
 | 29/10/2026 | Projetos exibidos no site em **modal simples** (título, texto, fotos, CTA WhatsApp) | Mais direto para o visitante; reaproveita o `Dialog` do shadcn/ui |
 | 29/10/2026 | Adotar **shadcn/ui** como base de componentes | Componentes acessíveis e consistentes; substitui Swiper, menu manual e hooks |
 | 29/10/2026 | Trocar **Swiper → Carousel do shadcn/ui (Embla)** | Slider atual hardcoded e com problemas; Embla é mais leve |
 | 29/10/2026 | Ordem: **segurança → shadcn/ui → correções → backend → redesign** | Vulnerabilidades primeiro; correções aproveitam os novos componentes |
-| 29/10/2026 | **Todo o trabalho na branch `renovacao-v2`**; nada vai para `main` até a renovação inteira (Fases 1–5) estar concluída | `main` é o que está no ar; só recebe a versão final |
+| 29/10/2026 | **Todo o trabalho na branch `renovacao-v2`**; nada vai para `main` até a renovação inteira (Fases 1–6) estar concluída | `main` é o que está no ar; só recebe a versão final |
 | 29/10/2026 | **Proibido testar envio** do formulário/e-mail/WhatsApp com os dados reais | O destino é o e-mail real do cliente; um teste pareceria um lead verdadeiro |
 | 29/10/2026 | Textos que dependem do cliente (descrições de projetos, depoimentos) ficam em **lorem ipsum** até ele enviar os reais | Evita publicar texto inventado em nome do cliente |
+| 29/10/2026 | Protótipo do painel com **SQLite + pasta local**; produção vai para **Postgres + Vercel Blob/S3** | Permite validar com o cliente sem criar contas; a troca é só de adapter |
+| 29/10/2026 | Dois papéis no painel: **admin** (desenvolvedor) e **cliente** (só Projetos) | Menos opções para o cliente, menos chance de erro |
+| 29/10/2026 | **Backend trocado para Convex + Cloudflare R2**, com painel próprio em `/painel` (substitui o Payload) | Preferência do time; Payload não suporta Convex, então o painel passa a ser feito com shadcn/ui, mantendo o desenho validado no protótipo |
+| 29/10/2026 | **Nova ordem:** UI/redesign (Fase 4) **antes** do backend (Fase 5) | Definir o visual com dados estáticos primeiro; o backend depois só troca a fonte dos dados |
 | 29/10/2026 | **Bun** no lugar do npm (`bun install`, `bun dev`, `bun run build`) | Preferência do time |
 | 29/10/2026 | TypeScript 6 (não 7) e ESLint 9 (não 10) | Versões mais novas ainda sem garantia de compatibilidade com o tooling do Next 16 |

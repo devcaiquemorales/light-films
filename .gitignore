@@ -33,3 +33,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# env (never commit secrets)
+.env
+
+# leftovers from the Payload prototype (branch prototipo-payload)
+/data/*.db
+/data/*.db-*
+/media
