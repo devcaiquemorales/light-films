@@ -2,142 +2,70 @@
 "use client";
 
 // Imports
-import { useRef } from "react";
-import {
-	Navigation,
-	Pagination,
-	Scrollbar,
-	A11y,
-	Autoplay,
-} from "swiper/modules";
+import { useState } from "react";
+import Autoplay from "embla-carousel-autoplay";
 
 // Imported Components
 import Section from "@/components/Section";
-import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
 import Image from "next/image";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 import Link from "next/link";
+import {
+	Carousel,
+	CarouselContent,
+	CarouselItem,
+	CarouselNext,
+	CarouselPrevious,
+} from "@/components/ui/carousel";
+
+// Data
+import { ProjectsData } from "@/lib/data/projects";
 
 // Functional Component
 export default function Projects() {
 	// Variables
-	const swiperRef = useRef<SwiperRef>(null);
-
-	// Functions
-	const handlePrevSlide = () => {
-		if (swiperRef.current && swiperRef.current.swiper) {
-			swiperRef.current.swiper.slidePrev();
-		}
-	};
-
-	const handleNextSlide = () => {
-		if (swiperRef.current && swiperRef.current.swiper) {
-			swiperRef.current.swiper.slideNext();
-		}
-	};
+	const [autoplay] = useState(() =>
+		Autoplay({ delay: 2000, stopOnInteraction: false })
+	);
 
 	// Rendering
 	return (
 		<Section id="projects" title="Nossos projetos">
 			<div className="flex flex-col gap-10">
-				<div className="relative">
-					<Image
-						src="/arrow-prev.svg"
-						width={48}
-						height={48}
-						className="absolute top-[50%] -translate-y-[50%] w-12 z-40 -left-8 cursor-pointer drop-shadow-3xl"
-						alt="Slide anterior"
-						onClick={() => handlePrevSlide()}
+				<Carousel
+					opts={{ loop: true, align: "start" }}
+					plugins={[autoplay]}
+					className="relative"
+				>
+					<CarouselContent className="-ml-[50px]">
+						{ProjectsData.map((project) => (
+							<CarouselItem
+								key={project.slug}
+								className="pl-[50px] min-[1080px]:basis-1/3"
+							>
+								<Link
+									href={`/projetos/${project.slug}`}
+									title={`Ver projeto ${project.title}`}
+								>
+									<Image
+										className="h-auto w-full object-cover"
+										src={project.image}
+										alt={project.title}
+										width={1000}
+										height={1000}
+									/>
+								</Link>
+							</CarouselItem>
+						))}
+					</CarouselContent>
+					<CarouselPrevious
+						aria-label="Slide anterior"
+						className="-left-8 z-40 size-12 border-0 bg-white text-primary-400 drop-shadow-3xl"
 					/>
-					<Swiper
-						ref={swiperRef}
-						modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-						spaceBetween={50}
-						slidesPerView={1}
-						grabCursor
-						autoplay={{
-							delay: 2000,
-							disableOnInteraction: false,
-						}}
-						loop={true}
-						breakpoints={{
-							568: {
-								slidesPerView: 1,
-							},
-							1080: {
-								slidesPerView: 3,
-							},
-						}}
-					>
-						<SwiperSlide>
-							<Image
-								className="w-full h-auto object-cover"
-								src="/projects/porto-seguro/porto-1.jpg"
-								alt="Porto Seguro"
-								width={1000}
-								height={1000}
-							/>
-						</SwiperSlide>
-						<SwiperSlide>
-							<Image
-								className="w-full h-auto object-cover"
-								src="/projects/sabesp/sabesp-1-1.jpg"
-								alt="Sabesp"
-								width={1000}
-								height={1000}
-							/>
-						</SwiperSlide>
-						{/* Repeat */}
-						<SwiperSlide>
-							<Image
-								className="w-full h-auto object-cover"
-								src="/projects/senai/senai-1-1.jpg"
-								alt="Senai"
-								width={1000}
-								height={1000}
-							/>
-						</SwiperSlide>
-						<SwiperSlide>
-							<Image
-								className="w-full h-auto object-cover"
-								src="/projects/porto-seguro/porto-1.jpg"
-								alt="Porto Seguro"
-								width={1000}
-								height={1000}
-							/>
-						</SwiperSlide>
-						<SwiperSlide>
-							<Image
-								className="w-full h-auto object-cover"
-								src="/projects/sabesp/sabesp-1-1.jpg"
-								alt="Sabesp"
-								width={1000}
-								height={1000}
-							/>
-						</SwiperSlide>
-						<SwiperSlide>
-							<Image
-								src="/projects/senai/senai-1-1.jpg"
-								alt="Senai"
-								width={1000}
-								height={1000}
-							/>
-						</SwiperSlide>
-					</Swiper>
-					<Image
-						src="/arrow-next.svg"
-						width={48}
-						height={48}
-						className="absolute top-[50%] -translate-y-[50%] w-12 z-40 -right-8 cursor-pointer drop-shadow-3xl"
-						alt="Próximo slide"
-						onClick={() => handleNextSlide()}
+					<CarouselNext
+						aria-label="Próximo slide"
+						className="-right-8 z-40 size-12 border-0 bg-white text-primary-400 drop-shadow-3xl"
 					/>
-				</div>
+				</Carousel>
 				<div className="self-center">
 					<Link
 						href="/projetos"

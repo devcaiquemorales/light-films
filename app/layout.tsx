@@ -8,9 +8,10 @@ import Header from "@/components/Header";
 // Stylesheets
 import "./globals.css";
 import Footer from "@/components/Footer";
+import { cn } from "@/lib/utils";
 
 // Font
-const montserrat = Montserrat({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-sans" });
 
 // SEO
 export const metadata: Metadata = {
@@ -34,8 +35,8 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="pt-br" className="max-w-[100vw] overflow-x-hidden">
-			<body className={montserrat.className}>
+		<html lang="pt-br" className={cn("max-w-[100vw] overflow-x-hidden font-sans", montserrat.variable)}>
+			<body>
 				<div className="max-w-[100vw] overflow-x-hidden">
 					<Header />
 					{children}

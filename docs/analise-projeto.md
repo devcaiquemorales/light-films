@@ -2,8 +2,13 @@
 
 > Documento vivo. Referência central para a modernização do site.
 > Análise feita em 29/10/2026 sobre o commit `f1ea430` (branch `main`).
-> Última atualização: 29/10/2026 — **Fase 1 concluída** (Next 16, React 19, Tailwind 4, Bun, 0 vulnerabilidades). As seções 4–9 descrevem o estado **antes** da Fase 1; o progresso fica no checklist (seção 14).
+> Última atualização: 29/10/2026 — **Fases 1 e 2 concluídas** (Next 16, React 19, Tailwind 4, Bun, shadcn/ui). As seções 4–9 descrevem o estado **antes** da Fase 1; o progresso fica no checklist (seção 14).
 
+
+> ⚠️ **REGRA: NUNCA enviar o formulário de contato (nem qualquer e-mail/mensagem) em testes.**
+> O EmailJS está ligado ao e-mail **real do cliente**. Um envio de teste chega para ele como se fosse um cliente de verdade.
+> Não clicar em "Enviar", não chamar `emailjs.send*`, não disparar o link do WhatsApp em testes. Validar só build, tipos, layout e comportamento **antes** do envio.
+> Testes de envio só com um serviço/destino de teste próprio (ex.: template EmailJS apontando para o nosso e-mail ou Resend em modo teste), configurado por variável de ambiente, e com autorização explícita.
 ---
 
 ## Sumário
@@ -333,7 +338,7 @@ Reconstruir as seções usando os componentes da Fase 2, corrigindo os itens da 
 - **Projetos (home):** novo `Carousel` lendo os dados, sem slides duplicados (bug 5).
 - **Página do projeto:** `notFound()`, `generateStaticParams`, `generateMetadata`, descrição visível e galeria (bugs 3, 4, 12).
 - **Modal de projeto** com `Dialog` + botão "Quero um orçamento parecido" no WhatsApp (seção 12.3).
-- **Contato:** `Form` + Zod + `Sonner`, loading, bloqueio de envio duplo e erro visível (bug 7). Envio via Server Action com anti-spam (Cloudflare Turnstile) em vez das chaves do EmailJS no client.
+- **Contato** (⚠️ sem testar envio real — ver regra no topo): `Form` + Zod + `Sonner`, loading, bloqueio de envio duplo e erro visível (bug 7). Envio via Server Action com anti-spam (Cloudflare Turnstile) em vez das chaves do EmailJS no client.
 - **CSS global:** remover `user-select: none` e `outline: none`; foco visível padrão do shadcn (bugs 8 e 9).
 - **Hero:** `100svh`, imagem com `next/image` + `priority` (bug 13).
 - **Conteúdo:** corrigir textos, concordância e descrições duplicadas (seção 11).
@@ -373,16 +378,25 @@ Reconstruir as seções usando os componentes da Fase 2, corrigindo os itens da 
 - [x] ESLint 9 (flat config `eslint-config-next`) + Prettier configurado (`.prettierrc.json`, com plugin do Tailwind). A formatação em massa do código ainda **não** foi aplicada, para não poluir o diff
 - [x] Site visualmente igual ao anterior (conferido no desktop e no mobile)
 
-**Fase 2 — shadcn/ui**
-- [ ] `shadcn init` com tema da Light Films
-- [ ] Fundo explícito no `body`
-- [ ] Button, Carousel, Sheet, Dialog, Card, Form/Input/Textarea/Label, Sonner instalados
-- [ ] Swiper removido
+**Fase 2 — shadcn/ui** ✅ (29/10/2026, branch `renovacao-v2`)
+- [x] `shadcn init` (base **Radix**, preset **Vega**, CSS variables) com tema da Light Films: `--primary` `#1b3748`, `--ring` `#243c5a`, fonte **Montserrat** como `--font-sans` (o preset tinha trocado para Inter; revertido)
+- [x] Fundo explícito no `body` (`bg-background`, branco) — resolve o bug 6 da seção 8
+- [x] Instalados em `components/ui/`: Button, Card, Carousel, Dialog, Field (substitui o antigo `Form` do shadcn), Input, Label, Separator, Sheet, Sonner, Textarea
+- [x] Swiper removido; slider da home agora é o **Carousel (Embla)** com autoplay, lendo `ProjectsData` (sem slides duplicados, sem o vão no mobile; cada foto leva à página do projeto) — adianta o bug 5
+- [x] Setas antigas (`arrow-*.svg`) removidas; setas do Carousel são `<button>` acessíveis — adianta o bug 10 na home
+
+Notas da Fase 2:
+- O registry do shadcn gerou `import { cn } from "cn"` (pacote errado). Corrigido para o helper padrão `lib/utils.ts` (`clsx` + `tailwind-merge`).
+- `Sonner` fixado em tema claro e `next-themes` removido (o site não tem modo escuro).
+- `shadcn` ficou em `devDependencies`: ele só fornece o CSS `shadcn/tailwind.css` no build. `bun audit` mostra **1 vulnerabilidade baixa** (`deepmerge`, sem correção publicada) que vem só do CLI do shadcn e não vai para o site.
+- Regra `react-hooks/set-state-in-effect` desligada só em `components/ui/**` (código gerado pelo shadcn).
+- No desktop, com 3 projetos, todos cabem na tela e as setas ficam desativadas. Quando houver mais projetos (via painel), o carrossel volta a rolar.
+- Os componentes Sheet, Dialog, Card, Field e Sonner estão instalados mas ainda **não** foram aplicados nas seções. Isso é a Fase 3.
 
 **Fase 3 — Correções e reconstrução**
 - [ ] Menu funcionando em todas as páginas (Sheet no mobile)
 - [ ] Títulos sem overflow; sem `overflow-x-hidden` no `<html>`
-- [ ] Slider da home com Carousel, a partir dos dados, sem duplicação
+- [x] Slider da home com Carousel, a partir dos dados, sem duplicação (feito na Fase 2)
 - [ ] `notFound()` + páginas de projeto estáticas + metadata
 - [ ] Modal de projeto com botão de orçamento
 - [ ] Formulário com validação, loading, toast, anti-spam e Server Action
@@ -417,5 +431,6 @@ Reconstruir as seções usando os componentes da Fase 2, corrigindo os itens da 
 | 29/10/2026 | Trocar **Swiper → Carousel do shadcn/ui (Embla)** | Slider atual hardcoded e com problemas; Embla é mais leve |
 | 29/10/2026 | Ordem: **segurança → shadcn/ui → correções → backend → redesign** | Vulnerabilidades primeiro; correções aproveitam os novos componentes |
 | 29/10/2026 | **Todo o trabalho na branch `renovacao-v2`**; nada vai para `main` até a renovação inteira (Fases 1–5) estar concluída | `main` é o que está no ar; só recebe a versão final |
+| 29/10/2026 | **Proibido testar envio** do formulário/e-mail/WhatsApp com os dados reais | O destino é o e-mail real do cliente; um teste pareceria um lead verdadeiro |
 | 29/10/2026 | **Bun** no lugar do npm (`bun install`, `bun dev`, `bun run build`) | Preferência do time |
 | 29/10/2026 | TypeScript 6 (não 7) e ESLint 9 (não 10) | Versões mais novas ainda sem garantia de compatibilidade com o tooling do Next 16 |
