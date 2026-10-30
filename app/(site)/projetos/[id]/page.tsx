@@ -10,21 +10,20 @@ import ProjectCard from "@/components/Project/ProjectCard";
 import ProjectGallery from "@/components/Project/ProjectGallery";
 
 // Data
-import { ProjectsData } from "@/lib/data/projects";
+import { getProject, getProjects } from "@/lib/projects";
 
 // Types
 type Props = { params: Promise<{ id: string }> };
 
-// Only the known projects exist; anything else is a 404
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-	return ProjectsData.map((project) => ({ id: project.slug }));
+// Known projects are built ahead; new ones from the panel render on first visit
+export async function generateStaticParams() {
+	const projects = await getProjects();
+	return projects.map((project) => ({ id: project.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { id } = await params;
-	const project = ProjectsData.find((project) => project.slug === id);
+	const project = await getProject(id);
 	if (!project) return {};
 
 	return {
@@ -39,13 +38,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
 	// Variables
 	const { id } = await params;
-	const project = ProjectsData.find((project) => project.slug === id);
+	const project = await getProject(id);
 
 	if (!project) notFound();
 
-	const others = ProjectsData.filter(
-		(item) => item.slug !== project.slug
-	).slice(0, 3);
+	const others = (await getProjects())
+		.filter((item) => item.slug !== project.slug)
+		.slice(0, 3);
 
 	// Rendering
 	return (

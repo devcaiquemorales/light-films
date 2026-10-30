@@ -6,7 +6,7 @@ import Section from "@/components/Section";
 import ProjectCard from "@/components/Project/ProjectCard";
 
 // Data
-import { ProjectsData } from "@/lib/data/projects";
+import { getProjects } from "@/lib/projects";
 
 // SEO
 export const metadata: Metadata = {
@@ -17,7 +17,10 @@ export const metadata: Metadata = {
 };
 
 // Functional Component
-export default function Projetos() {
+export default async function Projetos() {
+	// Variables
+	const projects = await getProjects();
+
 	// Rendering
 	return (
 		<main>
@@ -28,7 +31,7 @@ export default function Projetos() {
 				intro="Alguns dos lugares onde aplicamos película. Abra um projeto para ver as fotos e o que foi feito."
 			>
 				<ul className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-					{ProjectsData.map((project) => (
+					{projects.map((project) => (
 						<li key={project.slug}>
 							<ProjectCard
 								link

@@ -31,10 +31,15 @@ import { cn } from "@/lib/utils";
 // Types
 import type { Id } from "@/convex/_generated/dataModel";
 
-export type Photo = { storageId?: Id<"_storage">; path?: string; url: string };
+export type Photo = {
+	r2Key?: string;
+	storageId?: Id<"_storage">;
+	path?: string;
+	url: string;
+};
 
 export const photoKey = (photo: Photo) =>
-	photo.storageId ?? photo.path ?? photo.url;
+	photo.r2Key ?? photo.storageId ?? photo.path ?? photo.url;
 
 // Functional Component
 export default function PhotoList({

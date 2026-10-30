@@ -516,7 +516,9 @@ Direção visual da Fase 4 (proposta):
 - [x] Site: clicar no logo na home volta ao topo e limpa o `#seção` da URL
 - [ ] Foto de perfil (opcional)
 - [ ] Fotos enviadas e abandonadas (sair sem salvar) ficam órfãs no storage — limpar com um cron quando for para produção
-- [ ] Site lendo do Convex + revalidação
+- [x] **Site lendo do Convex:** home, `/projetos`, `/projetos/[slug]` e sitemap via `lib/projects.ts` (`fetchQuery` + `unstable_cache` com tag `projects`). Ao salvar/excluir no painel, a server action `refreshSite()` chama `updateTag` e o site mostra a mudança na hora (testado: criar → aparece na home e na página; excluir → some). Projetos novos geram página no primeiro acesso. Sem `NEXT_PUBLIC_CONVEX_URL` o site usa os projetos fixos de `lib/data/projects.ts`
+- [x] Upload pronto para o R2 (`convex/r2.ts`, URL assinada com `aws4fetch`, exclusão do objeto ao tirar a foto). Enquanto faltar alguma variável do R2 **no Convex** (`R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, `R2_PUBLIC_URL`), o upload cai automaticamente no storage do Convex
+- [x] Corrigido: excluir projeto falhava porque capa e primeira foto são o mesmo arquivo (apagava duas vezes)
 - [ ] Migração dos projetos e fotos para Convex/R2; `public/projects` removido
 - [ ] Leads + Resend + Turnstile; EmailJS removido
 - [ ] Manual do cliente

@@ -2,9 +2,10 @@ import { defineSchema, defineTable } from "convex/server";
 import { authTables } from "@convex-dev/auth/server";
 import { v } from "convex/values";
 
-// A photo lives in Convex file storage for now; `path` covers the photos that
-// still ship in /public. TODO(fase 5): add an R2 key when the bucket exists.
+// Where a photo lives: Cloudflare R2 (`r2Key`), Convex file storage (`storageId`,
+// fallback while R2 isn't configured) or /public (`path`, the original projects)
 export const photo = v.object({
+	r2Key: v.optional(v.string()),
 	storageId: v.optional(v.id("_storage")),
 	path: v.optional(v.string()),
 });

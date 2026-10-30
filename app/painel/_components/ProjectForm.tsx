@@ -5,7 +5,7 @@
 import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useMutation } from "convex/react";
+import { useAction, useMutation } from "convex/react";
 import { ConvexError } from "convex/values";
 import { toast } from "sonner";
 import {
@@ -35,6 +35,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import PhotoList, { type Photo } from "./PhotoList";
+import { refreshSite } from "../actions";
 import StatusPill from "./StatusPill";
 
 // Types
@@ -62,7 +63,11 @@ const noAutofill = {
 };
 
 // Only the stored reference goes to Convex, never the preview URL
-const toStored = ({ storageId, path }: Photo) => ({ storageId, path });
+const toStored = ({ r2Key, storageId, path }: Photo) => ({
+	r2Key,
+	storageId,
+	path,
+});
 
 function errorMessage(error: unknown) {
 	return error instanceof ConvexError && typeof error.data === "string"
@@ -83,7 +88,7 @@ export default function ProjectForm({
 	const create = useMutation(api.projects.create);
 	const update = useMutation(api.projects.update);
 	const remove = useMutation(api.projects.remove);
-	const generateUploadUrl = useMutation(api.projects.generateUploadUrl);
+	const getUploadTarget = useAction(api.r2.getUploadTarget);
 
 	const [values, setValues] = useState(initial);
 	const [errors, setErrors] = useState<{
@@ -103,8 +108,22 @@ export default function ProjectForm({
 
 	const upload = async (file: File): Promise<Photo> => {
 		const blob = await compressImage(file);
-		const postUrl = await generateUploadUrl();
-		const response = await fetch(postUrl, {
+		const preview = URL.createObjectURL(blob);
+		const target = await getUploadTarget({ contentType: blob.type });
+
+		// R2: the browser uploads straight to the bucket with a signed URL
+		if (target.kind === "r2") {
+			const response = await fetch(target.url, {
+				method: "PUT",
+				headers: { "Content-Type": blob.type },
+				body: blob,
+			});
+			if (!response.ok) throw new Error("upload failed");
+			return { r2Key: target.key, url: preview };
+		}
+
+		// Fallback while R2 isn't configured: Convex file storage
+		const response = await fetch(target.url, {
 			method: "POST",
 			headers: { "Content-Type": blob.type },
 			body: blob,
@@ -113,7 +132,7 @@ export default function ProjectForm({
 		const { storageId } = (await response.json()) as {
 			storageId: Id<"_storage">;
 		};
-		return { storageId, url: URL.createObjectURL(blob) };
+		return { storageId, url: preview };
 	};
 
 	const addPhotos = async (files: File[]) => {
@@ -165,6 +184,7 @@ export default function ProjectForm({
 		try {
 			if (id) await update({ id, ...fields });
 			else await create(fields);
+			await refreshSite();
 			toast.success(
 				values.published
 					? "Projeto salvo e publicado no site."
@@ -182,6 +202,7 @@ export default function ProjectForm({
 		if (!id) return;
 		try {
 			await remove({ id });
+			await refreshSite();
 			toast.success("Projeto excluído.");
 			router.push("/painel");
 		} catch (error) {

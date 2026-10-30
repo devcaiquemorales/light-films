@@ -1,57 +1,12 @@
-// Client Side
-"use client";
+// Imports
+import { getProjects } from "@/lib/projects";
 
 // Imported Components
-import Section from "@/components/Section";
-import ProjectCard from "@/components/Project/ProjectCard";
-import Link from "next/link";
-import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
-} from "@/components/ui/carousel";
+import ProjectsCarousel from "./Carousel";
 
-// Data
-import { ProjectsData } from "@/lib/data/projects";
-
-// Functional Component
-export default function Projects() {
-	// Rendering
-	return (
-		<Section
-			id="projetos"
-			title="Projetos recentes"
-			intro="Toque em um projeto para ver as fotos e o que foi feito."
-		>
-			<Carousel opts={{ align: "start" }} className="flex flex-col gap-8">
-				<CarouselContent className="-ml-6">
-					{ProjectsData.map((project) => (
-						<CarouselItem
-							key={project.slug}
-							className="basis-[85%] pl-6 sm:basis-1/2 lg:basis-1/3"
-						>
-							<ProjectCard
-								project={project}
-								sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 85vw"
-							/>
-						</CarouselItem>
-					))}
-				</CarouselContent>
-				<div className="flex items-center gap-6">
-					<div className="flex gap-2">
-						<CarouselPrevious className="border-vidro bg-vidro hover:bg-vidro-2 disabled:border-vidro/15 disabled:text-vidro/30 static size-11 translate-y-0 rounded-full text-white hover:text-white disabled:bg-transparent disabled:opacity-100" />
-						<CarouselNext className="border-vidro bg-vidro hover:bg-vidro-2 disabled:border-vidro/15 disabled:text-vidro/30 static size-11 translate-y-0 rounded-full text-white hover:text-white disabled:bg-transparent disabled:opacity-100" />
-					</div>
-					<Link
-						href="/projetos"
-						className="text-vidro hover:text-vidro-2 text-base font-semibold underline underline-offset-6"
-					>
-						Ver todos os projetos
-					</Link>
-				</div>
-			</Carousel>
-		</Section>
-	);
+// Server part: reads the published projects, the carousel itself runs on the client
+export default async function Projects() {
+	const projects = await getProjects();
+	if (projects.length === 0) return null;
+	return <ProjectsCarousel projects={projects} />;
 }

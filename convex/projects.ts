@@ -8,7 +8,9 @@ import {
 	type QueryCtx,
 } from "./_generated/server";
 import type { Doc, Id } from "./_generated/dataModel";
+import { internal } from "./_generated/api";
 import { photo } from "./schema";
+import { r2PublicUrl } from "./r2";
 
 type Photo = Infer<typeof photo>;
 
@@ -20,9 +22,10 @@ async function requireUser(ctx: QueryCtx | MutationCtx) {
 	return userId;
 }
 
-// Storage photos get a signed URL; photos still in /public keep their path
+// R2 photos use the bucket's public URL, storage photos a Convex URL, /public ones their path
 async function photoUrl(ctx: QueryCtx, item: Photo | undefined) {
 	if (!item) return null;
+	if (item.r2Key) return r2PublicUrl(item.r2Key);
 	if (item.storageId) return await ctx.storage.getUrl(item.storageId);
 	return item.path ?? null;
 }
@@ -140,9 +143,22 @@ export const update = mutation({
 		const kept = new Set(
 			fields.photos.map((item) => item.storageId).filter(Boolean)
 		);
+		const keptR2 = new Set(
+			fields.photos.map((item) => item.r2Key).filter(Boolean)
+		);
+		const removedR2: string[] = [];
+		const removedStorage = new Set<Id<"_storage">>();
 		for (const item of [project.cover, ...project.photos]) {
 			if (item?.storageId && !kept.has(item.storageId))
-				await ctx.storage.delete(item.storageId);
+				removedStorage.add(item.storageId);
+			if (item?.r2Key && !keptR2.has(item.r2Key)) removedR2.push(item.r2Key);
+		}
+		// The cover is usually also photos[0], so each file is deleted once
+		for (const storageId of removedStorage) await ctx.storage.delete(storageId);
+		if (removedR2.length > 0) {
+			await ctx.scheduler.runAfter(0, internal.r2.deleteObjects, {
+				keys: [...new Set(removedR2)],
+			});
 		}
 
 		await ctx.db.patch(id, {
@@ -165,14 +181,24 @@ export const remove = mutation({
 		await requireUser(ctx);
 		const project = await ctx.db.get(id);
 		if (!project) return;
+		const removedR2 = new Set<string>();
+		const removedStorage = new Set<Id<"_storage">>();
 		for (const item of [project.cover, ...project.photos]) {
-			if (item?.storageId) await ctx.storage.delete(item.storageId);
+			if (item?.storageId) removedStorage.add(item.storageId);
+			if (item?.r2Key) removedR2.add(item.r2Key);
+		}
+		// The cover is usually also photos[0], so each file is deleted once
+		for (const storageId of removedStorage) await ctx.storage.delete(storageId);
+		if (removedR2.size > 0) {
+			await ctx.scheduler.runAfter(0, internal.r2.deleteObjects, {
+				keys: [...removedR2],
+			});
 		}
 		await ctx.db.delete(id);
 	},
 });
 
-// TODO(fase 5): trocar pelo upload assinado do R2 (@convex-dev/r2)
+// Convex storage upload (used by r2.getUploadTarget while R2 isn't configured)
 export const generateUploadUrl = mutation({
 	args: {},
 	handler: async (ctx) => {
@@ -182,6 +208,18 @@ export const generateUploadUrl = mutation({
 });
 
 // Public site
+
+export const getPublishedBySlug = query({
+	args: { slug: v.string() },
+	handler: async (ctx, { slug }) => {
+		const project = await ctx.db
+			.query("projects")
+			.withIndex("by_slug", (q) => q.eq("slug", slug))
+			.unique();
+		if (!project || !project.published) return null;
+		return await withUrls(ctx, project);
+	},
+});
 
 export const listPublished = query({
 	args: {},
