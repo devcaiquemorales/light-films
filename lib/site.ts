@@ -1,8 +1,11 @@
 // Site-wide constants (contact info, navigation)
 export const site = {
 	name: "Light Films",
-	url: "https://light-films.vercel.app",
+	// Official domain: canonical URLs, sitemap, robots and share links
+	url: "https://light-films.com",
 	slogan: "Proteção e Estilo em um lugar: Película Arquitetônica de Qualidade",
+	// Contact for privacy requests (LGPD); TODO(cliente): CNPJ e endereço para a política e o rodapé
+	email: "light-films@hotmail.com",
 	phone: "(11) 4259-3003",
 	phoneHref: "tel:+551142593003",
 	whatsappNumber: "5511981696933",

@@ -29,7 +29,6 @@ export const metadata: Metadata = {
 	description,
 	authors: [{ name: "Caique Morales", url: "https://caiquemorales.com/" }],
 	keywords: [
-		"insulfilm",
 		"película para vidros",
 		"película arquitetônica",
 		"controle solar",

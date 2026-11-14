@@ -8,7 +8,8 @@ export type Project = {
 };
 
 // Data
-// TODO(cliente): descrições escritas por nós a partir das fotos; confirmar com o cliente o que foi feito em cada obra
+// TODO(cliente): descrições genéricas, só o que as fotos mostram; o cliente pode detalhar pelo painel.
+// Não afirmar resultados ou detalhes não confirmados sobre empresas de terceiros (política do Google Ads)
 export const ProjectsData: Project[] = [
 	// {
 	//   title: "Atelie",
@@ -16,7 +17,7 @@ export const ProjectsData: Project[] = [
 	//   image: "/atelie.png",
 	//   description: [
 	//     "Neste projeto, nossa equipe teve a oportunidade de realçar a beleza e a funcionalidade do ateliê de costura.",
-	//     "Por meio da aplicação cuidadosa de insulfilm nas portas de vidro de entrada, conseguimos criar um ambiente que combina elegância e privacidade.",
+	//     "Por meio da aplicação cuidadosa de película nas portas de vidro de entrada, conseguimos criar um ambiente que combina elegância e privacidade.",
 	//     "Agora, os clientes podem entrar em um espaço que oferece uma dose perfeita de luz natural, sem comprometer a confidencialidade.",
 	//   ],
 	//   photos: [
@@ -33,8 +34,8 @@ export const ProjectsData: Project[] = [
 		slug: "senai",
 		image: "/projects/senai/senai-1-1.jpg",
 		description: [
-			"Aplicamos película de controle solar nas janelas das salas e oficinas do Senai. O sol da tarde batia direto nas bancadas e nas máquinas, deixando o ambiente quente e cheio de reflexo.",
-			"A película reduziu o calor e o ofuscamento sem escurecer as salas: a luz natural continua entrando e os alunos trabalham com mais conforto.",
+			"Aplicação de película nas janelas de salas e oficinas de uma unidade do Senai.",
+			"A película ajuda a reduzir o calor e o reflexo nos ambientes, mantendo a entrada de luz natural.",
 		],
 		photos: [
 			{ path: "/projects/senai/senai-1-1.jpg", alt: "Senai - foto 1" },
@@ -56,8 +57,8 @@ export const ProjectsData: Project[] = [
 		slug: "sabesp",
 		image: "/projects/sabesp/sabesp-1-1.jpg",
 		description: [
-			"Na unidade da Sabesp, aplicamos película refletiva nas janelas da fachada para diminuir o calor que entrava nos escritórios ao longo do dia.",
-			"Além do conforto térmico, a fachada ficou com aparência uniforme por fora, e o trabalho foi feito sem interromper o funcionamento do prédio.",
+			"Aplicação de película nas janelas da fachada de uma unidade da Sabesp.",
+			"Além de ajudar no conforto térmico, a película deixa a fachada com aparência mais uniforme.",
 		],
 		photos: [
 			{
@@ -100,8 +101,8 @@ export const ProjectsData: Project[] = [
 		slug: "porto-seguro",
 		image: "/projects/porto-seguro/porto-1.jpg",
 		description: [
-			"Aplicamos película nos vidros da fachada e das portas de entrada do espaço da Porto Seguro, voltado para uma área aberta com sol forte boa parte do dia.",
-			"O ambiente ficou mais fresco e com menos reflexo para quem atende e para quem é atendido, sem perder a vista para a área externa.",
+			"Aplicação de película nos vidros da fachada e das portas de entrada de um espaço da Porto Seguro.",
+			"A película ajuda a reduzir o calor e o reflexo no ambiente, sem tirar a vista para a área externa.",
 		],
 		photos: [
 			{
@@ -149,7 +150,7 @@ export const ProjectsData: Project[] = [
 	//   image: "/projects/lacerda/showcase.jpg",
 	//   description: [
 	//     "Neste projeto, nossa equipe teve a oportunidade de realçar a beleza e a funcionalidade do ateliê de costura.",
-	//     "Por meio da aplicação cuidadosa de insulfilm nas portas de vidro de entrada, conseguimos criar um ambiente que combina elegância e privacidade.",
+	//     "Por meio da aplicação cuidadosa de película nas portas de vidro de entrada, conseguimos criar um ambiente que combina elegância e privacidade.",
 	//     "Agora, os clientes podem entrar em um espaço que oferece uma dose perfeita de luz natural, sem comprometer a confidencialidade.",
 	//   ],
 	//   photos: [
@@ -169,8 +170,8 @@ export const ProjectsData: Project[] = [
 	//   slug: "riachuelo",
 	//   image: "/riachuelo.png",
 	//   description: [
-	//     "Nossa equipe teve a honra de contribuir para a experiência visual excepcional da famosa loja de roupas. Ao aplicar insulfilm nos vidros de entrada, conseguimos manter a transparência que caracteriza essa loja icônica, enquanto acrescentamos um toque de exclusividade e proteção.",
-	//     "O insulfilm escolhido não apenas resguarda a loja da intensidade solar e dos raios UV, mas também acentua a fachada elegante e moderna.",
+	//     "Nossa equipe teve a honra de contribuir para a experiência visual excepcional da famosa loja de roupas. Ao aplicar película nos vidros de entrada, conseguimos manter a transparência que caracteriza essa loja icônica, enquanto acrescentamos um toque de exclusividade e proteção.",
+	//     "O película escolhido não apenas resguarda a loja da intensidade solar e dos raios UV, mas também acentua a fachada elegante e moderna.",
 	//     "Agora, os clientes são recebidos por um ambiente que reflete a estética da marca e convida a uma experiência de compras sofisticada.",
 	//   ],
 	//   photos: [

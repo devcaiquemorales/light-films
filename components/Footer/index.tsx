@@ -55,7 +55,13 @@ export default function Footer() {
 				</div>
 				<div className="flex flex-col justify-between gap-2 border-t border-white/[0.07] pt-6 text-sm text-white/50 md:flex-row">
 					<p>
-						© {new Date().getFullYear()} {site.name}
+						© {new Date().getFullYear()} {site.name} ·{" "}
+						<Link
+							href="/politica-de-privacidade"
+							className="hover:text-white hover:underline"
+						>
+							Política de privacidade
+						</Link>
 					</p>
 					<p>
 						Site desenvolvido por{" "}

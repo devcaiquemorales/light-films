@@ -3,7 +3,6 @@ import Benefits from "./(home)/Benefits";
 import Hero from "./(home)/Hero";
 import Occupation from "./(home)/Occupation";
 import Projects from "./(home)/Projects";
-import Testimonials from "./(home)/Testimonials";
 import Contact from "./(home)/Contact";
 import Process from "./(home)/Process";
 import Films from "./(home)/Films";
@@ -26,7 +25,7 @@ export default function Home() {
 			<BeforeAfter />
 			<Projects />
 			<Process />
-			<Testimonials />
+			{/* Depoimentos escondidos até termos depoimentos reais e autorizados (política do Google Ads) */}
 			<Faq />
 			<Contact />
 		</main>

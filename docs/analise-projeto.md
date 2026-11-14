@@ -514,6 +514,8 @@ Direção visual da Fase 4 (proposta):
 - [x] Início do painel: contagens viraram **filtros** (Todos · No site · Rascunhos, com o número de cada) em vez de frase fixa; a aba escolhida escurece com transição suave de cor (300 ms; sem deslizar) e os cards entram com fade + leve subida em cascata (`FilterTabs.tsx`; respeita "reduzir movimento")
 - [x] **Sem lorem ipsum no site:** descrições de Senai, Sabesp e Porto Seguro escritas por nós a partir das fotos (TODO(cliente): confirmar), respostas do FAQ sem números, e depoimentos de **exemplo** com nomes genéricos — ⚠️ trocar por depoimentos reais ou esconder a seção antes do lançamento. Descrições também atualizadas no Convex (o `seed` só troca textos que ainda eram lorem)
 - [x] Site: clicar no logo na home volta ao topo e limpa o `#seção` da URL
+- [x] **Ajustes para anúncios (Google Ads):** o site antigo (light-films.com) teve anúncio reprovado; ele usa "insulfilm" (marca registrada) na descrição, nas palavras-chave, no texto e nos depoimentos, tem depoimentos com nomes inventados e não identifica a empresa. No v2: "insulfilm" removido de tudo, frases absolutas suavizadas ("sem desbotar" → "desbotam menos"), descrições dos projetos genéricas (sem detalhes não confirmados sobre Senai/Sabesp/Porto Seguro; também no Convex), **seção de depoimentos escondida** e **Política de privacidade** (`/politica-de-privacidade`, LGPD) com link no rodapé, no formulário e no sitemap
+- [ ] TODO(cliente): razão social, CNPJ e endereço na política e no rodapé; depoimentos reais e autorizados para reativar a seção
 - [ ] Foto de perfil (opcional)
 - [ ] Fotos enviadas e abandonadas (sair sem salvar) ficam órfãs no storage — limpar com um cron quando for para produção
 - [x] **Site lendo do Convex:** home, `/projetos`, `/projetos/[slug]` e sitemap via `lib/projects.ts` (`fetchQuery` + `unstable_cache` com tag `projects`). Ao salvar/excluir no painel, a server action `refreshSite()` chama `updateTag` e o site mostra a mudança na hora (testado: criar → aparece na home e na página; excluir → some). Projetos novos geram página no primeiro acesso. Sem `NEXT_PUBLIC_CONVEX_URL` o site usa os projetos fixos de `lib/data/projects.ts`
@@ -523,11 +525,12 @@ Direção visual da Fase 4 (proposta):
 - [x] **Migração feita:** as 30 fotos de Senai (12), Sabesp (8) e Porto Seguro (10) copiadas para o R2 (`migrationsNode:photosToR2`, roda em Node porque o R2 exige Content-Length); site e painel já servem do R2
 - [x] Limpeza de órfãos: `migrationsNode:cleanupR2Orphans` (com `dryRun`) apaga arquivos do bucket que nenhum projeto usa e têm mais de 1 h — pode virar cron
 - [ ] Remover `public/projects` (ainda usado só pelo fallback sem Convex de `lib/data/projects.ts`)
-- [ ] Leads + Resend + Turnstile; EmailJS removido
+- [x] ~~Leads + Resend + Turnstile~~ **Decisão (14/11/2026): sem formulário de e-mail.** Os clientes chegam pelo WhatsApp; a seção "Peça um orçamento" virou um "monte sua mensagem" (onde é, o que procura, observação) que só abre o WhatsApp com o texto pronto — nada é enviado nem guardado pelo site. EmailJS removido do projeto; e-mail fica visível como link. Política de privacidade atualizada. Resend e Turnstile não são mais necessários
 - [ ] Manual do cliente
 - [ ] Painel validado com o cliente
 
 **Fase 6 — Conteúdo real e lançamento**
+- [x] **14/11/2026: v2 publicado no domínio oficial** (`renovacao-v2` → `main` do repositório do cliente; `site.url` = `https://light-films.com`). Pendências do lançamento: `NEXT_PUBLIC_CONVEX_URL` no projeto Vercel do cliente, Convex de produção, CNPJ/endereço, apagar o projeto "Teste tio"
 - [ ] Conteúdo real do cliente
 - [ ] Domínio próprio
 - [ ] CI

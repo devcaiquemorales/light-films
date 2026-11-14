@@ -16,8 +16,8 @@ export default function ProjectActions({
 }) {
 	// Rendering
 	return (
-		<div className="flex flex-wrap items-center gap-x-6 gap-y-4">
-			<Button asChild variant="brand" size="lg" className="h-11 rounded-full px-6 font-semibold">
+		<div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-6">
+			<Button asChild variant="brand" size="lg" className="h-11 w-full rounded-full px-6 font-semibold sm:w-auto">
 				<a
 					href={whatsappLink(
 						`Olá! Vi o projeto ${project.title} no site e gostaria de um orçamento parecido.`
@@ -31,7 +31,7 @@ export default function ProjectActions({
 			{showPageLink && (
 				<Link
 					href={`/projetos/${project.slug}`}
-					className="link-grow text-sm font-semibold text-vidro"
+					className="link-grow text-vidro self-center py-1 text-sm font-semibold sm:self-auto"
 				>
 					Abrir página do projeto
 				</Link>

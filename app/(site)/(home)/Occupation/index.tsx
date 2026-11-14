@@ -26,7 +26,7 @@ export default function Occupation() {
 				<Item
 					title="Comércios"
 					img="/comercios.png"
-					text="Vitrine protegida do sol, sem desbotar os produtos expostos."
+					text="Vitrine mais protegida do sol, e os produtos expostos desbotam menos."
 				/>
 				<Item
 					title="Prédios"

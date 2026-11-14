@@ -1,5 +1,5 @@
 import Section from "@/components/Section";
-import Form from "./Form";
+import WhatsAppComposer from "./WhatsAppComposer";
 import { quoteMessage, site, whatsappLink } from "@/lib/site";
 
 // Functional Component
@@ -10,7 +10,7 @@ export default function Contact() {
 			id="contato"
 			tone="vidro"
 			title="Peça um orçamento"
-			intro="Conte onde é, quantos vidros são e, se puder, mande fotos. Respondemos pelo WhatsApp ou por e-mail."
+			intro="Marque as opções e a mensagem chega pronta no WhatsApp. A gente responde rápido e marca a visita."
 		>
 			<div className="grid gap-12 md:grid-cols-[1fr_1.2fr] md:gap-20">
 				<dl className="flex flex-col gap-8 text-base">
@@ -39,11 +39,22 @@ export default function Contact() {
 						</dd>
 					</div>
 					<div>
+						<dt className="text-sm text-white/60">E-mail</dt>
+						<dd className="mt-1">
+							<a
+								href={`mailto:${site.email}`}
+								className="text-base text-white/85 underline-offset-8 hover:text-white hover:underline"
+							>
+								{site.email}
+							</a>
+						</dd>
+					</div>
+					<div>
 						<dt className="text-sm text-white/60">Atendimento</dt>
 						<dd className="mt-1 text-white/85">São Paulo e região</dd>
 					</div>
 				</dl>
-				<Form />
+				<WhatsAppComposer />
 			</div>
 		</Section>
 	);

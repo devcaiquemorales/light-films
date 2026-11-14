@@ -11,7 +11,7 @@ const tints = [
 	{
 		id: "sem",
 		label: "Sem película",
-		description: "Vidro comum: entra todo o sol e todo o calor.",
+		description: "Vidro comum: entra mais sol, calor e reflexo.",
 		pane: "bg-transparent backdrop-brightness-125 backdrop-saturate-125",
 	},
 	{

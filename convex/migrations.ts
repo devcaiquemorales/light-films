@@ -1,9 +1,5 @@
 import { v } from "convex/values";
-import {
-	internalAction,
-	internalMutation,
-	internalQuery,
-} from "./_generated/server";
+import { internalMutation, internalQuery } from "./_generated/server";
 import { photo } from "./schema";
 
 // One-off: copies every photo that is still in /public (`path`) or in Convex storage
@@ -41,5 +37,25 @@ export const usedR2Keys = internalQuery({
 				item?.r2Key ? [item.r2Key] : []
 			)
 		);
+	},
+});
+
+// One-off text fix: swaps a project description only if it still matches `from` exactly,
+// so anything rewritten in the panel is left alone
+export const replaceDescriptions = internalMutation({
+	args: { pairs: v.array(v.object({ from: v.string(), to: v.string() })) },
+	handler: async (ctx, { pairs }) => {
+		const projects = await ctx.db.query("projects").collect();
+		const changed: string[] = [];
+		for (const project of projects) {
+			const pair = pairs.find((item) => item.from === project.description);
+			if (!pair) continue;
+			await ctx.db.patch(project._id, {
+				description: pair.to,
+				updatedAt: Date.now(),
+			});
+			changed.push(project.slug);
+		}
+		return changed;
 	},
 });
