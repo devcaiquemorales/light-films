@@ -6,7 +6,9 @@ export default function Whatsapp() {
 	// Rendering
 	return (
 		<a
-			href={whatsappLink("Olá, vim pelo seu site, poderíamos ter uma conversa?")}
+			href={whatsappLink(
+				"Olá, vim pelo seu site, poderíamos ter uma conversa?"
+			)}
 			target="_blank"
 			rel="noopener noreferrer"
 			aria-label="Conversar pelo WhatsApp"

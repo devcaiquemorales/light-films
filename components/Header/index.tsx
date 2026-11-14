@@ -7,6 +7,7 @@ import { MenuIcon } from "lucide-react";
 import { navLinks, quoteMessage, site, whatsappLink } from "@/lib/site";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { cn } from "@/lib/utils";
+import { LogoMark } from "@/components/Logo";
 
 // Imported Components
 import { Button } from "@/components/ui/button";
@@ -36,14 +37,16 @@ export default function Header() {
 
 	// Rendering
 	return (
-		<header className="bg-vidro/95 sticky top-0 z-40 border-b border-white/10 backdrop-blur-md">
-			<nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 md:h-20 md:px-10">
+		<header className="bg-vidro/95 sticky top-0 z-40 border-b border-white/10 px-5 backdrop-blur-md md:px-10">
+			{/* Side padding outside the max width, like the sections, so the edges line up */}
+			<nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 md:h-20">
 				<Link
 					href="/"
 					title={site.name}
 					onClick={scrollHomeToTop}
-					className="text-medium focus-visible:ring-ceu-claro/60 rounded-sm font-extrabold text-white font-stretch-expanded focus-visible:ring-3 focus-visible:outline-none"
+					className="text-medium focus-visible:ring-ceu-claro/60 flex items-center gap-3 rounded-sm font-extrabold text-white font-stretch-expanded focus-visible:ring-3 focus-visible:outline-none"
 				>
+					<LogoMark className="size-8 md:size-9" />
 					{site.name}
 				</Link>
 
@@ -97,7 +100,8 @@ export default function Header() {
 						className="bg-vidro border-none text-white [&>[data-slot=sheet-close]]:text-white"
 					>
 						<SheetHeader className="border-b border-white/10 pb-4">
-							<SheetTitle className="text-sm font-semibold text-white/60">
+							<SheetTitle className="flex items-center gap-2.5 text-sm font-semibold text-white/60">
+								<LogoMark className="size-6" />
 								{site.name}
 							</SheetTitle>
 							<SheetDescription className="sr-only">

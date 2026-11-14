@@ -12,6 +12,7 @@ import {
 import { useAuthActions } from "@convex-dev/auth/react";
 import { ExternalLinkIcon, Loader2Icon, LogOutIcon } from "lucide-react";
 import { api } from "@/convex/_generated/api";
+import { LogoMark } from "@/components/Logo";
 
 // Imported Components
 import { Button } from "@/components/ui/button";
@@ -63,7 +64,8 @@ function TopBar() {
 	return (
 		<header className="bg-vidro sticky top-0 z-30 text-white">
 			<div className="mx-auto flex h-16 max-w-3xl items-center justify-between gap-4 px-5">
-				<Link href="/painel" className="flex items-baseline gap-2">
+				<Link href="/painel" className="flex items-center gap-2.5">
+					<LogoMark className="size-8" />
 					<span className="text-medium font-extrabold font-stretch-expanded">
 						Light Films
 					</span>

@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Loader2Icon } from "lucide-react";
+import { LogoMark } from "@/components/Logo";
 
 // Imported Components
 import { Button } from "@/components/ui/button";
@@ -56,7 +57,8 @@ export default function LoginForm() {
 	return (
 		<main className="flex flex-1 items-center justify-center px-5 py-12">
 			<div className="w-full max-w-sm">
-				<p className="text-vidro text-center text-lg font-extrabold font-stretch-expanded">
+				<p className="text-vidro flex flex-col items-center gap-3 text-center text-lg font-extrabold font-stretch-expanded">
+					<LogoMark className="size-14" />
 					Light Films
 				</p>
 				<form

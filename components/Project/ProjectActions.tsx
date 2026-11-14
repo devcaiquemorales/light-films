@@ -17,7 +17,12 @@ export default function ProjectActions({
 	// Rendering
 	return (
 		<div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-6">
-			<Button asChild variant="brand" size="lg" className="h-11 w-full rounded-full px-6 font-semibold sm:w-auto">
+			<Button
+				asChild
+				variant="brand"
+				size="lg"
+				className="h-11 w-full rounded-full px-6 font-semibold sm:w-auto"
+			>
 				<a
 					href={whatsappLink(
 						`Olá! Vi o projeto ${project.title} no site e gostaria de um orçamento parecido.`

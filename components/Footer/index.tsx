@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { navLinks, site } from "@/lib/site";
+import { LogoMark } from "@/components/Logo";
 
 // Functional Component
 export default function Footer() {
@@ -10,7 +11,11 @@ export default function Footer() {
 			<div className="mx-auto flex max-w-7xl flex-col gap-12">
 				<div className="flex flex-col justify-between gap-10 md:flex-row">
 					<div className="max-w-sm">
-						<Link href="/" className="text-lg font-black font-stretch-expanded">
+						<Link
+							href="/"
+							className="inline-flex items-center gap-3 text-lg font-black font-stretch-expanded"
+						>
+							<LogoMark className="size-10 md:size-11" />
 							{site.name}
 						</Link>
 						<p className="mt-3 text-base text-white/70">
