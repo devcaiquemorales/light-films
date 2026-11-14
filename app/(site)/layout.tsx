@@ -13,6 +13,10 @@ const localBusiness = {
 	name: site.name,
 	description: siteDescription,
 	url: site.url,
+	// Logo and image help Google tie the LF mark to the business
+	logo: `${site.url}/brand/lf-quadrado-512.png`,
+	image: `${site.url}/opengraph-image`,
+	email: site.email,
 	telephone: "+55-11-4259-3003",
 	areaServed: { "@type": "City", name: "São Paulo" },
 	address: {
