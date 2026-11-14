@@ -14,7 +14,8 @@
 | Telefone | (11) 4259-3003 |
 | WhatsApp | (11) 98169-6933 (ativar o botão de mensagem do perfil) |
 | Site | https://light-films.com |
-| Endereço | **[confirmar]** Se não atende clientes no local, marcar como **empresa que atende na área do cliente** e não mostrar endereço |
+| CNPJ | 17.101.943/0001-03 (o Google pode pedir na verificação) |
+| Endereço | Marcar como **empresa que atende na área do cliente** e **não mostrar endereço**. Usar o endereço do cadastro do CNPJ só se o Google pedir na verificação; ele fica oculto no perfil |
 | Área de atendimento | São Paulo e região **[confirmar cidades: capital, ABC, Grande SP…]** |
 | Horário | **[confirmar]** |
 | Ano de abertura | **[confirmar]** |

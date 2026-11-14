@@ -39,8 +39,9 @@ const tints = [
 		id: "espelhada",
 		label: "Espelhada",
 		description:
-			"Reflete o sol durante o dia e deixa a fachada com acabamento uniforme.",
-		pane: "bg-[linear-gradient(135deg,rgb(226_236_239/0.85),rgb(120_150_160/0.65)_45%,rgb(232_240_242/0.8)_62%,rgb(140_165_172/0.7))] backdrop-brightness-75",
+			"De dentro, a vista fica prateada e um pouco mais escura. De fora, o vidro vira espelho e dá privacidade durante o dia.",
+		// Silver, cool and a bit darker; the reflection itself is the window-wide sheen below
+		pane: "bg-[rgb(186_204_216/0.34)] backdrop-brightness-[0.8] backdrop-contrast-[1.05] backdrop-saturate-[0.35]",
 	},
 ] as const;
 
@@ -51,6 +52,7 @@ export default function TintSimulator() {
 	// Variables
 	const [active, setActive] = useState<TintId>("fume");
 	const current = tints.find((tint) => tint.id === active)!;
+	const mirrored = active === "espelhada";
 
 	// Rendering
 	return (
@@ -71,15 +73,37 @@ export default function TintSimulator() {
 						sizes="(min-width: 768px) 45vw, 90vw"
 						className="object-cover"
 					/>
+					{/* Glass: one tinted layer per pane */}
 					<div className="absolute inset-0 grid grid-cols-2 grid-rows-[1.4fr_1fr_1fr]">
 						{Array.from({ length: 6 }, (_, i) => (
 							<div
 								key={i}
 								className={cn(
-									"outline-vidro outline-[7px] transition-[background,backdrop-filter] duration-500 ease-out motion-reduce:transition-none",
+									"transition-[background,backdrop-filter] duration-500 ease-out motion-reduce:transition-none",
 									current.pane
 								)}
 							/>
+						))}
+					</div>
+					{/* Mirror sheen: one continuous reflection across the whole window (it runs
+					    behind the frame bars, like on real glass); slides in when Espelhada is picked */}
+					<div
+						aria-hidden
+						className={cn(
+							"pointer-events-none absolute -inset-x-1/4 inset-y-0 mix-blend-screen transition-[opacity,translate] duration-700 ease-out motion-reduce:transition-none",
+							"bg-[linear-gradient(180deg,rgb(220_232_240/0.5),rgb(220_232_240/0.08)_50%,rgb(220_232_240/0.2)),linear-gradient(112deg,transparent_20%,rgb(255_255_255/0.12)_26%,rgb(255_255_255/0.6)_33%,rgb(255_255_255/0.18)_39%,transparent_45%,transparent_58%,rgb(255_255_255/0.32)_62%,transparent_67%)]",
+							mirrored
+								? "translate-x-0 opacity-100"
+								: "-translate-x-[12%] opacity-0"
+						)}
+					/>
+					{/* Frame bars drawn on top so the sheen passes behind them */}
+					<div
+						aria-hidden
+						className="pointer-events-none absolute inset-0 grid grid-cols-2 grid-rows-[1.4fr_1fr_1fr]"
+					>
+						{Array.from({ length: 6 }, (_, i) => (
+							<div key={i} className="outline-vidro outline-[7px]" />
 						))}
 					</div>
 				</div>

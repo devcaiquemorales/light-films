@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 	alternates: { canonical: "/politica-de-privacidade" },
 };
 
-// TODO(cliente): incluir razão social, CNPJ e endereço da empresa na seção 1
 const updatedAt = "14 de novembro de 2026";
 
 // Functional Component
@@ -24,10 +23,11 @@ export default function PrivacyPolicy() {
 					<h1 className="text-vidro text-xl font-bold text-balance font-stretch-expanded">
 						Política de privacidade
 					</h1>
-					<p className="text-muted-foreground text-base">
+					<p className="text-muted-foreground/70 -mt-1 text-sm italic">
 						Última atualização: {updatedAt}
 					</p>
-					<p className="text-medium text-muted-foreground text-pretty">
+					{/* Same size as the sections below so the page reads as one text */}
+					<p className="text-muted-foreground text-base text-pretty">
 						Esta página explica, de forma simples, quais dados a {site.name}{" "}
 						recebe pelo site, para que usa e quais são os seus direitos, de
 						acordo com a Lei Geral de Proteção de Dados (LGPD, Lei nº
@@ -39,7 +39,7 @@ export default function PrivacyPolicy() {
 					<p>
 						A {site.name} aplica película em vidros de casas, escritórios, lojas
 						e prédios em São Paulo e região. Somos a responsável (controladora)
-						pelos dados descritos aqui.
+						pelos dados descritos aqui. CNPJ {site.cnpj}.
 					</p>
 					<p>
 						Contato: <a href={`mailto:${site.email}`}>{site.email}</a> ·{" "}

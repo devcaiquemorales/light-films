@@ -4,7 +4,10 @@ export const site = {
 	// Official domain: canonical URLs, sitemap, robots and share links
 	url: "https://light-films.com",
 	slogan: "Proteção e Estilo em um lugar: Película Arquitetônica de Qualidade",
-	// Contact for privacy requests (LGPD); TODO(cliente): CNPJ e endereço para a política e o rodapé
+	// Company ID shown in the footer and privacy policy (ads and LGPD ask for it).
+	// No street address on purpose: service-area business, no walk-in clients.
+	cnpj: "17.101.943/0001-03",
+	// Contact for privacy requests (LGPD)
 	email: "light-films@hotmail.com",
 	phone: "(11) 4259-3003",
 	phoneHref: "tel:+551142593003",

@@ -60,10 +60,13 @@ export default function Footer() {
 				</div>
 				<div className="flex flex-col justify-between gap-2 border-t border-white/[0.07] pt-6 text-sm text-white/50 md:flex-row">
 					<p>
-						© {new Date().getFullYear()} {site.name} ·{" "}
+						<span className="whitespace-nowrap">
+							© {new Date().getFullYear()} {site.name}
+						</span>{" "}
+						· <span className="whitespace-nowrap">CNPJ {site.cnpj}</span> ·{" "}
 						<Link
 							href="/politica-de-privacidade"
-							className="hover:text-white hover:underline"
+							className="whitespace-nowrap hover:text-white hover:underline"
 						>
 							Política de privacidade
 						</Link>

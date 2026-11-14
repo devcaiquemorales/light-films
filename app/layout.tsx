@@ -54,7 +54,13 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="pt-BR" className={cn("font-sans", archivo.variable)}>
+		// data-scroll-behavior: Next turns off smooth scroll while changing pages, so
+		// a new page opens at the top instead of animating from where the last one was
+		<html
+			lang="pt-BR"
+			data-scroll-behavior="smooth"
+			className={cn("font-sans", archivo.variable)}
+		>
 			<body className="flex min-h-svh flex-col">
 				{children}
 				<Toaster position="top-center" richColors />
