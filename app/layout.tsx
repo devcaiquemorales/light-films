@@ -44,6 +44,7 @@ export const metadata: Metadata = {
 		title: "Light Films - Película para vidros em São Paulo",
 		description,
 	},
+	twitter: { card: "summary_large_image" },
 	robots: { index: true, follow: true },
 };
 

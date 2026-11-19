@@ -16,7 +16,7 @@
 | Site | https://light-films.com |
 | CNPJ | 17.101.943/0001-03 (o Google pode pedir na verificação) |
 | Endereço | Marcar como **empresa que atende na área do cliente** e **não mostrar endereço**. Usar o endereço do cadastro do CNPJ só se o Google pedir na verificação; ele fica oculto no perfil |
-| Área de atendimento | São Paulo e região **[confirmar cidades: capital, ABC, Grande SP…]** |
+| Área de atendimento | São Paulo capital e Grande São Paulo (lista completa em `lib/data/cities.ts`). O Google aceita até 20 áreas: cadastrar São Paulo, Guarulhos, Osasco, Santo André, São Bernardo do Campo, São Caetano do Sul, Diadema, Mauá, Barueri, Santana de Parnaíba, Cotia, Taboão da Serra, Carapicuíba, Itapevi, Mogi das Cruzes, Suzano, Itaquaquecetuba, Embu das Artes, Ribeirão Pires e Jandira |
 | Horário | **[confirmar]** |
 | Ano de abertura | **[confirmar]** |
 
@@ -52,7 +52,7 @@
 2. **Dá para ver de dentro para fora?** Sim. De dia, quem está dentro enxerga normalmente e quem está fora vê pouco, principalmente com fumê, escura e espelhada. À noite, com a luz acesa por dentro, o efeito se inverte.
 3. **Quanto tempo leva a aplicação?** Uma casa ou um escritório pequeno costuma ficar pronto no mesmo dia; obras maiores têm o prazo combinado no orçamento.
 4. **Preciso tirar móveis ou cortinas?** Só o que estiver encostado no vidro. Protegemos o chão e os móveis e entregamos tudo limpo.
-5. **Atendem qual região?** São Paulo e região **[confirmar]**.
+5. **Atendem qual região?** São Paulo capital e todas as cidades da Grande São Paulo.
 
 ## 6. Avaliações
 

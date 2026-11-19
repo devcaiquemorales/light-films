@@ -5,6 +5,8 @@ export type Project = {
 	image: string;
 	description: string[];
 	photos: { path: string; alt: string }[];
+	// Last panel edit (ms); feeds the sitemap's lastmod
+	updatedAt?: number;
 };
 
 // Data
@@ -38,18 +40,54 @@ export const ProjectsData: Project[] = [
 			"A película ajuda a reduzir o calor e o reflexo nos ambientes, mantendo a entrada de luz natural.",
 		],
 		photos: [
-			{ path: "/projects/senai/senai-1-1.jpg", alt: "Senai - foto 1" },
-			{ path: "/projects/senai/senai-2-2.jpg", alt: "Senai - foto 2" },
-			{ path: "/projects/senai/senai-3-3.jpg", alt: "Senai - foto 3" },
-			{ path: "/projects/senai/senai-4-4.jpg", alt: "Senai - foto 4" },
-			{ path: "/projects/senai/senai-5-5.jpg", alt: "Senai - foto 5" },
-			{ path: "/projects/senai/senai-6-6.jpg", alt: "Senai - foto 6" },
-			{ path: "/projects/senai/senai-7-7.jpg", alt: "Senai - foto 7" },
-			{ path: "/projects/senai/senai-8-8.jpg", alt: "Senai - foto 8" },
-			{ path: "/projects/senai/senai-9-9.jpg", alt: "Senai - foto 9" },
-			{ path: "/projects/senai/senai-10-10.jpg", alt: "Senai - foto 10" },
-			{ path: "/projects/senai/senai-11-11.jpg", alt: "Senai - foto 11" },
-			{ path: "/projects/senai/senai-12-12.jpg", alt: "Senai - foto 12" },
+			{
+				path: "/projects/senai/senai-1-1.jpg",
+				alt: "Vidros com película aplicada no projeto Senai, foto 1",
+			},
+			{
+				path: "/projects/senai/senai-2-2.jpg",
+				alt: "Vidros com película aplicada no projeto Senai, foto 2",
+			},
+			{
+				path: "/projects/senai/senai-3-3.jpg",
+				alt: "Vidros com película aplicada no projeto Senai, foto 3",
+			},
+			{
+				path: "/projects/senai/senai-4-4.jpg",
+				alt: "Vidros com película aplicada no projeto Senai, foto 4",
+			},
+			{
+				path: "/projects/senai/senai-5-5.jpg",
+				alt: "Vidros com película aplicada no projeto Senai, foto 5",
+			},
+			{
+				path: "/projects/senai/senai-6-6.jpg",
+				alt: "Vidros com película aplicada no projeto Senai, foto 6",
+			},
+			{
+				path: "/projects/senai/senai-7-7.jpg",
+				alt: "Vidros com película aplicada no projeto Senai, foto 7",
+			},
+			{
+				path: "/projects/senai/senai-8-8.jpg",
+				alt: "Vidros com película aplicada no projeto Senai, foto 8",
+			},
+			{
+				path: "/projects/senai/senai-9-9.jpg",
+				alt: "Vidros com película aplicada no projeto Senai, foto 9",
+			},
+			{
+				path: "/projects/senai/senai-10-10.jpg",
+				alt: "Vidros com película aplicada no projeto Senai, foto 10",
+			},
+			{
+				path: "/projects/senai/senai-11-11.jpg",
+				alt: "Vidros com película aplicada no projeto Senai, foto 11",
+			},
+			{
+				path: "/projects/senai/senai-12-12.jpg",
+				alt: "Vidros com película aplicada no projeto Senai, foto 12",
+			},
 		],
 	},
 	{
@@ -63,35 +101,35 @@ export const ProjectsData: Project[] = [
 		photos: [
 			{
 				path: "/projects/sabesp/sabesp-1-1.jpg",
-				alt: "Sabesp - foto 1",
+				alt: "Vidros com película aplicada no projeto Sabesp, foto 1",
 			},
 			{
 				path: "/projects/sabesp/sabesp-2-2.jpg",
-				alt: "Sabesp - foto 2",
+				alt: "Vidros com película aplicada no projeto Sabesp, foto 2",
 			},
 			{
 				path: "/projects/sabesp/sabesp-3-3.jpg",
-				alt: "Sabesp - foto 3",
+				alt: "Vidros com película aplicada no projeto Sabesp, foto 3",
 			},
 			{
 				path: "/projects/sabesp/sabesp-4-4.jpg",
-				alt: "Sabesp - foto 4",
+				alt: "Vidros com película aplicada no projeto Sabesp, foto 4",
 			},
 			{
 				path: "/projects/sabesp/sabesp-5-5.jpg",
-				alt: "Sabesp - foto 5",
+				alt: "Vidros com película aplicada no projeto Sabesp, foto 5",
 			},
 			{
 				path: "/projects/sabesp/sabesp-6-6.jpg",
-				alt: "Sabesp - foto 6",
+				alt: "Vidros com película aplicada no projeto Sabesp, foto 6",
 			},
 			{
 				path: "/projects/sabesp/sabesp-7-7.jpg",
-				alt: "Sabesp - foto 7",
+				alt: "Vidros com película aplicada no projeto Sabesp, foto 7",
 			},
 			{
 				path: "/projects/sabesp/sabesp-8-8.jpg",
-				alt: "Sabesp - foto 8",
+				alt: "Vidros com película aplicada no projeto Sabesp, foto 8",
 			},
 		],
 	},
@@ -107,39 +145,39 @@ export const ProjectsData: Project[] = [
 		photos: [
 			{
 				path: "/projects/porto-seguro/porto-1.jpg",
-				alt: "Porto Seguro - foto 1",
+				alt: "Vidros com película aplicada no projeto Porto Seguro, foto 1",
 			},
 			{
 				path: "/projects/porto-seguro/porto-2.jpg",
-				alt: "Porto Seguro - foto 2",
+				alt: "Vidros com película aplicada no projeto Porto Seguro, foto 2",
 			},
 			{
 				path: "/projects/porto-seguro/porto-3.jpg",
-				alt: "Porto Seguro - foto 3",
+				alt: "Vidros com película aplicada no projeto Porto Seguro, foto 3",
 			},
 			{
 				path: "/projects/porto-seguro/porto-4.jpg",
-				alt: "Porto Seguro - foto 4",
+				alt: "Vidros com película aplicada no projeto Porto Seguro, foto 4",
 			},
 			{
 				path: "/projects/porto-seguro/porto-5.jpg",
-				alt: "Porto Seguro - foto 5",
+				alt: "Vidros com película aplicada no projeto Porto Seguro, foto 5",
 			},
 			{
 				path: "/projects/porto-seguro/porto-6.jpg",
-				alt: "Porto Seguro - foto 6",
+				alt: "Vidros com película aplicada no projeto Porto Seguro, foto 6",
 			},
 			{
 				path: "/projects/porto-seguro/porto-7.jpg",
-				alt: "Porto Seguro - foto 7",
+				alt: "Vidros com película aplicada no projeto Porto Seguro, foto 7",
 			},
 			{
 				path: "/projects/porto-seguro/porto-8.jpg",
-				alt: "Porto Seguro - foto 8",
+				alt: "Vidros com película aplicada no projeto Porto Seguro, foto 8",
 			},
 			{
 				path: "/projects/porto-seguro/porto-9.jpg",
-				alt: "Porto Seguro - foto 9",
+				alt: "Vidros com película aplicada no projeto Porto Seguro, foto 9",
 			},
 		],
 	},

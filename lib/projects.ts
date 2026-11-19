@@ -19,7 +19,14 @@ type ConvexProject = NonNullable<
 // Same shape the site components already use
 function toProject(project: ConvexProject): Project {
 	const photos = project.photoUrls.flatMap((url, index) =>
-		url ? [{ path: url, alt: `${project.title} - foto ${index + 1}` }] : []
+		url
+			? [
+					{
+						path: url,
+						alt: `Vidros com película aplicada no projeto ${project.title}, foto ${index + 1}`,
+					},
+				]
+			: []
 	);
 	return {
 		title: project.title,
@@ -30,6 +37,7 @@ function toProject(project: ConvexProject): Project {
 			.map((paragraph) => paragraph.trim())
 			.filter(Boolean),
 		photos,
+		updatedAt: project.updatedAt,
 	};
 }
 

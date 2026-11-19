@@ -517,6 +517,16 @@ Direção visual da Fase 4 (proposta):
 - [x] **Ajustes para anúncios (Google Ads):** o site antigo (light-films.com) teve anúncio reprovado; ele usa "insulfilm" (marca registrada) na descrição, nas palavras-chave, no texto e nos depoimentos, tem depoimentos com nomes inventados e não identifica a empresa. No v2: "insulfilm" removido de tudo, frases absolutas suavizadas ("sem desbotar" → "desbotam menos"), descrições dos projetos genéricas (sem detalhes não confirmados sobre Senai/Sabesp/Porto Seguro; também no Convex), **seção de depoimentos escondida** e **Política de privacidade** (`/politica-de-privacidade`, LGPD) com link no rodapé, no formulário e no sitemap
 - [x] CNPJ (17.101.943/0001-03) no rodapé e na política de privacidade. Endereço fica de fora de propósito: a empresa atende no local do cliente
 - [ ] TODO(cliente): depoimentos reais e autorizados para reativar a seção
+- [x] **18/11/2026: SEO, sitemap e GEO** (auditoria com as skills SEO: técnico 88, conteúdo 58, GEO 52, local 28 por falta de Perfil no Google):
+  - Sitemap com `lastmod` real (data fixa das páginas + `updatedAt` do painel) e fotos dos projetos (image sitemap)
+  - Respostas do FAQ no HTML (`forceMount`, fechadas escondidas por CSS), para Google e IAs lerem
+  - H1 da home = "Película para vidros em São Paulo"; o slogan grande virou texto visual
+  - Cada página com título, descrição e card de compartilhamento próprios (`lib/seo.ts`); projetos com título "Nome: película para vidros" e alt das fotos descritivo
+  - Schema em `lib/schema.ts`: sem endereço pela metade (atende no local), CNPJ (`taxID`), WhatsApp, 6 serviços, WebSite; projetos com BreadcrumbList + CreativeWork
+  - Headers de segurança, `X-Robots-Tag` no `/painel`, sem `X-Powered-By`; `public/llms.txt`
+  - Painel: dica no campo "O que foi feito" pedindo película, nº de vidros, bairro/cidade e resultado
+  - Cidades: capital + as 39 da Grande SP (`lib/data/cities.ts`) no schema, no FAQ e no llms.txt
+  - Pendências: preço/visita, garantia, marcas, ano de início (cliente); Perfil no Google + Bing Places; `www` como redirect permanente e domínio próprio para as fotos do R2 (Vercel/Cloudflare)
 - [ ] Foto de perfil (opcional)
 - [ ] Fotos enviadas e abandonadas (sair sem salvar) ficam órfãs no storage — limpar com um cron quando for para produção
 - [x] **Site lendo do Convex:** home, `/projetos`, `/projetos/[slug]` e sitemap via `lib/projects.ts` (`fetchQuery` + `unstable_cache` com tag `projects`). Ao salvar/excluir no painel, a server action `refreshSite()` chama `updateTag` e o site mostra a mudança na hora (testado: criar → aparece na home e na página; excluir → some). Projetos novos geram página no primeiro acesso. Sem `NEXT_PUBLIC_CONVEX_URL` o site usa os projetos fixos de `lib/data/projects.ts`

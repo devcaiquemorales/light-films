@@ -1,5 +1,5 @@
 // Imports
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
 // Imported Components
 import Section from "@/components/Section";
@@ -9,12 +9,12 @@ import ProjectCard from "@/components/Project/ProjectCard";
 import { getProjects } from "@/lib/projects";
 
 // SEO
-export const metadata: Metadata = {
-	title: "Projetos",
+export const metadata = pageMetadata({
+	title: "Projetos de película para vidros em São Paulo",
 	description:
-		"Conheça os projetos de aplicação de película arquitetônica realizados pela Light Films.",
-	alternates: { canonical: "/projetos" },
-};
+		"Obras em que a Light Films aplicou película nos vidros: escolas, empresas e comércios em São Paulo e região, com fotos de cada projeto.",
+	path: "/projetos",
+});
 
 // Functional Component
 export default async function Projetos() {

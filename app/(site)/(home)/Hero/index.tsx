@@ -19,12 +19,13 @@ export default function Hero() {
 			/>
 			<div className="mx-auto grid max-w-7xl items-center gap-12 md:grid-cols-[1.25fr_1fr] md:gap-16">
 				<div className="@container flex flex-col gap-7">
-					<p className="text-vidro/70 flex items-center gap-3 text-sm font-semibold tracking-[0.1em] uppercase md:tracking-[0.14em]">
+					{/* The h1 carries the search terms; the big slogan below is visual */}
+					<h1 className="text-vidro/70 flex items-center gap-3 text-sm font-semibold tracking-[0.1em] uppercase md:tracking-[0.14em]">
 						<span aria-hidden className="bg-ceu h-0.5 w-8 shrink-0" />
-						Película para vidros · São Paulo
-					</p>
+						Película para vidros em São Paulo
+					</h1>
 					{/* One sentence per line; size follows the column width so no line wraps */}
-					<h1 className="text-vidro flex flex-col items-start text-[min(var(--hero-fit),4.4rem)] leading-[0.98] font-black whitespace-nowrap font-stretch-semi-expanded [--hero-fit:9.5cqi] sm:font-stretch-expanded sm:[--hero-fit:8.7cqi]">
+					<p className="text-vidro flex flex-col items-start text-[min(var(--hero-fit),4.4rem)] leading-[0.98] font-black whitespace-nowrap font-stretch-semi-expanded [--hero-fit:9.5cqi] sm:font-stretch-expanded sm:[--hero-fit:8.7cqi]">
 						<span>
 							Menos{" "}
 							<span className="-mx-1 bg-[linear-gradient(transparent_62%,var(--color-ceu-claro)_62%_92%,transparent_92%)] px-1">
@@ -34,7 +35,7 @@ export default function Hero() {
 						</span>
 						<span>Mais privacidade.</span>
 						<span>A mesma vista.</span>
-					</h1>
+					</p>
 					<p className="text-medium text-muted-foreground max-w-xl text-pretty">
 						A Light Films aplica película nos vidros de casas, escritórios,
 						lojas e prédios em São Paulo. Escolha um tom na janela e veja a

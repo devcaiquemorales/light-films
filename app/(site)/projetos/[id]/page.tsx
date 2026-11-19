@@ -1,5 +1,7 @@
 // Imports
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { jsonLdString, projectJsonLd } from "@/lib/schema";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeftIcon } from "lucide-react";
@@ -26,12 +28,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const project = await getProject(id);
 	if (!project) return {};
 
-	return {
-		title: project.title,
-		description: project.description[0],
-		alternates: { canonical: `/projetos/${project.slug}` },
-		openGraph: { images: [project.image] },
-	};
+	// Client name alone says nothing to search; the service goes in the title
+	return pageMetadata({
+		title: `${project.title}: película para vidros`,
+		description: project.description.join(" ").slice(0, 160),
+		path: `/projetos/${project.slug}`,
+		image: project.image,
+	});
 }
 
 // Functional Component
@@ -49,6 +52,12 @@ export default async function Page({ params }: Props) {
 	// Rendering
 	return (
 		<main>
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{
+					__html: jsonLdString(projectJsonLd(project)),
+				}}
+			/>
 			<article className="px-5 pt-10 pb-20 md:px-10 md:pt-14 md:pb-28">
 				<div className="mx-auto flex max-w-7xl flex-col gap-10">
 					<Link

@@ -1,15 +1,15 @@
 // Imports
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { site } from "@/lib/site";
 
 // SEO
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
 	title: "Política de privacidade",
 	description:
 		"Como a Light Films coleta, usa e protege os dados de quem visita o site.",
-	alternates: { canonical: "/politica-de-privacidade" },
-};
+	path: "/politica-de-privacidade",
+});
 
 const updatedAt = "14 de novembro de 2026";
 

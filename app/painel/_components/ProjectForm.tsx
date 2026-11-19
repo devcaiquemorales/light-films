@@ -254,7 +254,8 @@ export default function ProjectForm({
 				number={2}
 				title="O que foi feito"
 				htmlFor="description"
-				hint='Ex.: "Aplicamos película fumê em 40 janelas da fachada para reduzir o calor."'
+				// Facts here become the project page text that Google and AI search read
+				hint='Conte qual película, quantos vidros, o bairro ou a cidade e o que melhorou. Ex.: "Aplicamos película fumê em 40 janelas da fachada, em Santo André, para reduzir o calor da tarde."'
 			>
 				<Textarea
 					id="description"

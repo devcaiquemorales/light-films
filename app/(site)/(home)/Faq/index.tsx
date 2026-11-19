@@ -1,6 +1,7 @@
 // Imports
 import { PlusIcon } from "lucide-react";
 import { quoteMessage, whatsappLink } from "@/lib/site";
+import { cities, listCities } from "@/lib/data/cities";
 
 // Imported Components
 import Title from "@/components/Title";
@@ -38,6 +39,10 @@ const questions = [
 		question: "Como limpar o vidro depois?",
 		answer:
 			"Espere alguns dias antes da primeira limpeza. Depois, use pano macio com água e sabão neutro. Evite esponjas ásperas e produtos com amônia.",
+	},
+	{
+		question: "Quais cidades vocês atendem?",
+		answer: `São Paulo capital e todas as cidades da Grande São Paulo: ${listCities(cities.slice(1))}. A gente vai até o local para medir e aplicar.`,
 	},
 	{
 		question: "Preciso tirar móveis ou cortinas?",
@@ -81,7 +86,7 @@ export default function Faq() {
 						<AccordionItem
 							key={item.question}
 							value={item.question}
-							className="bg-nevoa/60 data-[state=open]:bg-nevoa rounded-sm border-0 transition-colors not-last:border-b-0"
+							className="bg-nevoa/60 data-[state=open]:bg-nevoa rounded-sm border-0 transition-colors not-last:border-b-0 [&>[data-slot=accordion-content][data-state=closed]]:hidden"
 						>
 							<AccordionTrigger className="text-vidro md:text-medium items-center gap-3 px-5 py-5 text-left text-base font-semibold hover:no-underline md:gap-5 md:px-7 md:py-6 [&>[data-slot=accordion-trigger-icon]]:hidden">
 								<span
@@ -99,7 +104,12 @@ export default function Faq() {
 									/>
 								</span>
 							</AccordionTrigger>
-							<AccordionContent className="text-muted-foreground max-w-2xl pr-5 pb-6 pl-15 text-base text-pretty md:pr-7 md:pl-19">
+							{/* forceMount keeps closed answers in the HTML (hidden), so search engines
+							    and AI crawlers read them, not only the questions */}
+							<AccordionContent
+								forceMount
+								className="text-muted-foreground max-w-2xl pr-5 pb-6 pl-15 text-base text-pretty md:pr-7 md:pl-19"
+							>
 								{item.answer}
 							</AccordionContent>
 						</AccordionItem>
