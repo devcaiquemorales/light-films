@@ -23,18 +23,24 @@ export default function Contact() {
 								rel="noopener noreferrer"
 								className="text-ceu-claro text-lg font-bold font-stretch-expanded underline-offset-8 hover:underline"
 							>
-								(11) 98169-6933
+								{site.phone}
 							</a>
 						</dd>
 					</div>
 					<div>
 						<dt className="text-sm text-white/60">Telefone</dt>
-						<dd className="mt-1">
+						<dd className="mt-1 flex flex-col gap-1">
 							<a
 								href={site.phoneHref}
 								className="text-lg font-bold text-white font-stretch-expanded underline-offset-8 hover:underline"
 							>
 								{site.phone}
+							</a>
+							<a
+								href={site.landlineHref}
+								className="text-base text-white/85 underline-offset-8 hover:text-white hover:underline"
+							>
+								{site.landline} <span className="text-white/60">(fixo)</span>
 							</a>
 						</dd>
 					</div>
@@ -51,7 +57,7 @@ export default function Contact() {
 					</div>
 					<div>
 						<dt className="text-sm text-white/60">Atendimento</dt>
-						<dd className="mt-1 text-white/85">São Paulo e região</dd>
+						<dd className="mt-1 text-white/85">São Paulo e Grande São Paulo</dd>
 					</div>
 				</dl>
 				<WhatsAppComposer />

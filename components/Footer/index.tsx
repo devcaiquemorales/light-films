@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { navLinks, site } from "@/lib/site";
+import { films } from "@/lib/data/films";
+import { capitalize } from "@/lib/utils";
 import { LogoMark } from "@/components/Logo";
 
 // Functional Component
@@ -9,7 +11,7 @@ export default function Footer() {
 	return (
 		<footer className="bg-vidro-escuro px-5 pt-16 pb-10 text-white md:px-10">
 			<div className="mx-auto flex max-w-7xl flex-col gap-12">
-				<div className="flex flex-col justify-between gap-10 md:flex-row">
+				<div className="flex flex-col justify-between gap-10 lg:flex-row">
 					<div className="max-w-sm">
 						<Link
 							href="/"
@@ -23,39 +25,65 @@ export default function Footer() {
 							Paulo.
 						</p>
 					</div>
-					<nav
-						aria-label="Rodapé"
-						className="grid grid-cols-2 gap-x-12 gap-y-3 text-sm"
-					>
-						{navLinks.map((item) => (
-							<Link
-								key={item.id}
-								href={`/#${item.id}`}
-								className="text-white/80 hover:text-white"
-							>
-								{item.name}
-							</Link>
-						))}
-					</nav>
-					<div className="flex flex-col gap-3 text-sm">
-						<a href={site.phoneHref} className="text-white/80 hover:text-white">
-							{site.phone}
-						</a>
-						<a
-							href={site.facebook}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="inline-flex items-center gap-2 text-white/80 hover:text-white"
+					{/* Link columns wrap as a group on mid-size screens */}
+					<div className="flex flex-wrap gap-x-12 gap-y-10">
+						<nav
+							aria-label="Rodapé"
+							className="grid grid-cols-2 gap-x-12 gap-y-3 text-sm"
 						>
-							<Image
-								src="/facebook.png"
-								alt=""
-								width={16}
-								height={16}
-								className="size-4"
-							/>
-							Facebook
-						</a>
+							{navLinks.map((item) => (
+								<Link
+									key={item.id}
+									href={`/#${item.id}`}
+									className="text-white/80 hover:text-white"
+								>
+									{item.name}
+								</Link>
+							))}
+						</nav>
+						<nav
+							aria-label="Tipos de película"
+							className="flex flex-col gap-3 text-sm"
+						>
+							{films.map((film) => (
+								<Link
+									key={film.slug}
+									href={`/peliculas/${film.slug}`}
+									className="text-white/80 hover:text-white"
+								>
+									{capitalize(film.fullName)}
+								</Link>
+							))}
+						</nav>
+						<div className="flex flex-col gap-3 text-sm">
+							<a
+								href={site.phoneHref}
+								className="whitespace-nowrap text-white/80 hover:text-white"
+							>
+								{site.phone}
+							</a>
+							<a
+								href={site.landlineHref}
+								className="whitespace-nowrap text-white/80 hover:text-white"
+							>
+								{site.landline}
+							</a>
+							<a
+								href={site.facebook}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="inline-flex items-center gap-2 text-white/80 hover:text-white"
+							>
+								<Image
+									src="/facebook.png"
+									alt=""
+									width={16}
+									height={16}
+									className="size-4"
+								/>
+								Facebook
+							</a>
+						</div>
 					</div>
 				</div>
 				<div className="flex flex-col justify-between gap-2 border-t border-white/[0.07] pt-6 text-sm text-white/50 md:flex-row">

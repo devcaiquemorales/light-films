@@ -43,7 +43,8 @@ export default function PrivacyPolicy() {
 					</p>
 					<p>
 						Contato: <a href={`mailto:${site.email}`}>{site.email}</a> ·{" "}
-						<a href={site.phoneHref}>{site.phone}</a>
+						<a href={site.phoneHref}>{site.phone}</a> ·{" "}
+						<a href={site.landlineHref}>{site.landline}</a>
 					</p>
 				</Block>
 

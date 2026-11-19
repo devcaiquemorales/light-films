@@ -9,8 +9,12 @@ export const site = {
 	cnpj: "17.101.943/0001-03",
 	// Contact for privacy requests (LGPD)
 	email: "light-films@hotmail.com",
-	phone: "(11) 4259-3003",
-	phoneHref: "tel:+551142593003",
+	// Main number for calls and WhatsApp, the same as the Google Business Profile
+	phone: "(11) 98169-6933",
+	phoneHref: "tel:+5511981696933",
+	// Secondary landline, still answered
+	landline: "(11) 4259-3003",
+	landlineHref: "tel:+551142593003",
 	whatsappNumber: "5511981696933",
 	facebook: "https://www.facebook.com/vagnermmorales/",
 };

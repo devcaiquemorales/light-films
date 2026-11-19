@@ -14,3 +14,8 @@ const twMerge = extendTailwindMerge({
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
+
+// "película fumê" -> "Película fumê"
+export function capitalize(text: string) {
+	return text.charAt(0).toUpperCase() + text.slice(1);
+}

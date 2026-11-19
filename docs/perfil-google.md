@@ -11,7 +11,7 @@
 | Nome da empresa | **Light Films** (só o nome; colocar "Película São Paulo" no nome viola as regras do Google e pode suspender o perfil) |
 | Categoria principal | A opção mais próxima de **"Serviço de aplicação de película para janelas"** na lista do Google (digite "película" e escolha) |
 | Categorias secundárias | Só se fizerem sentido de verdade, ex.: película automotiva **[confirmar se faz carro]** |
-| Telefone | (11) 4259-3003 |
+| Telefone | (11) 98169-6933 como principal (o mesmo do WhatsApp); (11) 4259-3003 como telefone adicional |
 | WhatsApp | (11) 98169-6933 (ativar o botão de mensagem do perfil) |
 | Site | https://light-films.com |
 | CNPJ | 17.101.943/0001-03 (o Google pode pedir na verificação) |

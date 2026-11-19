@@ -1,11 +1,13 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 import { getProjects } from "@/lib/projects";
+import { films } from "@/lib/data/films";
 
 // Bump when the text of a static page changes. A fixed date on purpose:
 // Google stops trusting lastmod if it changes on every request.
 const HOME_UPDATED = new Date("2026-11-18");
 const PRIVACY_UPDATED = new Date("2026-11-14");
+const FILMS_UPDATED = new Date("2026-11-19");
 
 // Photos from the panel are absolute URLs (R2/Convex); bundled ones are local paths
 const absolute = (src: string) =>
@@ -28,6 +30,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			url: `${site.url}/politica-de-privacidade`,
 			lastModified: PRIVACY_UPDATED,
 		},
+		{ url: `${site.url}/peliculas`, lastModified: FILMS_UPDATED },
+		...films.map((film) => ({
+			url: `${site.url}/peliculas/${film.slug}`,
+			lastModified: FILMS_UPDATED,
+		})),
 		...projects.map((project) => ({
 			url: `${site.url}/projetos/${project.slug}`,
 			lastModified: project.updatedAt

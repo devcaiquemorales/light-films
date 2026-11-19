@@ -1,7 +1,8 @@
 // Structured data (JSON-LD) that tells search engines and AI search who the
 // business is, where it works and what it does
 import { site, siteDescription } from "@/lib/site";
-import { films } from "@/lib/data/films";
+import { capitalize } from "@/lib/utils";
+import { films, type Film } from "@/lib/data/films";
 import { cities } from "@/lib/data/cities";
 import type { Project } from "@/lib/data/projects";
 
@@ -26,7 +27,7 @@ export const siteJsonLd = {
 			},
 			image: `${site.url}/opengraph-image`,
 			email: site.email,
-			telephone: "+55-11-4259-3003",
+			telephone: "+55-11-98169-6933",
 			taxID: site.cnpj,
 			areaServed: [
 				...cities.map((name) => ({ "@type": "City", name })),
@@ -39,19 +40,19 @@ export const siteJsonLd = {
 				{
 					"@type": "ContactPoint",
 					contactType: "customer service",
-					telephone: "+55-11-4259-3003",
+					telephone: "+55-11-98169-6933",
 					email: site.email,
+					url: `https://wa.me/${site.whatsappNumber}`,
 					availableLanguage: "pt-BR",
 				},
 				{
 					"@type": "ContactPoint",
-					contactType: "sales",
-					telephone: "+55-11-98169-6933",
-					url: `https://wa.me/${site.whatsappNumber}`,
+					contactType: "customer service",
+					telephone: "+55-11-4259-3003",
 					availableLanguage: "pt-BR",
 				},
 			],
-			knowsAbout: films.map((film) => `Película ${film.name.toLowerCase()}`),
+			knowsAbout: films.map((film) => capitalize(film.fullName)),
 			// Same wording as the "Tipos de película" section; no prices on purpose
 			hasOfferCatalog: {
 				"@type": "OfferCatalog",
@@ -60,8 +61,9 @@ export const siteJsonLd = {
 					"@type": "Offer",
 					itemOffered: {
 						"@type": "Service",
-						name: `Película ${film.name.toLowerCase()}`,
+						name: capitalize(film.fullName),
 						description: film.text,
+						url: `${site.url}/peliculas/${film.slug}`,
 						serviceType: "Aplicação de película em vidros",
 						provider: { "@id": organizationId },
 					},
@@ -115,6 +117,39 @@ export function projectJsonLd(project: Project) {
 					contentUrl: absolute(photo.path),
 					caption: photo.alt,
 				})),
+			},
+		],
+	};
+}
+
+// Film page: breadcrumb (Início › Películas › name) plus the service it describes
+export function filmJsonLd(film: Film) {
+	const url = `${site.url}/peliculas/${film.slug}`;
+	return {
+		"@context": "https://schema.org",
+		"@graph": [
+			{
+				"@type": "BreadcrumbList",
+				itemListElement: [
+					{ "@type": "ListItem", position: 1, name: "Início", item: site.url },
+					{
+						"@type": "ListItem",
+						position: 2,
+						name: "Películas",
+						item: `${site.url}/peliculas`,
+					},
+					{ "@type": "ListItem", position: 3, name: film.name, item: url },
+				],
+			},
+			{
+				"@type": "Service",
+				"@id": `${url}#servico`,
+				name: capitalize(film.fullName),
+				description: film.lead,
+				url,
+				serviceType: "Aplicação de película em vidros",
+				provider: { "@id": organizationId },
+				areaServed: cities.map((name) => ({ "@type": "City", name })),
 			},
 		],
 	};

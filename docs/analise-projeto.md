@@ -526,6 +526,8 @@ Direção visual da Fase 4 (proposta):
   - Headers de segurança, `X-Robots-Tag` no `/painel`, sem `X-Powered-By`; `public/llms.txt`
   - Painel: dica no campo "O que foi feito" pedindo película, nº de vidros, bairro/cidade e resultado
   - Cidades: capital + as 39 da Grande SP (`lib/data/cities.ts`) no schema, no FAQ e no llms.txt
+- [x] **19/11/2026: páginas por tipo de película** (`/peliculas` e `/peliculas/[slug]`): controle solar, fumê, espelhada, jateada, segurança e decorativa, com texto próprio (como funciona, onde usar, comparação, cuidados), perguntas abertas, janela de amostra (`components/Film`), orçamento pelo WhatsApp com o tipo já na mensagem, schema Service + BreadcrumbList; links na home, no rodapé, no sitemap e no llms.txt. Conteúdo em `lib/data/films.ts`. TODO(cliente): números do fabricante, marcas e garantia
+- [x] Telefone: celular (11) 98169-6933 como principal (igual ao Perfil no Google), fixo (11) 4259-3003 como secundário
   - Pendências: preço/visita, garantia, marcas, ano de início (cliente); Perfil no Google + Bing Places; `www` como redirect permanente e domínio próprio para as fotos do R2 (Vercel/Cloudflare)
 - [ ] Foto de perfil (opcional)
 - [ ] Fotos enviadas e abandonadas (sair sem salvar) ficam órfãs no storage — limpar com um cron quando for para produção

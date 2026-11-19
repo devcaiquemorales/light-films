@@ -5,7 +5,7 @@ import Section from "@/components/Section";
 const steps = [
 	{
 		title: "Você chama",
-		text: "Mande uma mensagem pelo WhatsApp ou pelo formulário, com fotos e medidas aproximadas.",
+		text: "Mande uma mensagem pelo WhatsApp, com fotos e medidas aproximadas dos vidros.",
 	},
 	{
 		title: "Visita e medição",
